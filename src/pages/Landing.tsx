@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Search,
@@ -19,64 +12,50 @@ import {
   Globe,
   Mail,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white font-sans">
+    <div className="min-h-screen bg-[#0A0A0F] text-white font-host antialiased">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20 border-b border-gray-800">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold tracking-tighter">
-                Investor Nexus
-              </h1>
-              <nav className="hidden md:flex items-center space-x-8 ml-10">
-                <Link
-                  to="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#A089E6] to-[#6366f1] flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">IN</span>
+                </div>
+                <h1 className="text-xl font-semibold tracking-tight">
+                  Investor Nexus
+                </h1>
+              </div>
+              <nav className="hidden md:flex items-center space-x-8 ml-12">
+                <Link to="#" className="text-sm text-white/70 hover:text-white transition-colors font-medium">
                   Features
                 </Link>
-                <Link
-                  to="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Services
-                </Link>
-                <Link
-                  to="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  FAQ
-                </Link>
-                <Link
-                  to="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
+                <Link to="#" className="text-sm text-white/70 hover:text-white transition-colors font-medium">
                   Pricing
                 </Link>
-                <Link
-                  to="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Company
+                <Link to="#" className="text-sm text-white/70 hover:text-white transition-colors font-medium">
+                  About
+                </Link>
+                <Link to="#" className="text-sm text-white/70 hover:text-white transition-colors font-medium">
+                  Contact
+                </Link>
+                <Link to="#" className="text-sm text-white/70 hover:text-white transition-colors font-medium">
+                  Blog
                 </Link>
               </nav>
             </div>
             <div className="flex items-center space-x-4">
               <Link to="/auth">
-                <Button
-                  variant="ghost"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Sign In
+                <Button variant="ghost" className="text-white/70 hover:text-white hover:bg-white/10 font-medium">
+                  Log in
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button className="bg-white text-black hover:bg-gray-200 rounded-full px-6">
-                  Get started
+                <Button className="bg-gradient-to-r from-[#A089E6] to-[#6366f1] hover:from-[#9575e0] hover:to-[#5856eb] text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg shadow-purple-500/25 transition-all duration-200 hover:shadow-purple-500/40 hover:scale-105">
+                  Get Started
                 </Button>
               </Link>
             </div>
@@ -86,54 +65,74 @@ const Landing = () => {
 
       {/* Hero Section */}
       <main className="relative pt-20 overflow-hidden">
-        <div
-          className="absolute top-0 left-0 right-0 h-[800px] bg-gradient-to-b from-black via-transparent to-transparent"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(224, 49, 142, 0.4), transparent)",
-          }}
-        ></div>
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-[#A089E6]/20 via-[#271A58]/10 to-transparent rounded-full blur-3xl"></div>
+          <div className="absolute top-20 right-20 w-72 h-72 bg-gradient-to-br from-[#6366f1]/30 to-transparent rounded-full blur-2xl"></div>
+          <div className="absolute top-40 left-20 w-64 h-64 bg-gradient-to-br from-[#A089E6]/20 to-transparent rounded-full blur-2xl"></div>
+        </div>
 
-        <section className="relative z-10 pt-24 pb-32 text-center">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-black/30 border border-gray-800/80 mb-6">
-              <span className="text-sm font-medium text-pink-400">
-                Beta release
+        <section className="relative z-10 pt-20 pb-32 text-center">
+          <div className="max-w-5xl mx-auto px-6 lg:px-8">
+            {/* Badge */}
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-[#A089E6]/20 to-[#6366f1]/20 border border-[#A089E6]/30 backdrop-blur-sm mb-8">
+              <div className="w-2 h-2 rounded-full bg-[#A089E6] mr-2 animate-pulse"></div>
+              <span className="text-sm font-medium text-[#A089E6]">
+                ✨ Manage Your Investor Search Effortlessly with AI
               </span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-6 leading-tight">
-              Next-level
-              <br />
-              investor search.
+
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[0.9]">
+              <span className="block">Simplify Your</span>
+              <span className="block bg-gradient-to-r from-[#A089E6] via-white to-[#6366f1] bg-clip-text text-transparent">
+                Investor Search
+              </span>
+              <span className="block">with AI</span>
             </h1>
-            <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-              A better way to find, manage, and launch connections. Built for
-              modern teams who value speed, clarity, and control.
+
+            {/* Subtitle */}
+            <p className="text-xl md:text-2xl text-white/70 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+              Empower your startup with intelligent investor matching, seamless outreach automation, and 
+              advanced analytics—so your team can focus on what truly matters: building the future.
             </p>
 
-            <form className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-2 bg-black/30 border border-gray-800/80 rounded-full p-2 backdrop-blur-lg">
-              <Input
-                type="text"
-                placeholder="Search by industry, name, or focus"
-                className="bg-transparent border-none focus:ring-0 text-white placeholder:text-gray-500 text-lg h-14 px-6"
-              />
-              <Select defaultValue="investor">
-                <SelectTrigger className="bg-transparent border-none focus:ring-0 text-gray-400 text-lg h-14 w-auto md:w-[150px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-black border-gray-800 text-white">
-                  <SelectItem value="investor">Investor</SelectItem>
-                  <SelectItem value="firm">Firm</SelectItem>
-                  <SelectItem value="fund">Fund</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button
-                type="submit"
-                className="bg-pink-600 hover:bg-pink-700 text-white rounded-full h-14 px-8 text-lg font-semibold"
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+              <Link to="/auth">
+                <Button className="bg-gradient-to-r from-[#A089E6] to-[#6366f1] hover:from-[#9575e0] hover:to-[#5856eb] text-white font-semibold px-8 py-4 text-lg rounded-xl shadow-lg shadow-purple-500/25 transition-all duration-200 hover:shadow-purple-500/40 hover:scale-105 min-w-[180px]">
+                  Get Started →
+                </Button>
+              </Link>
+              <Button 
+                variant="outline" 
+                className="border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm font-semibold px-8 py-4 text-lg rounded-xl min-w-[180px] transition-all duration-200 hover:border-white/30"
               >
-                Search
+                Request a Demo
               </Button>
-            </form>
+            </div>
+
+            {/* Stats or Social Proof */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-white/60 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#A089E6] to-[#6366f1] flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">✓</span>
+                </div>
+                <span>10,000+ investors indexed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#A089E6] to-[#6366f1] flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">✓</span>
+                </div>
+                <span>500+ successful matches</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#A089E6] to-[#6366f1] flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">✓</span>
+                </div>
+                <span>AI-powered insights</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -327,10 +326,10 @@ const Landing = () => {
                 match.
               </p>
               <form className="max-w-md mx-auto flex gap-2">
-                <Input
+                <input
                   type="email"
                   placeholder="Input your email"
-                  className="bg-black/30 border-gray-700/80 focus:ring-pink-500 h-12 flex-grow rounded-full"
+                  className="bg-black/30 border-gray-700/80 focus:ring-pink-500 h-12 flex-grow rounded-full text-white"
                 />
                 <Button
                   type="submit"
@@ -345,80 +344,84 @@ const Landing = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-black/30 border-t border-gray-800/80">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-[#0A0A0F]/50 border-t border-white/5 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto py-12 px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
             <div className="col-span-2">
-              <h3 className="text-xl font-bold mb-4">Investor Nexus</h3>
-              <p className="text-gray-400">
-                The best place to find your next investor.
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#A089E6] to-[#6366f1] flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">IN</span>
+                </div>
+                <h3 className="text-xl font-semibold">Investor Nexus</h3>
+              </div>
+              <p className="text-white/60 max-w-sm">
+                The intelligent platform for finding, connecting, and managing investor relationships.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-2 text-gray-400">
+              <h4 className="font-semibold mb-4 text-white">Contact</h4>
+              <ul className="space-y-2 text-white/60">
                 <li>
-                  <a href="#" className="hover:text-white">
-                    hello@nexus.com
+                  <a href="#" className="hover:text-white transition-colors">
+                    hello@investornexus.ai
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white">
-                    Work Inquiries
+                  <a href="#" className="hover:text-white transition-colors">
+                    Partnership Inquiries
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Address</h4>
-              <p className="text-gray-400">
-                123 Nexus Lane,
-                <br />
+              <h4 className="font-semibold mb-4 text-white">Address</h4>
+              <p className="text-white/60">
+                123 Innovation Drive,<br />
                 San Francisco, CA 94107
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Social</h4>
-              <ul className="space-y-2 text-gray-400">
+              <h4 className="font-semibold mb-4 text-white">Social</h4>
+              <ul className="space-y-2 text-white/60">
                 <li>
-                  <a href="#" className="hover:text-white">
+                  <a href="#" className="hover:text-white transition-colors">
                     Twitter
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white">
-                    Instagram
+                  <a href="#" className="hover:text-white transition-colors">
+                    LinkedIn
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white">
-                    LinkedIn
+                  <a href="#" className="hover:text-white transition-colors">
+                    GitHub
                   </a>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
+              <h4 className="font-semibold mb-4 text-white">Company</h4>
+              <ul className="space-y-2 text-white/60">
                 <li>
-                  <a href="#" className="hover:text-white">
+                  <a href="#" className="hover:text-white transition-colors">
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white">
+                  <a href="#" className="hover:text-white transition-colors">
                     About
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white">
-                    Press
+                  <a href="#" className="hover:text-white transition-colors">
+                    Press Kit
                   </a>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="mt-8 border-t border-gray-800/80 pt-8 text-center text-gray-500">
+          <div className="mt-8 border-t border-white/10 pt-8 text-center text-white/50">
             <p>&copy; 2024 Investor Nexus. All rights reserved.</p>
           </div>
         </div>
