@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Heart, MapPin, TrendingUp, Eye, ExternalLink, DollarSign, User } from 'lucide-react';
+import { Heart, MapPin, TrendingUp, Eye, ExternalLink, User, CheckCircle, Linkedin, Twitter, Mail } from 'lucide-react';
 import { Tables } from '@/integrations/supabase/types';
 
 type Investor = Tables<'investors'>;
@@ -30,12 +30,12 @@ const InvestorListItem = ({
   const getContactIcon = (contactType: string) => {
     switch (contactType) {
       case 'linkedin':
-        return '💼';
+        return <Linkedin className="h-4 w-4 text-blue-400" />;
       case 'twitter':
-        return '🐦';
+        return <Twitter className="h-4 w-4 text-blue-400" />;
       case 'email':
       default:
-        return '✉️';
+        return <Mail className="h-4 w-4 text-blue-400" />;
     }
   };
 
@@ -61,7 +61,12 @@ const InvestorListItem = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h3 className="text-lg font-semibold text-foreground">{investor.name}</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-foreground">{investor.name}</h3>
+                {investor.verified && (
+                  <CheckCircle className="h-5 w-5 text-blue-500" />
+                )}
+              </div>
               {investor.company && (
                 <p className="text-muted-foreground font-medium">{investor.company}</p>
               )}
@@ -100,7 +105,7 @@ const InvestorListItem = ({
           )}
 
           {/* Info Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm mb-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm mb-4">
             {investor.location && (
               <div className="flex items-center gap-1 text-muted-foreground">
                 <MapPin className="h-3 w-3 shrink-0" />
@@ -111,12 +116,6 @@ const InvestorListItem = ({
               <div className="flex items-center gap-1 text-muted-foreground">
                 <TrendingUp className="h-3 w-3 shrink-0" />
                 <span className="truncate">{investor.funding_type}</span>
-              </div>
-            )}
-            {investor.check_sizes && (
-              <div className="flex items-center gap-1 text-muted-foreground">
-                <DollarSign className="h-3 w-3 shrink-0" />
-                <span className="truncate">{investor.check_sizes}</span>
               </div>
             )}
             {investor.company_url && (
@@ -158,8 +157,8 @@ const InvestorListItem = ({
             {/* Contact Section */}
             <div className="shrink-0">
               {isContactRevealed ? (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs">{getContactIcon(investor.contact_type || 'email')}</span>
+                <div className="flex items-center gap-2 bg-muted/30 rounded-lg px-3 py-2">
+                  {getContactIcon(investor.contact_type || 'email')}
                   <a 
                     href={getContactLink(investor.contact, investor.contact_type || 'email')}
                     target="_blank"
@@ -172,10 +171,10 @@ const InvestorListItem = ({
               ) : (
                 canRevealContact && onRevealContact && (
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => onRevealContact(investor.id)}
-                    className="text-xs px-3 py-1 h-7"
+                    className="text-xs px-4 py-2 h-8 bg-primary hover:bg-primary/90"
                   >
                     <Eye className="h-3 w-3 mr-1" />
                     Reveal Contact

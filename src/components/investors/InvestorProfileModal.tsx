@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Heart, MapPin, TrendingUp, Eye, ExternalLink, DollarSign, Building2, Calendar } from 'lucide-react';
+import { Heart, MapPin, TrendingUp, Eye, ExternalLink, Building2, Calendar, CheckCircle, Linkedin, Twitter, Mail } from 'lucide-react';
 import { Tables } from '@/integrations/supabase/types';
 
 type Investor = Tables<'investors'>;
@@ -35,12 +35,12 @@ const InvestorProfileModal = ({
   const getContactIcon = (contactType: string) => {
     switch (contactType) {
       case 'linkedin':
-        return '💼';
+        return <Linkedin className="h-5 w-5 text-blue-400" />;
       case 'twitter':
-        return '🐦';
+        return <Twitter className="h-5 w-5 text-blue-400" />;
       case 'email':
       default:
-        return '✉️';
+        return <Mail className="h-5 w-5 text-blue-400" />;
     }
   };
 
@@ -83,7 +83,12 @@ const InvestorProfileModal = ({
             <div className="flex-1">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h2 className="text-2xl font-bold text-foreground">{investor.name}</h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-bold text-foreground">{investor.name}</h2>
+                    {investor.verified && (
+                      <CheckCircle className="h-6 w-6 text-blue-500" />
+                    )}
+                  </div>
                   {investor.company && (
                     <p className="text-lg text-muted-foreground font-medium">{investor.company}</p>
                   )}
@@ -113,12 +118,6 @@ const InvestorProfileModal = ({
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="h-4 w-4" />
                     <span>{investor.funding_type}</span>
-                  </div>
-                )}
-                {investor.check_sizes && (
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <DollarSign className="h-4 w-4" />
-                    <span>{investor.check_sizes}</span>
                   </div>
                 )}
                 {investor.company_url && (
@@ -155,7 +154,7 @@ const InvestorProfileModal = ({
           )}
 
           {/* Investment Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
             {/* Funding Stage */}
             {investor.funding_stage && (
               <div className="space-y-2">
@@ -163,17 +162,6 @@ const InvestorProfileModal = ({
                 <Badge variant="outline" className="text-sm">
                   {investor.funding_stage}
                 </Badge>
-              </div>
-            )}
-
-            {/* Check Size */}
-            {investor.check_sizes && (
-              <div className="space-y-2">
-                <h4 className="font-medium text-foreground">Check Size</h4>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <DollarSign className="h-4 w-4" />
-                  <span>{investor.check_sizes}</span>
-                </div>
               </div>
             )}
           </div>
@@ -199,7 +187,7 @@ const InvestorProfileModal = ({
             {isContactRevealed ? (
               <div className="bg-muted/50 rounded-lg p-4">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{getContactIcon(investor.contact_type || 'email')}</span>
+                  {getContactIcon(investor.contact_type || 'email')}
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">
                       {getContactLabel(investor.contact_type || 'email')}

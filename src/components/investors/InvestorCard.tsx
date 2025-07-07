@@ -68,25 +68,19 @@ const InvestorCard = ({
               <span>{investor.funding_type}</span>
             </div>
           )}
-          {investor.check_sizes && (
-            <div className="flex items-center space-x-1">
-              <DollarSign className="h-3 w-3" />
-              <span>{investor.check_sizes}</span>
-            </div>
-          )}
-          {investor.company_url && (
-            <div className="flex items-center space-x-1">
-              <ExternalLink className="h-3 w-3" />
-              <a 
-                href={investor.company_url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 truncate"
-              >
-                Website
-              </a>
-            </div>
-          )}
+            {investor.company_url && (
+              <div className="flex items-center space-x-1">
+                <ExternalLink className="h-3 w-3" />
+                <a 
+                  href={investor.company_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 truncate"
+                >
+                  Website
+                </a>
+              </div>
+            )}
         </div>
 
         <div className="flex flex-wrap gap-2">
