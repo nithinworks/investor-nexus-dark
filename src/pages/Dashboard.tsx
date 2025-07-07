@@ -6,7 +6,7 @@ import { Tables } from '@/integrations/supabase/types';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/layout/Header';
 import FilterSection from '@/components/filters/FilterSection';
-import InvestorGrid from '@/components/investors/InvestorGrid';
+import InvestorList from '@/components/investors/InvestorList';
 import SubscriptionBanner from '@/components/subscription/SubscriptionBanner';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { toast } from '@/hooks/use-toast';
@@ -238,7 +238,7 @@ const Dashboard = () => {
               </TabsList>
               
               <TabsContent value="all">
-                <InvestorGrid
+                <InvestorList
                   investors={filteredInvestors}
                   savedInvestors={savedInvestors}
                   onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
@@ -250,7 +250,7 @@ const Dashboard = () => {
               </TabsContent>
               
               <TabsContent value="saved">
-                <InvestorGrid
+                <InvestorList
                   investors={savedInvestorData}
                   savedInvestors={savedInvestors}
                   onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}

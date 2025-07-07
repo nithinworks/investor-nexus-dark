@@ -50,12 +50,14 @@ export type Database = {
           company: string | null
           company_url: string | null
           contact: string
+          contact_type: string | null
           created_at: string
           funding_description: string | null
           funding_industries: string[] | null
           funding_stage: string | null
           funding_type: string | null
           id: string
+          image_url: string | null
           location: string | null
           name: string
           updated_at: string
@@ -66,12 +68,14 @@ export type Database = {
           company?: string | null
           company_url?: string | null
           contact?: string
+          contact_type?: string | null
           created_at?: string
           funding_description?: string | null
           funding_industries?: string[] | null
           funding_stage?: string | null
           funding_type?: string | null
           id?: string
+          image_url?: string | null
           location?: string | null
           name: string
           updated_at?: string
@@ -82,12 +86,14 @@ export type Database = {
           company?: string | null
           company_url?: string | null
           contact?: string
+          contact_type?: string | null
           created_at?: string
           funding_description?: string | null
           funding_industries?: string[] | null
           funding_stage?: string | null
           funding_type?: string | null
           id?: string
+          image_url?: string | null
           location?: string | null
           name?: string
           updated_at?: string
