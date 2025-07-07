@@ -11,6 +11,7 @@ import SubscriptionBanner from "@/components/subscription/SubscriptionBanner";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { toast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Users, Bookmark } from "lucide-react";
 
 type Investor = Tables<"investors">;
 type Profile = Tables<"profiles">;
@@ -234,7 +235,15 @@ const Dashboard = () => {
           />
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Header Section */}
+        <div className="mb-8">
+          <div className="backdrop-blur-xl bg-gradient-to-r from-red-500/10 via-transparent to-transparent rounded-2xl border border-white/10 p-6">
+            <h1 className="text-2xl font-bold text-white mb-2">Investor Database</h1>
+            <p className="text-gray-400">Discover and connect with investors that match your startup's needs</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-1">
             <FilterSection
               searchTerm={searchTerm}
@@ -254,22 +263,24 @@ const Dashboard = () => {
 
           <div className="lg:col-span-3">
             <Tabs defaultValue="all" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-white/5 border border-white/10 mb-6 h-12 rounded-lg p-1">
+              <TabsList className="backdrop-blur-xl bg-white/5 border border-white/10 mb-6 h-12 rounded-xl p-1 w-full max-w-md">
                 <TabsTrigger
                   value="all"
-                  className="text-white/60 data-[state=active]:bg-red-700 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
+                  className="text-white/60 data-[state=active]:bg-red-500/80 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-lg transition-all duration-300 flex items-center gap-2 flex-1"
                 >
-                  All Investors ({filteredInvestors.length})
+                  <Users className="h-4 w-4" />
+                  All ({filteredInvestors.length})
                 </TabsTrigger>
                 <TabsTrigger
                   value="saved"
-                  className="text-white/60 data-[state=active]:bg-red-700 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
+                  className="text-white/60 data-[state=active]:bg-red-500/80 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-lg transition-all duration-300 flex items-center gap-2 flex-1"
                 >
+                  <Bookmark className="h-4 w-4" />
                   Saved ({savedInvestorData.length})
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="all">
+              <TabsContent value="all" className="space-y-4">
                 <InvestorList
                   investors={filteredInvestors}
                   savedInvestors={savedInvestors}
@@ -285,7 +296,7 @@ const Dashboard = () => {
                 />
               </TabsContent>
 
-              <TabsContent value="saved">
+              <TabsContent value="saved" className="space-y-4">
                 <InvestorList
                   investors={savedInvestorData}
                   savedInvestors={savedInvestors}

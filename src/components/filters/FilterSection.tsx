@@ -1,3 +1,4 @@
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { X } from "lucide-react";
+import { X, Search, Filter } from "lucide-react";
 
 interface FilterSectionProps {
   searchTerm: string;
@@ -75,157 +76,143 @@ const FilterSection = ({
   };
 
   return (
-    <div className="bg-black/30 rounded-2xl p-6 border border-gray-800/80 space-y-6 sticky top-28">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-white">Filters</h3>
-        <Button
-          onClick={clearAllFilters}
-          variant="ghost"
-          size="sm"
-          className="text-gray-400 hover:text-white"
-        >
-          Clear All
-        </Button>
+    <div className="backdrop-blur-xl bg-white/5 rounded-2xl border border-white/10 sticky top-28 overflow-hidden">
+      {/* Header */}
+      <div className="p-4 border-b border-white/10 bg-gradient-to-r from-red-500/10 to-transparent">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-red-400" />
+            <h3 className="text-sm font-medium text-white">Filters</h3>
+          </div>
+          <Button
+            onClick={clearAllFilters}
+            variant="ghost"
+            size="sm"
+            className="text-xs text-gray-400 hover:text-white hover:bg-white/10 h-7 px-2"
+          >
+            Clear
+          </Button>
+        </div>
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <Label htmlFor="search" className="text-gray-400">
-            Search
-          </Label>
+      <div className="p-4 space-y-4">
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
-            id="search"
             type="text"
-            placeholder="Search by name, company..."
+            placeholder="Search investors..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500"
+            className="pl-10 bg-white/5 border-white/20 text-white h-9 text-sm focus:ring-red-500 focus:border-red-500 placeholder:text-gray-500"
           />
         </div>
 
-        <div>
-          <Label className="text-gray-400">Country</Label>
+        {/* Quick Filters */}
+        <div className="grid grid-cols-2 gap-2">
           <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-            <SelectTrigger className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500">
-              <SelectValue placeholder="Select country" />
+            <SelectTrigger className="bg-white/5 border-white/20 text-white h-9 text-xs focus:ring-red-500 focus:border-red-500">
+              <SelectValue placeholder="Country" />
             </SelectTrigger>
-            <SelectContent className="bg-[#0A0A0A] border-gray-700/80 text-white">
-              <SelectItem value=" ">All Countries</SelectItem>
+            <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 text-white">
+              <SelectItem value=" " className="text-xs">All Countries</SelectItem>
               {countries.map((country) => (
                 <SelectItem
                   key={country}
                   value={country}
-                  className="focus:bg-gray-700/80"
+                  className="focus:bg-red-500/20 text-xs"
                 >
                   {country}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
+
+          <Select value={selectedType} onValueChange={setSelectedType}>
+            <SelectTrigger className="bg-white/5 border-white/20 text-white h-9 text-xs focus:ring-red-500 focus:border-red-500">
+              <SelectValue placeholder="Type" />
+            </SelectTrigger>
+            <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 text-white">
+              <SelectItem value=" " className="text-xs">All Types</SelectItem>
+              {investmentTypes.map((type) => (
+                <SelectItem
+                  key={type}
+                  value={type}
+                  className="focus:bg-red-500/20 text-xs"
+                >
+                  {type}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-      </div>
 
-      <Accordion
-        type="multiple"
-        className="w-full"
-        defaultValue={["type", "stage"]}
-      >
-        <AccordionItem value="type" className="border-b-0">
-          <AccordionTrigger className="py-2 text-base text-gray-300 hover:text-white hover:no-underline">
-            Investment Type
-          </AccordionTrigger>
-          <AccordionContent>
-            <Select value={selectedType} onValueChange={setSelectedType}>
-              <SelectTrigger className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500">
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent className="bg-[#0A0A0A] border-gray-700/80 text-white">
-                <SelectItem value=" ">All Types</SelectItem>
-                {investmentTypes.map((type) => (
-                  <SelectItem
-                    key={type}
-                    value={type}
-                    className="focus:bg-gray-700/80"
-                  >
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="stage" className="border-b-0">
-          <AccordionTrigger className="py-2 text-base text-gray-300 hover:text-white hover:no-underline">
-            Investment Stage
-          </AccordionTrigger>
-          <AccordionContent>
-            <Select value={selectedStage} onValueChange={setSelectedStage}>
-              <SelectTrigger className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500">
-                <SelectValue placeholder="Select stage" />
-              </SelectTrigger>
-              <SelectContent className="bg-[#0A0A0A] border-gray-700/80 text-white">
-                <SelectItem value=" ">All Stages</SelectItem>
-                {investmentStages.map((stage) => (
-                  <SelectItem
-                    key={stage}
-                    value={stage}
-                    className="focus:bg-gray-700/80"
-                  >
-                    {stage}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="tags" className="border-b-0">
-          <AccordionTrigger className="py-2 text-base text-gray-300 hover:text-white hover:no-underline">
-            Tags
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="space-y-2">
-              <Select onValueChange={addTag}>
-                <SelectTrigger className="bg-black/20 border-gray-700/80 text-white h-12 focus:ring-pink-500 focus:border-pink-500">
-                  <SelectValue placeholder="Add tags" />
+        {/* Advanced Filters */}
+        <Accordion type="multiple" className="w-full" defaultValue={["advanced"]}>
+          <AccordionItem value="advanced" className="border-white/10">
+            <AccordionTrigger className="py-2 text-xs text-gray-300 hover:text-white hover:no-underline">
+              Advanced Filters
+            </AccordionTrigger>
+            <AccordionContent className="space-y-3 pt-2">
+              <Select value={selectedStage} onValueChange={setSelectedStage}>
+                <SelectTrigger className="bg-white/5 border-white/20 text-white h-9 text-xs">
+                  <SelectValue placeholder="Investment Stage" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#0A0A0A] border-gray-700/80 text-white">
-                  {availableTags
-                    .filter((tag) => !selectedTags.includes(tag))
-                    .map((tag) => (
-                      <SelectItem
-                        key={tag}
-                        value={tag}
-                        className="focus:bg-gray-700/80"
-                      >
-                        {tag}
-                      </SelectItem>
-                    ))}
+                <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 text-white">
+                  <SelectItem value=" " className="text-xs">All Stages</SelectItem>
+                  {investmentStages.map((stage) => (
+                    <SelectItem
+                      key={stage}
+                      value={stage}
+                      className="focus:bg-red-500/20 text-xs"
+                    >
+                      {stage}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
-              {selectedTags.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {selectedTags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="secondary"
-                      className="bg-pink-500/10 text-pink-400 border border-pink-500/20 flex items-center gap-1"
-                    >
-                      {tag}
-                      <X
-                        className="h-3 w-3 cursor-pointer hover:text-white"
-                        onClick={() => removeTag(tag)}
-                      />
-                    </Badge>
-                  ))}
-                </div>
-              )}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+              <div>
+                <Select onValueChange={addTag}>
+                  <SelectTrigger className="bg-white/5 border-white/20 text-white h-9 text-xs">
+                    <SelectValue placeholder="Add industry tags" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 text-white">
+                    {availableTags
+                      .filter((tag) => !selectedTags.includes(tag))
+                      .map((tag) => (
+                        <SelectItem
+                          key={tag}
+                          value={tag}
+                          className="focus:bg-red-500/20 text-xs"
+                        >
+                          {tag}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+
+                {selectedTags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {selectedTags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        className="bg-red-500/20 text-red-300 border border-red-500/30 text-xs px-2 py-1 h-6 backdrop-blur-sm"
+                      >
+                        {tag}
+                        <X
+                          className="h-3 w-3 ml-1 cursor-pointer hover:text-white"
+                          onClick={() => removeTag(tag)}
+                        />
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
     </div>
   );
 };
