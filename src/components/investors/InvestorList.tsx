@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Tables } from '@/integrations/supabase/types';
-import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import InvestorListItem from './InvestorListItem';
-import InvestorProfileModal from './InvestorProfileModal';
+import { useState } from "react";
+import { Tables } from "@/integrations/supabase/types";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import InvestorListItem from "./InvestorListItem";
+import InvestorProfileModal from "./InvestorProfileModal";
 
-type Investor = Tables<'investors'>;
+type Investor = Tables<"investors">;
 
 interface InvestorListProps {
   investors: Investor[];
@@ -19,16 +19,18 @@ interface InvestorListProps {
 
 const ITEMS_PER_PAGE = 10;
 
-const InvestorList = ({ 
-  investors, 
-  savedInvestors = [], 
-  onToggleSave, 
+const InvestorList = ({
+  investors,
+  savedInvestors = [],
+  onToggleSave,
   canSave = true,
   revealedContacts = [],
   onRevealContact,
-  canRevealContact = true
+  canRevealContact = true,
 }: InvestorListProps) => {
-  const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(null);
+  const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(investors.length / ITEMS_PER_PAGE);
@@ -58,9 +60,6 @@ const InvestorList = ({
             isSaved={savedInvestors.includes(investor.id)}
             onToggleSave={onToggleSave}
             canSave={canSave}
-            isContactRevealed={revealedContacts.includes(investor.id)}
-            onRevealContact={onRevealContact}
-            canRevealContact={canRevealContact}
             onViewProfile={() => setSelectedInvestor(investor)}
           />
         ))}
@@ -68,23 +67,25 @@ const InvestorList = ({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-8 px-4">
-          <div className="text-sm text-gray-400">
-            Showing {startIndex + 1} to {Math.min(endIndex, investors.length)} of {investors.length} investors
-          </div>
-          
+        <div className="flex items-center justify-between mt-8">
+          <p className="text-sm text-gray-400">
+            Showing <strong>{startIndex + 1}</strong> to{" "}
+            <strong>{Math.min(endIndex, investors.length)}</strong> of{" "}
+            <strong>{investors.length}</strong> results
+          </p>
+
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="border-gray-600 bg-gray-800 text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="border-gray-700/80 bg-black/30 text-white hover:bg-gray-800/80 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
             </Button>
-            
+
             <div className="flex items-center gap-1">
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let pageNum;
@@ -97,33 +98,34 @@ const InvestorList = ({
                 } else {
                   pageNum = currentPage - 2 + i;
                 }
-                
+
                 return (
                   <Button
                     key={pageNum}
-                    variant={currentPage === pageNum ? "default" : "outline"}
+                    variant={currentPage === pageNum ? "default" : "ghost"}
                     size="sm"
                     onClick={() => goToPage(pageNum)}
-                    className={currentPage === pageNum 
-                      ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                      : "border-gray-600 bg-gray-800 text-white hover:bg-gray-700"
-                    }
+                    className={`w-9 ${
+                      currentPage === pageNum
+                        ? "bg-pink-600 hover:bg-pink-700 text-white"
+                        : "text-gray-400 hover:bg-gray-800/80 hover:text-white"
+                    }`}
                   >
                     {pageNum}
                   </Button>
                 );
               })}
             </div>
-            
+
             <Button
               variant="outline"
               size="sm"
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="border-gray-600 bg-gray-800 text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="border-gray-700/80 bg-black/30 text-white hover:bg-gray-800/80 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
           </div>
         </div>
@@ -133,10 +135,18 @@ const InvestorList = ({
         investor={selectedInvestor}
         isOpen={!!selectedInvestor}
         onClose={() => setSelectedInvestor(null)}
-        isSaved={selectedInvestor ? savedInvestors.includes(selectedInvestor.id) : false}
+        isSaved={
+          selectedInvestor
+            ? savedInvestors.includes(selectedInvestor.id)
+            : false
+        }
         onToggleSave={onToggleSave}
         canSave={canSave}
-        isContactRevealed={selectedInvestor ? revealedContacts.includes(selectedInvestor.id) : false}
+        isContactRevealed={
+          selectedInvestor
+            ? revealedContacts.includes(selectedInvestor.id)
+            : false
+        }
         onRevealContact={onRevealContact}
         canRevealContact={canRevealContact}
       />

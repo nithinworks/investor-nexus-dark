@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,8 +11,8 @@ interface AuthFormProps {
 }
 
 const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,8 +36,8 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
           email,
           password,
           options: {
-            emailRedirectTo: redirectUrl
-          }
+            emailRedirectTo: redirectUrl,
+          },
         });
         if (error) throw error;
         toast({
@@ -61,34 +60,38 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div>
-          <Label htmlFor="email" className="text-white">Email</Label>
+          <Label htmlFor="email" className="text-gray-400">
+            Email
+          </Label>
           <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="bg-gray-800 border-gray-700 text-white mt-1"
-            placeholder="Enter your email"
+            className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500"
+            placeholder="your@email.com"
           />
         </div>
         <div>
-          <Label htmlFor="password" className="text-white">Password</Label>
+          <Label htmlFor="password" className="text-gray-400">
+            Password
+          </Label>
           <Input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="bg-gray-800 border-gray-700 text-white mt-1"
-            placeholder="Enter your password"
+            className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500"
+            placeholder="••••••••"
           />
         </div>
       </div>
 
       <Button
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        className="w-full bg-pink-600 hover:bg-pink-700 text-white h-12 text-base font-semibold"
         disabled={loading}
       >
         {loading ? "Loading..." : isLogin ? "Sign In" : "Sign Up"}
@@ -98,7 +101,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
         <button
           type="button"
           onClick={onToggle}
-          className="text-blue-400 hover:text-blue-300 text-sm"
+          className="text-gray-400 hover:text-white text-sm transition-colors"
         >
           {isLogin
             ? "Don't have an account? Sign up"

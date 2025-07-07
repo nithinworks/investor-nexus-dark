@@ -1,40 +1,39 @@
-
-import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Tables } from '@/integrations/supabase/types';
-import { useAuth } from '@/hooks/useAuth';
-import Header from '@/components/layout/Header';
-import FilterSection from '@/components/filters/FilterSection';
-import InvestorList from '@/components/investors/InvestorList';
-import SubscriptionBanner from '@/components/subscription/SubscriptionBanner';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { toast } from '@/hooks/use-toast';
+import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Tables } from "@/integrations/supabase/types";
+import { useAuth } from "@/hooks/useAuth";
+import Header from "@/components/layout/Header";
+import FilterSection from "@/components/filters/FilterSection";
+import InvestorList from "@/components/investors/InvestorList";
+import SubscriptionBanner from "@/components/subscription/SubscriptionBanner";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { toast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type Investor = Tables<'investors'>;
-type Profile = Tables<'profiles'>;
+type Investor = Tables<"investors">;
+type Profile = Tables<"profiles">;
 
 const Dashboard = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedStage, setSelectedStage] = useState('');
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedStage, setSelectedStage] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   // Fetch user profile
   const { data: profile } = useQuery({
-    queryKey: ['profile', user?.id],
+    queryKey: ["profile", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user!.id)
+        .from("profiles")
+        .select("*")
+        .eq("id", user!.id)
         .single();
-      
+
       if (error) throw error;
       return data as Profile;
     },
@@ -43,13 +42,13 @@ const Dashboard = () => {
 
   // Fetch investors
   const { data: investors = [], isLoading } = useQuery({
-    queryKey: ['investors'],
+    queryKey: ["investors"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('investors')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
+        .from("investors")
+        .select("*")
+        .order("created_at", { ascending: false });
+
       if (error) throw error;
       return data as Investor[];
     },
@@ -57,30 +56,30 @@ const Dashboard = () => {
 
   // Fetch saved investors
   const { data: savedInvestors = [] } = useQuery({
-    queryKey: ['saved-investors', user?.id],
+    queryKey: ["saved-investors", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('saved_investors')
-        .select('investor_id')
-        .eq('user_id', user!.id);
-      
+        .from("saved_investors")
+        .select("investor_id")
+        .eq("user_id", user!.id);
+
       if (error) throw error;
-      return data.map(item => item.investor_id!);
+      return data.map((item) => item.investor_id!);
     },
     enabled: !!user,
   });
 
   // Fetch revealed contacts
   const { data: revealedContacts = [] } = useQuery({
-    queryKey: ['revealed-contacts', user?.id],
+    queryKey: ["revealed-contacts", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('contact_reveals')
-        .select('investor_id')
-        .eq('user_id', user!.id);
-      
+        .from("contact_reveals")
+        .select("investor_id")
+        .eq("user_id", user!.id);
+
       if (error) throw error;
-      return data.map(item => item.investor_id!);
+      return data.map((item) => item.investor_id!);
     },
     enabled: !!user,
   });
@@ -89,28 +88,26 @@ const Dashboard = () => {
   const toggleSaveMutation = useMutation({
     mutationFn: async (investorId: string) => {
       const isSaved = savedInvestors.includes(investorId);
-      
+
       if (isSaved) {
         const { error } = await supabase
-          .from('saved_investors')
+          .from("saved_investors")
           .delete()
-          .eq('user_id', user!.id)
-          .eq('investor_id', investorId);
-        
+          .eq("user_id", user!.id)
+          .eq("investor_id", investorId);
+
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from('saved_investors')
-          .insert({
-            user_id: user!.id,
-            investor_id: investorId,
-          });
-        
+        const { error } = await supabase.from("saved_investors").insert({
+          user_id: user!.id,
+          investor_id: investorId,
+        });
+
         if (error) throw error;
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['saved-investors'] });
+      queryClient.invalidateQueries({ queryKey: ["saved-investors"] });
     },
     onError: (error: any) => {
       toast({
@@ -130,31 +127,34 @@ const Dashboard = () => {
       }
 
       // Check access limit for free users
-      if (profile?.subscription_tier === 'free' && profile.access_used >= profile.access_limit) {
-        throw new Error('You have reached your monthly contact reveal limit. Please upgrade to Pro.');
+      if (
+        profile?.subscription_tier === "free" &&
+        profile.access_used >= profile.access_limit
+      ) {
+        throw new Error(
+          "You have reached your monthly contact reveal limit. Please upgrade to Pro."
+        );
       }
 
       // Insert contact reveal record
-      const { error } = await supabase
-        .from('contact_reveals')
-        .insert({
-          user_id: user!.id,
-          investor_id: investorId,
-        });
+      const { error } = await supabase.from("contact_reveals").insert({
+        user_id: user!.id,
+        investor_id: investorId,
+      });
 
       if (error) throw error;
 
       // Update access count for free users
-      if (profile?.subscription_tier === 'free') {
+      if (profile?.subscription_tier === "free") {
         await supabase
-          .from('profiles')
+          .from("profiles")
           .update({ access_used: (profile.access_used || 0) + 1 })
-          .eq('id', user!.id);
+          .eq("id", user!.id);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['revealed-contacts'] });
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      queryClient.invalidateQueries({ queryKey: ["revealed-contacts"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       toast({
         title: "Success",
         description: "Contact information revealed!",
@@ -170,41 +170,66 @@ const Dashboard = () => {
   });
 
   // Filter investors
-  const filteredInvestors = investors.filter(investor => {
-    const matchesSearch = !searchTerm || 
+  const filteredInvestors = investors.filter((investor) => {
+    const matchesSearch =
+      !searchTerm ||
       investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      investor.funding_description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      investor.funding_description
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       investor.company?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCountry = !selectedCountry || selectedCountry === ' ' || investor.location === selectedCountry;
-    const matchesType = !selectedType || selectedType === ' ' || investor.funding_type === selectedType;
-    const matchesStage = !selectedStage || selectedStage === ' ' || investor.funding_stage === selectedStage;
-    const matchesTags = selectedTags.length === 0 || 
-      selectedTags.some(tag => investor.funding_industries?.includes(tag));
 
-    return matchesSearch && matchesCountry && matchesType && matchesStage && matchesTags;
+    const matchesCountry =
+      !selectedCountry ||
+      selectedCountry === " " ||
+      investor.location === selectedCountry;
+    const matchesType =
+      !selectedType ||
+      selectedType === " " ||
+      investor.funding_type === selectedType;
+    const matchesStage =
+      !selectedStage ||
+      selectedStage === " " ||
+      investor.funding_stage === selectedStage;
+    const matchesTags =
+      selectedTags.length === 0 ||
+      selectedTags.some((tag) => investor.funding_industries?.includes(tag));
+
+    return (
+      matchesSearch &&
+      matchesCountry &&
+      matchesType &&
+      matchesStage &&
+      matchesTags
+    );
   });
 
-  const savedInvestorData = investors.filter(investor => savedInvestors.includes(investor.id));
+  const savedInvestorData = investors.filter((investor) =>
+    savedInvestors.includes(investor.id)
+  );
 
   // Get unique values for filters
-  const countries = [...new Set(investors.map(i => i.location).filter(Boolean))].sort();
-  const allTags = [...new Set(investors.flatMap(i => i.funding_industries || []))].sort();
+  const countries = [
+    ...new Set(investors.map((i) => i.location).filter(Boolean)),
+  ].sort();
+  const allTags = [
+    ...new Set(investors.flatMap((i) => i.funding_industries || [])),
+  ].sort();
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-[#0A0A0A]">
       <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-28">
         {profile && (
           <SubscriptionBanner
             accessUsed={profile.access_used || 0}
             accessLimit={profile.access_limit || 0}
-            subscriptionTier={profile.subscription_tier || 'free'}
+            subscriptionTier={profile.subscription_tier || "free"}
           />
         )}
 
@@ -228,42 +253,56 @@ const Dashboard = () => {
 
           <div className="lg:col-span-3">
             <Tabs defaultValue="all" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-900 mb-6">
-                <TabsTrigger value="all" className="text-white data-[state=active]:bg-gray-700">
+              <TabsList className="grid w-full grid-cols-2 bg-black/30 border border-gray-800/80 mb-6 h-12 rounded-lg p-1">
+                <TabsTrigger
+                  value="all"
+                  className="text-gray-400 data-[state=active]:bg-gray-800/80 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
+                >
                   All Investors ({filteredInvestors.length})
                 </TabsTrigger>
-                <TabsTrigger value="saved" className="text-white data-[state=active]:bg-gray-700">
+                <TabsTrigger
+                  value="saved"
+                  className="text-gray-400 data-[state=active]:bg-gray-800/80 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
+                >
                   Saved ({savedInvestorData.length})
                 </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="all">
                 <InvestorList
                   investors={filteredInvestors}
                   savedInvestors={savedInvestors}
-                  onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
+                  onToggleSave={(investorId) =>
+                    toggleSaveMutation.mutate(investorId)
+                  }
                   canSave={true}
                   revealedContacts={revealedContacts}
-                  onRevealContact={(investorId) => revealContactMutation.mutate(investorId)}
+                  onRevealContact={(investorId) =>
+                    revealContactMutation.mutate(investorId)
+                  }
                   canRevealContact={true}
                 />
               </TabsContent>
-              
+
               <TabsContent value="saved">
                 <InvestorList
                   investors={savedInvestorData}
                   savedInvestors={savedInvestors}
-                  onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
+                  onToggleSave={(investorId) =>
+                    toggleSaveMutation.mutate(investorId)
+                  }
                   canSave={true}
                   revealedContacts={revealedContacts}
-                  onRevealContact={(investorId) => revealContactMutation.mutate(investorId)}
+                  onRevealContact={(investorId) =>
+                    revealContactMutation.mutate(investorId)
+                  }
                   canRevealContact={true}
                 />
               </TabsContent>
             </Tabs>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
