@@ -14,41 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_reveals: {
+        Row: {
+          id: string
+          investor_id: string | null
+          revealed_at: string
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          investor_id?: string | null
+          revealed_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          investor_id?: string | null
+          revealed_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_reveals_investor_id_fkey"
+            columns: ["investor_id"]
+            isOneToOne: false
+            referencedRelation: "investors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       investors: {
         Row: {
           bio: string | null
-          country: string | null
+          check_sizes: string | null
+          company: string | null
+          company_url: string | null
+          contact: string
           created_at: string
-          email: string
+          funding_description: string | null
+          funding_industries: string[] | null
+          funding_stage: string | null
+          funding_type: string | null
           id: string
-          investment_stage: string | null
-          investment_type: string | null
+          location: string | null
           name: string
-          tags: string[] | null
           updated_at: string
         }
         Insert: {
           bio?: string | null
-          country?: string | null
+          check_sizes?: string | null
+          company?: string | null
+          company_url?: string | null
+          contact?: string
           created_at?: string
-          email: string
+          funding_description?: string | null
+          funding_industries?: string[] | null
+          funding_stage?: string | null
+          funding_type?: string | null
           id?: string
-          investment_stage?: string | null
-          investment_type?: string | null
+          location?: string | null
           name: string
-          tags?: string[] | null
           updated_at?: string
         }
         Update: {
           bio?: string | null
-          country?: string | null
+          check_sizes?: string | null
+          company?: string | null
+          company_url?: string | null
+          contact?: string
           created_at?: string
-          email?: string
+          funding_description?: string | null
+          funding_industries?: string[] | null
+          funding_stage?: string | null
+          funding_type?: string | null
           id?: string
-          investment_stage?: string | null
-          investment_type?: string | null
+          location?: string | null
           name?: string
-          tags?: string[] | null
           updated_at?: string
         }
         Relationships: []

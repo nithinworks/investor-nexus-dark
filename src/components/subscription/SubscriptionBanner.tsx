@@ -42,7 +42,7 @@ const SubscriptionBanner = ({ accessUsed, accessLimit, subscriptionTier }: Subsc
             {isAtLimit ? 'Access Limit Reached' : 'Free Tier'}
           </h3>
           <p className="text-gray-300 text-sm">
-            {accessUsed} / {accessLimit} investor views used this month
+            {accessUsed} / {accessLimit} contact reveals used this month
           </p>
         </div>
         <Button className="bg-blue-600 hover:bg-blue-700">

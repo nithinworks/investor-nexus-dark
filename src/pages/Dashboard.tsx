@@ -70,6 +70,21 @@ const Dashboard = () => {
     enabled: !!user,
   });
 
+  // Fetch revealed contacts
+  const { data: revealedContacts = [] } = useQuery({
+    queryKey: ['revealed-contacts', user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('contact_reveals')
+        .select('investor_id')
+        .eq('user_id', user!.id);
+      
+      if (error) throw error;
+      return data.map(item => item.investor_id!);
+    },
+    enabled: !!user,
+  });
+
   // Save/unsave investor mutation
   const toggleSaveMutation = useMutation({
     mutationFn: async (investorId: string) => {
@@ -84,11 +99,6 @@ const Dashboard = () => {
         
         if (error) throw error;
       } else {
-        // Check access limit for free users
-        if (profile?.subscription_tier === 'free' && profile.access_used >= profile.access_limit) {
-          throw new Error('You have reached your monthly access limit. Please upgrade to Pro.');
-        }
-        
         const { error } = await supabase
           .from('saved_investors')
           .insert({
@@ -97,19 +107,58 @@ const Dashboard = () => {
           });
         
         if (error) throw error;
-        
-        // Update access count for free users
-        if (profile?.subscription_tier === 'free') {
-          await supabase
-            .from('profiles')
-            .update({ access_used: profile.access_used + 1 })
-            .eq('id', user!.id);
-        }
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['saved-investors'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Contact reveal mutation
+  const revealContactMutation = useMutation({
+    mutationFn: async (investorId: string) => {
+      // Check if contact is already revealed
+      if (revealedContacts.includes(investorId)) {
+        return;
+      }
+
+      // Check access limit for free users
+      if (profile?.subscription_tier === 'free' && profile.access_used >= profile.access_limit) {
+        throw new Error('You have reached your monthly contact reveal limit. Please upgrade to Pro.');
+      }
+
+      // Insert contact reveal record
+      const { error } = await supabase
+        .from('contact_reveals')
+        .insert({
+          user_id: user!.id,
+          investor_id: investorId,
+        });
+
+      if (error) throw error;
+
+      // Update access count for free users
+      if (profile?.subscription_tier === 'free') {
+        await supabase
+          .from('profiles')
+          .update({ access_used: (profile.access_used || 0) + 1 })
+          .eq('id', user!.id);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['revealed-contacts'] });
       queryClient.invalidateQueries({ queryKey: ['profile'] });
+      toast({
+        title: "Success",
+        description: "Contact information revealed!",
+      });
     },
     onError: (error: any) => {
       toast({
@@ -124,14 +173,14 @@ const Dashboard = () => {
   const filteredInvestors = investors.filter(investor => {
     const matchesSearch = !searchTerm || 
       investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      investor.bio?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      investor.email.toLowerCase().includes(searchTerm.toLowerCase());
+      investor.funding_description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      investor.company?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesCountry = !selectedCountry || selectedCountry === ' ' || investor.country === selectedCountry;
-    const matchesType = !selectedType || selectedType === ' ' || investor.investment_type === selectedType;
-    const matchesStage = !selectedStage || selectedStage === ' ' || investor.investment_stage === selectedStage;
+    const matchesCountry = !selectedCountry || selectedCountry === ' ' || investor.location === selectedCountry;
+    const matchesType = !selectedType || selectedType === ' ' || investor.funding_type === selectedType;
+    const matchesStage = !selectedStage || selectedStage === ' ' || investor.funding_stage === selectedStage;
     const matchesTags = selectedTags.length === 0 || 
-      selectedTags.some(tag => investor.tags?.includes(tag));
+      selectedTags.some(tag => investor.funding_industries?.includes(tag));
 
     return matchesSearch && matchesCountry && matchesType && matchesStage && matchesTags;
   });
@@ -139,8 +188,8 @@ const Dashboard = () => {
   const savedInvestorData = investors.filter(investor => savedInvestors.includes(investor.id));
 
   // Get unique values for filters
-  const countries = [...new Set(investors.map(i => i.country).filter(Boolean))].sort();
-  const allTags = [...new Set(investors.flatMap(i => i.tags || []))].sort();
+  const countries = [...new Set(investors.map(i => i.location).filter(Boolean))].sort();
+  const allTags = [...new Set(investors.flatMap(i => i.funding_industries || []))].sort();
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -194,6 +243,9 @@ const Dashboard = () => {
                   savedInvestors={savedInvestors}
                   onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
                   canSave={true}
+                  revealedContacts={revealedContacts}
+                  onRevealContact={(investorId) => revealContactMutation.mutate(investorId)}
+                  canRevealContact={true}
                 />
               </TabsContent>
               
@@ -203,6 +255,9 @@ const Dashboard = () => {
                   savedInvestors={savedInvestors}
                   onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
                   canSave={true}
+                  revealedContacts={revealedContacts}
+                  onRevealContact={(investorId) => revealContactMutation.mutate(investorId)}
+                  canRevealContact={true}
                 />
               </TabsContent>
             </Tabs>

@@ -9,9 +9,20 @@ interface InvestorGridProps {
   savedInvestors?: string[];
   onToggleSave?: (investorId: string) => void;
   canSave?: boolean;
+  revealedContacts?: string[];
+  onRevealContact?: (investorId: string) => void;
+  canRevealContact?: boolean;
 }
 
-const InvestorGrid = ({ investors, savedInvestors = [], onToggleSave, canSave = true }: InvestorGridProps) => {
+const InvestorGrid = ({ 
+  investors, 
+  savedInvestors = [], 
+  onToggleSave, 
+  canSave = true,
+  revealedContacts = [],
+  onRevealContact,
+  canRevealContact = true
+}: InvestorGridProps) => {
   if (investors.length === 0) {
     return (
       <div className="text-center py-12">
@@ -29,6 +40,9 @@ const InvestorGrid = ({ investors, savedInvestors = [], onToggleSave, canSave = 
           isSaved={savedInvestors.includes(investor.id)}
           onToggleSave={onToggleSave}
           canSave={canSave}
+          isContactRevealed={revealedContacts.includes(investor.id)}
+          onRevealContact={onRevealContact}
+          canRevealContact={canRevealContact}
         />
       ))}
     </div>
