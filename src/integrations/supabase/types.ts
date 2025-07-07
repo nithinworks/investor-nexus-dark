@@ -46,6 +46,7 @@ export type Database = {
       investors: {
         Row: {
           bio: string | null
+          check_sizes: string | null
           company: string | null
           company_url: string | null
           contact: string
@@ -64,6 +65,7 @@ export type Database = {
         }
         Insert: {
           bio?: string | null
+          check_sizes?: string | null
           company?: string | null
           company_url?: string | null
           contact?: string
@@ -82,6 +84,7 @@ export type Database = {
         }
         Update: {
           bio?: string | null
+          check_sizes?: string | null
           company?: string | null
           company_url?: string | null
           contact?: string
