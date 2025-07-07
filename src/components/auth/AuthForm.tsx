@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,7 +61,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div>
-          <Label htmlFor="email" className="text-gray-400">
+          <Label htmlFor="email" className="text-white/80 text-sm font-medium">
             Email
           </Label>
           <Input
@@ -69,12 +70,12 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500"
+            className="bg-white/5 border-white/20 text-white mt-2 h-11 focus:ring-red-500 focus:border-red-500 placeholder:text-white/40"
             placeholder="your@email.com"
           />
         </div>
         <div>
-          <Label htmlFor="password" className="text-gray-400">
+          <Label htmlFor="password" className="text-white/80 text-sm font-medium">
             Password
           </Label>
           <Input
@@ -83,7 +84,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="bg-black/20 border-gray-700/80 text-white mt-1 h-12 focus:ring-pink-500 focus:border-pink-500"
+            className="bg-white/5 border-white/20 text-white mt-2 h-11 focus:ring-red-500 focus:border-red-500 placeholder:text-white/40"
             placeholder="••••••••"
           />
         </div>
@@ -91,7 +92,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
 
       <Button
         type="submit"
-        className="w-full bg-pink-600 hover:bg-pink-700 text-white h-12 text-base font-semibold"
+        className="w-full bg-red-700 hover:bg-red-800 text-white h-11 text-sm font-medium rounded-md transition-all duration-200"
         disabled={loading}
       >
         {loading ? "Loading..." : isLogin ? "Sign In" : "Sign Up"}
@@ -101,7 +102,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
         <button
           type="button"
           onClick={onToggle}
-          className="text-gray-400 hover:text-white text-sm transition-colors"
+          className="text-white/60 hover:text-white text-sm transition-colors"
         >
           {isLogin
             ? "Don't have an account? Sign up"

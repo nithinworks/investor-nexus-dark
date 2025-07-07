@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -221,7 +222,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
+    <div className="min-h-screen bg-black font-satoshi">
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-28">
@@ -253,16 +254,16 @@ const Dashboard = () => {
 
           <div className="lg:col-span-3">
             <Tabs defaultValue="all" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-black/30 border border-gray-800/80 mb-6 h-12 rounded-lg p-1">
+              <TabsList className="grid w-full grid-cols-2 bg-white/5 border border-white/10 mb-6 h-12 rounded-lg p-1">
                 <TabsTrigger
                   value="all"
-                  className="text-gray-400 data-[state=active]:bg-gray-800/80 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
+                  className="text-white/60 data-[state=active]:bg-red-700 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
                 >
                   All Investors ({filteredInvestors.length})
                 </TabsTrigger>
                 <TabsTrigger
                   value="saved"
-                  className="text-gray-400 data-[state=active]:bg-gray-800/80 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
+                  className="text-white/60 data-[state=active]:bg-red-700 data-[state=active]:text-white data-[state=active]:shadow-inner rounded-md transition-all duration-300"
                 >
                   Saved ({savedInvestorData.length})
                 </TabsTrigger>

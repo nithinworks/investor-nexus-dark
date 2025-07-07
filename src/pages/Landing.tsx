@@ -20,7 +20,7 @@ const Landing = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
+                <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center">
                   <span className="text-white font-semibold text-xs">IN</span>
                 </div>
                 <h1 className="text-base font-medium">
@@ -46,7 +46,7 @@ const Landing = () => {
                 </Button>
               </Link>
               <Link to="/auth">
-                <Button className="bg-primary hover:bg-primary/90 text-white text-sm h-8 px-4 rounded-md transition-all duration-200">
+                <Button className="bg-red-700 hover:bg-red-800 text-white text-sm h-8 px-4 rounded-md transition-all duration-200">
                   Get Started
                 </Button>
               </Link>
@@ -57,22 +57,22 @@ const Landing = () => {
 
       {/* Hero Section */}
       <main className="relative pt-16 overflow-hidden">
-        {/* Hero Background Image */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
-          <img
-            src="/lovable-uploads/c91f989b-a507-4c26-9009-6ccac777f819.png"
-            alt="Hero Background"
-            className="w-full h-full object-cover animate-hero-bg"
-          />
-        </div>
+        {/* Hero Background Image - Only in hero section */}
+        <section className="relative pt-24 pb-32 text-center">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-black/40 z-10"></div>
+            <img
+              src="/lovable-uploads/c91f989b-a507-4c26-9009-6ccac777f819.png"
+              alt="Hero Background"
+              className="w-full h-full object-cover animate-hero-bg"
+            />
+          </div>
 
-        <section className="relative z-20 pt-24 pb-32 text-center">
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="relative z-20 max-w-4xl mx-auto px-6">
             {/* Badge */}
-            <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8 animate-fade-in">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary mr-2"></div>
-              <span className="text-xs font-medium text-white/80">
+            <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></div>
+              <span className="text-xs font-medium text-white/90">
                 AI-powered investor matching
               </span>
             </div>
@@ -84,47 +84,47 @@ const Landing = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up [animation-delay:0.2s]">
+            <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up [animation-delay:0.2s]">
               Connect with investors who match your vision. Our AI analyzes thousands of 
               investor profiles to find your perfect funding partners.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - White/transparent for hero */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16 animate-slide-up [animation-delay:0.4s]">
               <Link to="/auth">
-                <Button className="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-2.5 text-sm rounded-md transition-all duration-200 hover:scale-105">
+                <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm font-medium px-6 py-2.5 text-sm rounded-md transition-all duration-200 hover:scale-105">
                   Start for free
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Button 
                 variant="outline" 
-                className="border border-white/20 text-white hover:bg-white/5 backdrop-blur-sm font-medium px-6 py-2.5 text-sm rounded-md transition-all duration-200"
+                className="border border-white/30 text-white hover:bg-white/10 backdrop-blur-sm font-medium px-6 py-2.5 text-sm rounded-md transition-all duration-200"
               >
                 Watch demo
               </Button>
             </div>
 
             {/* Stats */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-white/50 text-sm animate-slide-up [animation-delay:0.6s]">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-white/60 text-sm animate-slide-up [animation-delay:0.6s]">
               <div className="flex items-center gap-2">
-                <div className="w-1 h-1 rounded-full bg-primary"></div>
+                <div className="w-1 h-1 rounded-full bg-red-500"></div>
                 <span>10,000+ investors</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-1 h-1 rounded-full bg-primary"></div>
+                <div className="w-1 h-1 rounded-full bg-red-500"></div>
                 <span>500+ successful matches</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-1 h-1 rounded-full bg-primary"></div>
+                <div className="w-1 h-1 rounded-full bg-red-500"></div>
                 <span>AI-powered insights</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="relative z-20 py-24 bg-black/50 backdrop-blur-sm">
+        {/* Features Section - Pure black background */}
+        <section className="py-24 bg-black">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-2xl font-semibold mb-4">
@@ -138,7 +138,7 @@ const Landing = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Feature 1 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Search className="h-5 w-5 text-primary mb-4" />
+                <Search className="h-5 w-5 text-red-500 mb-4" />
                 <h3 className="text-base font-medium mb-2">Smart Search</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Find investors by stage, industry, and investment thesis with AI-powered search.
@@ -146,7 +146,7 @@ const Landing = () => {
               </div>
               {/* Feature 2 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Zap className="h-5 w-5 text-primary mb-4" />
+                <Zap className="h-5 w-5 text-red-500 mb-4" />
                 <h3 className="text-base font-medium mb-2">Instant Matching</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Get matched with relevant investors in seconds using our proprietary algorithm.
@@ -154,7 +154,7 @@ const Landing = () => {
               </div>
               {/* Feature 3 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <ShieldCheck className="h-5 w-5 text-primary mb-4" />
+                <ShieldCheck className="h-5 w-5 text-red-500 mb-4" />
                 <h3 className="text-base font-medium mb-2">Verified Data</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Access verified contact information and investment preferences.
@@ -162,7 +162,7 @@ const Landing = () => {
               </div>
               {/* Feature 4 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <BarChart className="h-5 w-5 text-primary mb-4" />
+                <BarChart className="h-5 w-5 text-red-500 mb-4" />
                 <h3 className="text-base font-medium mb-2">Analytics</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Track your outreach performance and optimize your approach.
@@ -170,7 +170,7 @@ const Landing = () => {
               </div>
               {/* Feature 5 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Users className="h-5 w-5 text-primary mb-4" />
+                <Users className="h-5 w-5 text-red-500 mb-4" />
                 <h3 className="text-base font-medium mb-2">Team Collaboration</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Work together with your team to manage investor relationships.
@@ -178,7 +178,7 @@ const Landing = () => {
               </div>
               {/* Feature 6 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Briefcase className="h-5 w-5 text-primary mb-4" />
+                <Briefcase className="h-5 w-5 text-red-500 mb-4" />
                 <h3 className="text-base font-medium mb-2">CRM Integration</h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Seamlessly integrate with your existing CRM and workflow tools.
@@ -189,7 +189,7 @@ const Landing = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section className="relative z-20 py-24">
+        <section className="py-24 bg-black">
           <div className="max-w-6xl mx-auto px-6">
             <h2 className="text-2xl font-semibold text-center mb-16">
               Trusted by founders worldwide
@@ -202,7 +202,7 @@ const Landing = () => {
                   was incredibly accurate."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 mr-3"></div>
+                  <div className="w-8 h-8 rounded-full bg-red-500/20 mr-3"></div>
                   <div>
                     <p className="font-medium text-sm">Sarah Chen</p>
                     <p className="text-white/60 text-xs">CEO, TechFlow</p>
@@ -216,7 +216,7 @@ const Landing = () => {
                   was relevant to our industry."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 mr-3"></div>
+                  <div className="w-8 h-8 rounded-full bg-red-500/20 mr-3"></div>
                   <div>
                     <p className="font-medium text-sm">Marcus Johnson</p>
                     <p className="text-white/60 text-xs">Founder, GreenTech Labs</p>
@@ -230,7 +230,7 @@ const Landing = () => {
                   we needed for our fundraising."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 mr-3"></div>
+                  <div className="w-8 h-8 rounded-full bg-red-500/20 mr-3"></div>
                   <div>
                     <p className="font-medium text-sm">Elena Rodriguez</p>
                     <p className="text-white/60 text-xs">Co-founder, DataViz</p>
@@ -242,7 +242,7 @@ const Landing = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="relative z-20 py-24">
+        <section className="py-24 bg-black">
           <div className="max-w-4xl mx-auto px-6">
             <div className="bg-white/5 p-12 rounded-2xl text-center border border-white/10 backdrop-blur-sm">
               <h2 className="text-2xl font-semibold mb-4">
@@ -253,7 +253,7 @@ const Landing = () => {
                 with our platform.
               </p>
               <Link to="/auth">
-                <Button className="bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 text-sm rounded-md transition-all duration-200 hover:scale-105">
+                <Button className="bg-red-700 hover:bg-red-800 text-white font-medium px-8 py-3 text-sm rounded-md transition-all duration-200 hover:scale-105">
                   Start for free
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -264,12 +264,12 @@ const Landing = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-black/50 border-t border-white/5 backdrop-blur-xl">
+      <footer className="bg-black border-t border-white/5">
         <div className="max-w-6xl mx-auto py-12 px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
+                <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center">
                   <span className="text-white font-semibold text-xs">IN</span>
                 </div>
                 <h3 className="text-base font-medium">Investor Nexus</h3>
