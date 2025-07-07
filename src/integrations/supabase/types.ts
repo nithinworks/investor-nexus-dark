@@ -14,13 +14,122 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      investors: {
+        Row: {
+          bio: string | null
+          country: string | null
+          created_at: string
+          email: string
+          id: string
+          investment_stage: string | null
+          investment_type: string | null
+          name: string
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          country?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          investment_stage?: string | null
+          investment_type?: string | null
+          name: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          investment_stage?: string | null
+          investment_type?: string | null
+          name?: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          access_limit: number | null
+          access_reset_date: string | null
+          access_used: number | null
+          created_at: string
+          email: string
+          id: string
+          stripe_customer_id: string | null
+          subscription_end: string | null
+          subscription_tier: string | null
+          updated_at: string
+        }
+        Insert: {
+          access_limit?: number | null
+          access_reset_date?: string | null
+          access_used?: number | null
+          created_at?: string
+          email: string
+          id: string
+          stripe_customer_id?: string | null
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+        }
+        Update: {
+          access_limit?: number | null
+          access_reset_date?: string | null
+          access_used?: number | null
+          created_at?: string
+          email?: string
+          id?: string
+          stripe_customer_id?: string | null
+          subscription_end?: string | null
+          subscription_tier?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      saved_investors: {
+        Row: {
+          created_at: string
+          id: string
+          investor_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          investor_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          investor_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_investors_investor_id_fkey"
+            columns: ["investor_id"]
+            isOneToOne: false
+            referencedRelation: "investors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reset_monthly_access: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

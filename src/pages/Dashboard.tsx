@@ -1,0 +1,216 @@
+
+import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { Tables } from '@/integrations/supabase/types';
+import { useAuth } from '@/hooks/useAuth';
+import Header from '@/components/layout/Header';
+import FilterSection from '@/components/filters/FilterSection';
+import InvestorGrid from '@/components/investors/InvestorGrid';
+import SubscriptionBanner from '@/components/subscription/SubscriptionBanner';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { toast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+type Investor = Tables<'investors'>;
+type Profile = Tables<'profiles'>;
+
+const Dashboard = () => {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedStage, setSelectedStage] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // Fetch user profile
+  const { data: profile } = useQuery({
+    queryKey: ['profile', user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user!.id)
+        .single();
+      
+      if (error) throw error;
+      return data as Profile;
+    },
+    enabled: !!user,
+  });
+
+  // Fetch investors
+  const { data: investors = [], isLoading } = useQuery({
+    queryKey: ['investors'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('investors')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data as Investor[];
+    },
+  });
+
+  // Fetch saved investors
+  const { data: savedInvestors = [] } = useQuery({
+    queryKey: ['saved-investors', user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('saved_investors')
+        .select('investor_id')
+        .eq('user_id', user!.id);
+      
+      if (error) throw error;
+      return data.map(item => item.investor_id!);
+    },
+    enabled: !!user,
+  });
+
+  // Save/unsave investor mutation
+  const toggleSaveMutation = useMutation({
+    mutationFn: async (investorId: string) => {
+      const isSaved = savedInvestors.includes(investorId);
+      
+      if (isSaved) {
+        const { error } = await supabase
+          .from('saved_investors')
+          .delete()
+          .eq('user_id', user!.id)
+          .eq('investor_id', investorId);
+        
+        if (error) throw error;
+      } else {
+        // Check access limit for free users
+        if (profile?.subscription_tier === 'free' && profile.access_used >= profile.access_limit) {
+          throw new Error('You have reached your monthly access limit. Please upgrade to Pro.');
+        }
+        
+        const { error } = await supabase
+          .from('saved_investors')
+          .insert({
+            user_id: user!.id,
+            investor_id: investorId,
+          });
+        
+        if (error) throw error;
+        
+        // Update access count for free users
+        if (profile?.subscription_tier === 'free') {
+          await supabase
+            .from('profiles')
+            .update({ access_used: profile.access_used + 1 })
+            .eq('id', user!.id);
+        }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['saved-investors'] });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Filter investors
+  const filteredInvestors = investors.filter(investor => {
+    const matchesSearch = !searchTerm || 
+      investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      investor.bio?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      investor.email.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCountry = !selectedCountry || selectedCountry === ' ' || investor.country === selectedCountry;
+    const matchesType = !selectedType || selectedType === ' ' || investor.investment_type === selectedType;
+    const matchesStage = !selectedStage || selectedStage === ' ' || investor.investment_stage === selectedStage;
+    const matchesTags = selectedTags.length === 0 || 
+      selectedTags.some(tag => investor.tags?.includes(tag));
+
+    return matchesSearch && matchesCountry && matchesType && matchesStage && matchesTags;
+  });
+
+  const savedInvestorData = investors.filter(investor => savedInvestors.includes(investor.id));
+
+  // Get unique values for filters
+  const countries = [...new Set(investors.map(i => i.country).filter(Boolean))].sort();
+  const allTags = [...new Set(investors.flatMap(i => i.tags || []))].sort();
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <div className="min-h-screen bg-black">
+      <Header />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {profile && (
+          <SubscriptionBanner
+            accessUsed={profile.access_used || 0}
+            accessLimit={profile.access_limit || 0}
+            subscriptionTier={profile.subscription_tier || 'free'}
+          />
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-1">
+            <FilterSection
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedCountry={selectedCountry}
+              setSelectedCountry={setSelectedCountry}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              selectedStage={selectedStage}
+              setSelectedStage={setSelectedStage}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+              availableTags={allTags}
+              countries={countries}
+            />
+          </div>
+
+          <div className="lg:col-span-3">
+            <Tabs defaultValue="all" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 bg-gray-900 mb-6">
+                <TabsTrigger value="all" className="text-white data-[state=active]:bg-gray-700">
+                  All Investors ({filteredInvestors.length})
+                </TabsTrigger>
+                <TabsTrigger value="saved" className="text-white data-[state=active]:bg-gray-700">
+                  Saved ({savedInvestorData.length})
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="all">
+                <InvestorGrid
+                  investors={filteredInvestors}
+                  savedInvestors={savedInvestors}
+                  onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
+                  canSave={true}
+                />
+              </TabsContent>
+              
+              <TabsContent value="saved">
+                <InvestorGrid
+                  investors={savedInvestorData}
+                  savedInvestors={savedInvestors}
+                  onToggleSave={(investorId) => toggleSaveMutation.mutate(investorId)}
+                  canSave={true}
+                />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
