@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Crown, Zap } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
@@ -19,15 +20,15 @@ const SubscriptionBanner = ({
 
   if (subscriptionTier === "pro") {
     return (
-      <div className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-2xl p-6 mb-8 border border-pink-500/30">
+      <div className="backdrop-blur-xl bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-2xl p-5 mb-6 border border-red-500/20 shadow-lg shadow-red-500/5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="bg-pink-500/20 p-3 rounded-full">
-              <Crown className="h-6 w-6 text-pink-400" />
+          <div className="flex items-center space-x-3">
+            <div className="bg-red-500/20 p-2.5 rounded-xl backdrop-blur-sm border border-red-500/30">
+              <Crown className="h-5 w-5 text-red-400" />
             </div>
             <div>
-              <h3 className="text-white font-bold text-lg">Pro Member</h3>
-              <p className="text-gray-300 text-sm">
+              <h3 className="text-white font-semibold text-base font-satoshi">Pro Member</h3>
+              <p className="text-gray-300 text-sm font-satoshi">
                 You have unlimited access to all features.
               </p>
             </div>
@@ -39,21 +40,21 @@ const SubscriptionBanner = ({
 
   return (
     <div
-      className={`rounded-2xl p-6 mb-8 border ${
+      className={`backdrop-blur-xl rounded-2xl p-5 mb-6 border shadow-lg transition-all duration-300 ${
         isAtLimit
-          ? "bg-red-500/10 border-red-500/20"
+          ? "bg-red-500/10 border-red-500/20 shadow-red-500/10"
           : isNearLimit
-          ? "bg-yellow-500/10 border-yellow-500/20"
-          : "bg-black/30 border-gray-800/80"
+          ? "bg-yellow-500/10 border-yellow-500/20 shadow-yellow-500/10"
+          : "bg-white/5 border-white/10 shadow-black/20"
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="font-bold text-lg text-white">
+          <h3 className="font-semibold text-base text-white font-satoshi mb-1">
             {isAtLimit ? "Access Limit Reached" : "Free Tier Usage"}
           </h3>
           <p
-            className={`text-sm ${
+            className={`text-sm font-satoshi ${
               isAtLimit
                 ? "text-red-300"
                 : isNearLimit
@@ -61,11 +62,10 @@ const SubscriptionBanner = ({
                 : "text-gray-300"
             }`}
           >
-            You have used {accessUsed} of {accessLimit} contact reveals this
-            month.
+            You have used <span className="font-medium">{accessUsed}</span> of <span className="font-medium">{accessLimit}</span> contact reveals this month.
           </p>
         </div>
-        <Button className="bg-pink-600 hover:bg-pink-700 rounded-full text-white font-semibold">
+        <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold font-satoshi px-6 py-2.5 rounded-xl shadow-lg hover:shadow-red-500/25 transition-all duration-200 border border-red-400/30 backdrop-blur-sm">
           <Zap className="h-4 w-4 mr-2" />
           Upgrade to Pro
         </Button>
@@ -73,20 +73,20 @@ const SubscriptionBanner = ({
 
       <Progress
         value={progressPercentage}
-        className={`w-full h-2 mt-4 ${
+        className={`w-full h-2 rounded-full overflow-hidden ${
           isAtLimit
-            ? "bg-red-900"
+            ? "bg-red-900/30"
             : isNearLimit
-            ? "bg-yellow-900"
-            : "bg-gray-700"
+            ? "bg-yellow-900/30"
+            : "bg-gray-700/30"
         }`}
-        indicatorClassName={
+        indicatorClassName={`transition-all duration-500 ${
           isAtLimit
-            ? "bg-red-500"
+            ? "bg-gradient-to-r from-red-500 to-red-600"
             : isNearLimit
-            ? "bg-yellow-500"
-            : "bg-pink-500"
-        }
+            ? "bg-gradient-to-r from-yellow-500 to-yellow-600"
+            : "bg-gradient-to-r from-red-500 to-pink-500"
+        }`}
       />
     </div>
   );

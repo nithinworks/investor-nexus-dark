@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Tables } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
@@ -45,7 +46,7 @@ const InvestorList = ({
   if (investors.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-400 text-lg">No investors found</p>
+        <p className="text-gray-400 text-lg font-satoshi">No investors found</p>
       </div>
     );
   }
@@ -67,11 +68,11 @@ const InvestorList = ({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-8">
-          <p className="text-sm text-gray-400">
-            Showing <strong>{startIndex + 1}</strong> to{" "}
-            <strong>{Math.min(endIndex, investors.length)}</strong> of{" "}
-            <strong>{investors.length}</strong> results
+        <div className="flex items-center justify-between mt-8 p-4 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl">
+          <p className="text-sm text-gray-400 font-satoshi">
+            Showing <span className="font-semibold text-white">{startIndex + 1}</span> to{" "}
+            <span className="font-semibold text-white">{Math.min(endIndex, investors.length)}</span> of{" "}
+            <span className="font-semibold text-white">{investors.length}</span> results
           </p>
 
           <div className="flex items-center gap-2">
@@ -80,7 +81,7 @@ const InvestorList = ({
               size="sm"
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="border-gray-700/80 bg-black/30 text-white hover:bg-gray-800/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm font-satoshi font-semibold transition-all duration-200"
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
@@ -105,10 +106,10 @@ const InvestorList = ({
                     variant={currentPage === pageNum ? "default" : "ghost"}
                     size="sm"
                     onClick={() => goToPage(pageNum)}
-                    className={`w-9 ${
+                    className={`w-10 h-9 font-satoshi font-semibold transition-all duration-200 ${
                       currentPage === pageNum
-                        ? "bg-pink-600 hover:bg-pink-700 text-white"
-                        : "text-gray-400 hover:bg-gray-800/80 hover:text-white"
+                        ? "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-500/25 border border-red-400/30"
+                        : "text-gray-400 hover:bg-white/10 hover:text-white hover:border-white/20 bg-white/5 border border-white/10 backdrop-blur-sm"
                     }`}
                   >
                     {pageNum}
@@ -122,7 +123,7 @@ const InvestorList = ({
               size="sm"
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="border-gray-700/80 bg-black/30 text-white hover:bg-gray-800/80 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:border-white/30 disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm font-satoshi font-semibold transition-all duration-200"
             >
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
