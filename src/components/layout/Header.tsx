@@ -58,12 +58,6 @@ const Header = () => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem asChild>
-                    <Link to="/profile" className="focus:bg-white/10 cursor-pointer flex">
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuItem className="focus:bg-white/10 cursor-pointer">
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Settings</span>

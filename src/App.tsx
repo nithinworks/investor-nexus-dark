@@ -6,8 +6,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
+import DashboardLayout from "./components/layout/DashboardLayout";
+import DashboardMain from "./pages/dashboard/DashboardMain";
+import InvestorDatabase from "./pages/dashboard/InvestorDatabase";
+import SavedLists from "./pages/dashboard/SavedLists";
+import BillingUsage from "./pages/dashboard/BillingUsage";
+import AccountSettings from "./pages/dashboard/AccountSettings";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
 
@@ -69,18 +73,16 @@ const App = () => (
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <DashboardLayout />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
+            >
+              <Route index element={<DashboardMain />} />
+              <Route path="investors" element={<InvestorDatabase />} />
+              <Route path="saved" element={<SavedLists />} />
+              <Route path="billing" element={<BillingUsage />} />
+              <Route path="settings" element={<AccountSettings />} />
+            </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
