@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -18,6 +19,7 @@ import {
 
 const BillingUsage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { 
     subscriptionTier, 
     accessLimit, 
@@ -124,15 +126,13 @@ const BillingUsage = () => {
                     >
                       {subscriptionTier}
                     </Badge>
-                    {subscriptionTier !== "basic" && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={openCustomerPortal}
-                      >
-                        Manage
-                      </Button>
-                    )}
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => navigate('/dashboard/pricing')}
+                    >
+                      Manage Plans
+                    </Button>
                   </div>
                 </div>
 
@@ -149,7 +149,7 @@ const BillingUsage = () => {
                     </div>
                     <Button 
                       className="mt-3 bg-primary hover:bg-primary/90 text-primary-foreground"
-                      onClick={() => window.open('/pricing', '_blank')}
+                      onClick={() => navigate('/dashboard/pricing')}
                     >
                       View Plans
                     </Button>

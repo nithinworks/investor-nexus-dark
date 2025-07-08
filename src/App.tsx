@@ -13,6 +13,7 @@ import InvestorDatabase from "./pages/dashboard/InvestorDatabase";
 import SavedLists from "./pages/dashboard/SavedLists";
 import BillingUsage from "./pages/dashboard/BillingUsage";
 import AccountSettings from "./pages/dashboard/AccountSettings";
+import DashboardPricing from "./pages/dashboard/DashboardPricing";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
@@ -84,6 +85,7 @@ const App = () => (
               <Route path="investors" element={<InvestorDatabase />} />
               <Route path="saved" element={<SavedLists />} />
               <Route path="billing" element={<BillingUsage />} />
+              <Route path="pricing" element={<DashboardPricing />} />
               <Route path="settings" element={<AccountSettings />} />
             </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
