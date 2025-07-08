@@ -36,11 +36,7 @@ const Header = () => {
                     className="relative h-10 w-10 rounded-full hover:bg-white/10"
                   >
                     <Avatar className="h-10 w-10">
-                      <AvatarImage
-                        src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${user.id}`}
-                        alt="User avatar"
-                      />
-                      <AvatarFallback className="bg-red-600 text-white">
+                      <AvatarFallback className="bg-red-600 text-white font-semibold">
                         {user.email?.[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>

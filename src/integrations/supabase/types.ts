@@ -108,9 +108,15 @@ export type Database = {
           access_limit: number | null
           access_reset_date: string | null
           access_used: number | null
+          avatar_url: string | null
+          bio: string | null
+          company: string | null
           created_at: string
           email: string
+          first_name: string | null
           id: string
+          last_name: string | null
+          phone: string | null
           stripe_customer_id: string | null
           subscription_end: string | null
           subscription_tier: string | null
@@ -120,9 +126,15 @@ export type Database = {
           access_limit?: number | null
           access_reset_date?: string | null
           access_used?: number | null
+          avatar_url?: string | null
+          bio?: string | null
+          company?: string | null
           created_at?: string
           email: string
+          first_name?: string | null
           id: string
+          last_name?: string | null
+          phone?: string | null
           stripe_customer_id?: string | null
           subscription_end?: string | null
           subscription_tier?: string | null
@@ -132,9 +144,15 @@ export type Database = {
           access_limit?: number | null
           access_reset_date?: string | null
           access_used?: number | null
+          avatar_url?: string | null
+          bio?: string | null
+          company?: string | null
           created_at?: string
           email?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
+          phone?: string | null
           stripe_customer_id?: string | null
           subscription_end?: string | null
           subscription_tier?: string | null
