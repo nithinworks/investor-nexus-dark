@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
@@ -111,10 +110,9 @@ const Landing = () => {
           <div 
             ref={heroAnimationRef}
             id="hero-animation"
-            className="absolute inset-0 z-0 opacity-0 transition-opacity duration-1000"
+            className="absolute inset-0 z-0 opacity-0 transition-opacity duration-1000 hero-fade-in"
             style={{ 
-              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%)',
-              animation: 'fadeIn 1s ease-out 0.5s forwards'
+              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%)'
             }}
           />
           <div className="absolute inset-0 bg-black/40 z-10"></div>
@@ -351,17 +349,6 @@ const Landing = () => {
           </div>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-      `}</style>
     </div>
   );
 };
