@@ -20,17 +20,17 @@ const SubscriptionBanner = ({
 
   if (subscriptionTier === "pro" || subscriptionTier === "enterprise") {
     return (
-      <div className="backdrop-blur-xl bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-2xl p-5 mb-6 border border-red-500/20 shadow-lg shadow-red-500/5">
-        <div className="flex items-center justify-between">
+      <div className="backdrop-blur-xl bg-gradient-to-r from-red-500/10 to-pink-500/10 rounded-xl p-4 md:p-5 mb-6 border border-red-500/20 shadow-lg shadow-red-500/5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center space-x-3">
-            <div className="bg-red-500/20 p-2.5 rounded-xl backdrop-blur-sm border border-red-500/30">
-              <Crown className="h-5 w-5 text-red-400" />
+            <div className="bg-red-500/20 p-2 rounded-xl backdrop-blur-sm border border-red-500/30 flex-shrink-0">
+              <Crown className="h-4 w-4 md:h-5 md:w-5 text-red-400" />
             </div>
             <div>
-              <h3 className="text-white font-semibold text-base font-satoshi">
+              <h3 className="text-white font-semibold text-sm md:text-base font-satoshi">
                 {subscriptionTier === "enterprise" ? "Enterprise Member" : "Pro Member"}
               </h3>
-              <p className="text-gray-300 text-sm font-satoshi">
+              <p className="text-gray-300 text-xs md:text-sm font-satoshi">
                 You have unlimited access to all features.
               </p>
             </div>
@@ -42,7 +42,7 @@ const SubscriptionBanner = ({
 
   return (
     <div
-      className={`backdrop-blur-xl rounded-2xl p-5 mb-6 border shadow-lg transition-all duration-300 ${
+      className={`backdrop-blur-xl rounded-xl p-4 md:p-5 mb-6 border shadow-lg transition-all duration-300 ${
         isAtLimit
           ? "bg-red-500/10 border-red-500/20 shadow-red-500/10"
           : isNearLimit
@@ -50,13 +50,13 @@ const SubscriptionBanner = ({
           : "bg-white/5 border-white/10 shadow-black/20"
       }`}
     >
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h3 className="font-semibold text-base text-white font-satoshi mb-1">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+        <div className="flex-1">
+          <h3 className="font-semibold text-sm md:text-base text-white font-satoshi mb-1">
             {isAtLimit ? "Access Limit Reached" : "Free Tier Usage"}
           </h3>
           <p
-            className={`text-sm font-satoshi ${
+            className={`text-xs md:text-sm font-satoshi ${
               isAtLimit
                 ? "text-red-300"
                 : isNearLimit
@@ -64,14 +64,15 @@ const SubscriptionBanner = ({
                 : "text-gray-300"
             }`}
           >
-            You have used <span className="font-medium">{accessUsed}</span> of <span className="font-medium">{accessLimit}</span> contact reveals this month.
+            You have used <span className="font-medium">{accessUsed}</span> of{" "}
+            <span className="font-medium">{accessLimit}</span> contact reveals this month.
           </p>
         </div>
         <Button 
-          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold font-satoshi px-6 py-2.5 rounded-xl shadow-lg hover:shadow-red-500/25 transition-all duration-200 border border-red-400/30 backdrop-blur-sm"
+          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold font-satoshi px-4 md:px-6 py-2 rounded-xl shadow-lg hover:shadow-red-500/25 transition-all duration-200 border border-red-400/30 backdrop-blur-sm text-sm"
           onClick={() => window.open('/pricing', '_blank')}
         >
-          <Zap className="h-4 w-4 mr-2" />
+          <Zap className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
           View Plans
         </Button>
       </div>

@@ -1,3 +1,4 @@
+
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
@@ -11,7 +12,6 @@ const DashboardLayout = () => {
   const { user } = useAuth();
   const { accessUsed, accessLimit, subscriptionTier } = useSubscription();
 
-  // Fetch user profile for subscription banner
   const { data: profile } = useQuery({
     queryKey: ["profile", user?.id],
     queryFn: async () => {
@@ -34,16 +34,16 @@ const DashboardLayout = () => {
         <SidebarInset className="flex-1">
           {/* Header with sidebar trigger */}
           <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/5">
-            <div className="flex h-16 items-center gap-4 px-6">
-              <SidebarTrigger className="text-white hover:bg-white/10" />
+            <div className="flex h-14 md:h-16 items-center gap-4 px-4 md:px-6">
+              <SidebarTrigger className="text-white hover:bg-white/10 font-satoshi" />
               <div className="flex-1" />
             </div>
           </header>
 
           {/* Main content */}
-          <main className="flex-1 p-6">
+          <main className="flex-1 p-3 md:p-6">
             {/* Subscription Banner */}
-            <div className="mb-6">
+            <div className="mb-4 md:mb-6">
               <SubscriptionBanner
                 accessUsed={accessUsed}
                 accessLimit={accessLimit}

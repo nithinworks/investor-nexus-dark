@@ -1,3 +1,4 @@
+
 import { NavLink, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -67,22 +68,22 @@ export function AppSidebar() {
 
   const getNavClasses = (isActive: boolean) => 
     isActive 
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium border-l-2 border-primary" 
-      : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground";
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold border-l-2 border-primary font-satoshi" 
+      : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground font-satoshi";
 
   return (
     <Sidebar className="border-r border-sidebar-border bg-sidebar">
-      <SidebarHeader className="border-b border-sidebar-border p-6">
+      <SidebarHeader className="border-b border-sidebar-border p-4 md:p-6">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-semibold text-sm">IN</span>
+            <span className="text-primary-foreground font-semibold text-sm font-satoshi">IN</span>
           </div>
           {state === "expanded" && (
             <div className="flex flex-col">
-              <span className="text-lg font-semibold tracking-tight text-sidebar-foreground">
+              <span className="text-base md:text-lg font-semibold tracking-tight text-sidebar-foreground font-satoshi">
                 Investor Nexus
               </span>
-              <span className="text-xs text-sidebar-foreground/60">
+              <span className="text-xs text-sidebar-foreground/60 font-satoshi">
                 Dashboard
               </span>
             </div>
@@ -92,7 +93,7 @@ export function AppSidebar() {
 
       <SidebarContent className="p-2">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium px-2 mb-2">
+          <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium px-2 mb-2 font-satoshi text-xs">
             Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -103,7 +104,7 @@ export function AppSidebar() {
                     <NavLink 
                       to={item.url} 
                       className={({ isActive }) => 
-                        `flex items-center gap-3 ${getNavClasses(isActive)}`
+                        `flex items-center gap-3 text-sm ${getNavClasses(isActive)}`
                       }
                     >
                       <item.icon className="h-4 w-4" />
