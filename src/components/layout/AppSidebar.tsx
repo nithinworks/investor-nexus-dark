@@ -4,8 +4,9 @@ import {
   LayoutDashboard, 
   Database, 
   Bookmark, 
-  CreditCard, 
-  Settings, 
+  CreditCard,
+  Settings,
+  Star,
   ChevronDown,
   BarChart3,
   Users,
@@ -58,6 +59,11 @@ const navigationItems = [
     title: "Account Settings",
     url: "/dashboard/settings",
     icon: Settings,
+  },
+  {
+    title: "Pricing",
+    url: "/pricing",
+    icon: Star,
   },
 ];
 

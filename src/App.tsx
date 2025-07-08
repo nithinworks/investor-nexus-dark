@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { SubscriptionProvider } from "@/hooks/useSubscription";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import DashboardLayout from "./components/layout/DashboardLayout";
@@ -14,6 +15,7 @@ import BillingUsage from "./pages/dashboard/BillingUsage";
 import AccountSettings from "./pages/dashboard/AccountSettings";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
 
 const queryClient = new QueryClient();
 
@@ -52,7 +54,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
+          <SubscriptionProvider>
+            <Routes>
             <Route
               path="/"
               element={
@@ -84,8 +87,10 @@ const App = () => (
               <Route path="settings" element={<AccountSettings />} />
             </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="pricing" element={<Pricing />} />
             <Route path="*" element={<NotFound />} />
-          </Routes>
+            </Routes>
+          </SubscriptionProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

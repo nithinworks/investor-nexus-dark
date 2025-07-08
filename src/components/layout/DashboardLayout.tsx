@@ -5,9 +5,11 @@ import SubscriptionBanner from "@/components/subscription/SubscriptionBanner";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useSubscription } from "@/hooks/useSubscription";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
+  const { accessUsed, accessLimit, subscriptionTier } = useSubscription();
 
   // Fetch user profile for subscription banner
   const { data: profile } = useQuery({
@@ -41,15 +43,13 @@ const DashboardLayout = () => {
           {/* Main content */}
           <main className="flex-1 p-6">
             {/* Subscription Banner */}
-            {profile && (
-              <div className="mb-6">
-                <SubscriptionBanner
-                  accessUsed={profile.access_used || 0}
-                  accessLimit={profile.access_limit || 0}
-                  subscriptionTier={profile.subscription_tier || "free"}
-                />
-              </div>
-            )}
+            <div className="mb-6">
+              <SubscriptionBanner
+                accessUsed={accessUsed}
+                accessLimit={accessLimit}
+                subscriptionTier={subscriptionTier}
+              />
+            </div>
 
             {/* Page content */}
             <Outlet />

@@ -109,6 +109,7 @@ export type Database = {
           access_reset_date: string | null
           access_used: number | null
           avatar_url: string | null
+          billing_cycle: string | null
           bio: string | null
           company: string | null
           created_at: string
@@ -119,6 +120,7 @@ export type Database = {
           phone: string | null
           stripe_customer_id: string | null
           subscription_end: string | null
+          subscription_price: number | null
           subscription_tier: string | null
           updated_at: string
         }
@@ -127,6 +129,7 @@ export type Database = {
           access_reset_date?: string | null
           access_used?: number | null
           avatar_url?: string | null
+          billing_cycle?: string | null
           bio?: string | null
           company?: string | null
           created_at?: string
@@ -137,6 +140,7 @@ export type Database = {
           phone?: string | null
           stripe_customer_id?: string | null
           subscription_end?: string | null
+          subscription_price?: number | null
           subscription_tier?: string | null
           updated_at?: string
         }
@@ -145,6 +149,7 @@ export type Database = {
           access_reset_date?: string | null
           access_used?: number | null
           avatar_url?: string | null
+          billing_cycle?: string | null
           bio?: string | null
           company?: string | null
           created_at?: string
@@ -155,6 +160,7 @@ export type Database = {
           phone?: string | null
           stripe_customer_id?: string | null
           subscription_end?: string | null
+          subscription_price?: number | null
           subscription_tier?: string | null
           updated_at?: string
         }

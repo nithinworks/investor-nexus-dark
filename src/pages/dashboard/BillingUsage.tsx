@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useSubscription } from "@/hooks/useSubscription";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -17,14 +18,23 @@ import {
 
 const BillingUsage = () => {
   const { user } = useAuth();
+  const { 
+    subscriptionTier, 
+    accessLimit, 
+    accessUsed, 
+    billingCycle, 
+    subscriptionEnd,
+    openCustomerPortal,
+    refreshSubscription 
+  } = useSubscription();
 
-  // Fetch user profile
+  // Fetch user profile for additional data if needed
   const { data: profile, isLoading } = useQuery({
     queryKey: ["profile", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("*")
+        .select("subscription_price")
         .eq("id", user!.id)
         .single();
 
@@ -43,16 +53,23 @@ const BillingUsage = () => {
     );
   }
 
-  const usagePercentage = profile?.access_limit 
-    ? Math.round(((profile.access_used || 0) / profile.access_limit) * 100)
+  const usagePercentage = accessLimit 
+    ? Math.round((accessUsed / accessLimit) * 100)
     : 0;
 
   const isNearLimit = usagePercentage >= 80;
   const hasExceededLimit = usagePercentage >= 100;
 
-  const resetDate = profile?.access_reset_date 
-    ? new Date(profile.access_reset_date).toLocaleDateString()
+  const resetDate = subscriptionEnd 
+    ? new Date(subscriptionEnd).toLocaleDateString()
     : "N/A";
+
+  const getMonthlyPrice = () => {
+    if (!profile?.subscription_price) return 0;
+    return billingCycle === 'yearly' 
+      ? Math.round(profile.subscription_price / 12) 
+      : profile.subscription_price;
+  };
 
   return (
     <div className="space-y-6">
@@ -84,24 +101,42 @@ const BillingUsage = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-semibold text-card-foreground capitalize">
-                      {profile?.subscription_tier || "Free"} Plan
+                      {subscriptionTier} Plan
                     </h3>
                     <p className="text-muted-foreground">
-                      {profile?.subscription_tier === "free" 
-                        ? "Limited access to investor contacts"
-                        : "Full access to all features"
+                      {subscriptionTier === "basic" 
+                        ? "Basic access to investor contacts"
+                        : subscriptionTier === "pro"
+                        ? "Enhanced features with export capabilities"
+                        : "Full access to all enterprise features"
                       }
                     </p>
+                    {profile?.subscription_price > 0 && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        ${(getMonthlyPrice() / 100).toFixed(2)}/month ({billingCycle} billing)
+                      </p>
+                    )}
                   </div>
-                  <Badge 
-                    variant={profile?.subscription_tier === "free" ? "secondary" : "default"}
-                    className="capitalize"
-                  >
-                    {profile?.subscription_tier || "Free"}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge 
+                      variant={subscriptionTier === "basic" ? "secondary" : "default"}
+                      className="capitalize"
+                    >
+                      {subscriptionTier}
+                    </Badge>
+                    {subscriptionTier !== "basic" && (
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={openCustomerPortal}
+                      >
+                        Manage
+                      </Button>
+                    )}
+                  </div>
                 </div>
 
-                {profile?.subscription_tier === "free" && (
+                {subscriptionTier === "basic" && (
                   <div className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg p-4">
                     <div className="flex items-center gap-3">
                       <Zap className="h-5 w-5 text-primary" />
@@ -112,8 +147,11 @@ const BillingUsage = () => {
                         </p>
                       </div>
                     </div>
-                    <Button className="mt-3 bg-primary hover:bg-primary/90 text-primary-foreground">
-                      Upgrade Now
+                    <Button 
+                      className="mt-3 bg-primary hover:bg-primary/90 text-primary-foreground"
+                      onClick={() => window.open('/pricing', '_blank')}
+                    >
+                      View Plans
                     </Button>
                   </div>
                 )}
@@ -143,7 +181,7 @@ const BillingUsage = () => {
                       </span>
                     </div>
                     <span className="text-sm text-muted-foreground">
-                      {profile?.access_used || 0} / {profile?.access_limit || 0}
+                      {accessUsed} / {accessLimit}
                     </span>
                   </div>
                   <Progress 
@@ -184,13 +222,19 @@ const BillingUsage = () => {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Reveals Used</span>
                 <span className="font-medium text-card-foreground">
-                  {profile?.access_used || 0}
+                  {accessUsed}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Reveals Remaining</span>
                 <span className="font-medium text-card-foreground">
-                  {Math.max(0, (profile?.access_limit || 0) - (profile?.access_used || 0))}
+                  {Math.max(0, accessLimit - accessUsed)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">Billing Cycle</span>
+                <span className="font-medium text-card-foreground capitalize">
+                  {billingCycle}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -215,11 +259,11 @@ const BillingUsage = () => {
                 <div className="text-sm text-muted-foreground">Next Reset</div>
                 <div className="font-medium text-card-foreground">{resetDate}</div>
               </div>
-              {profile?.subscription_end && (
+              {subscriptionEnd && (
                 <div>
                   <div className="text-sm text-muted-foreground">Subscription Ends</div>
                   <div className="font-medium text-card-foreground">
-                    {new Date(profile.subscription_end).toLocaleDateString()}
+                    {new Date(subscriptionEnd).toLocaleDateString()}
                   </div>
                 </div>
               )}
