@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import {
   ArrowRight,
   Search,
@@ -12,6 +13,26 @@ import {
 } from "lucide-react";
 
 const Landing = () => {
+  useEffect(() => {
+    // Initialize Unicorn Studio when component mounts
+    if (window.UnicornStudio) {
+      window.UnicornStudio.init()
+        .then((scenes) => {
+          console.log("Unicorn Studio scenes initialized:", scenes);
+        })
+        .catch((err) => {
+          console.error("Unicorn Studio initialization error:", err);
+        });
+    }
+
+    // Cleanup function to destroy scenes when component unmounts
+    return () => {
+      if (window.UnicornStudio) {
+        window.UnicornStudio.destroy();
+      }
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white font-satoshi antialiased">
       {/* Header */}
@@ -57,14 +78,20 @@ const Landing = () => {
 
       {/* Hero Section */}
       <main className="relative pt-16 overflow-hidden">
-        {/* Hero Background Image - Only in hero section */}
+        {/* Hero Background Animation - Unicorn Studio */}
         <section className="relative pt-24 pb-32 text-center">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-black/40 z-10"></div>
-            <img
-              src="/lovable-uploads/c91f989b-a507-4c26-9009-6ccac777f819.png"
-              alt="Hero Background"
-              className="w-full h-full object-cover animate-hero-bg"
+            <div 
+              className="w-full h-full"
+              data-us-project="sKrgkBLRKdIX7LOPhpv6"
+              data-us-scale="1"
+              data-us-dpi="1.5"
+              data-us-lazyload="true"
+              data-us-disablemobile="false"
+              data-us-alttext="Investor Nexus Hero Animation"
+              data-us-arialabel="Dynamic background animation for Investor Nexus"
+              style={{ width: '100%', height: '100%', minHeight: '900px' }}
             />
           </div>
 
