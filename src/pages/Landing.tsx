@@ -16,10 +16,29 @@ const Landing = () => {
 
   useEffect(() => {
     const initAnimation = async () => {
-      if (window.UnicornStudio && heroAnimationRef.current) {
-        try {
-          // Initialize Unicorn Studio
-          await window.UnicornStudio.init();
+      // Wait for UnicornStudio to be available
+      const checkUnicornStudio = () => {
+        return new Promise((resolve) => {
+          if (window.UnicornStudio) {
+            resolve(true);
+          } else {
+            setTimeout(() => resolve(checkUnicornStudio()), 100);
+          }
+        });
+      };
+
+      try {
+        await checkUnicornStudio();
+        
+        if (heroAnimationRef.current) {
+          // Initialize Unicorn Studio if not already initialized
+          if (!window.UnicornStudio.isInitialized) {
+            await window.UnicornStudio.init();
+          }
+          
+          // Clear the fallback background and show animation
+          heroAnimationRef.current.style.background = 'transparent';
+          heroAnimationRef.current.style.opacity = '1';
           
           // Add the scene to the specific element
           const scene = await window.UnicornStudio.addScene({
@@ -28,7 +47,7 @@ const Landing = () => {
             scale: 1,
             dpi: 1.5,
             lazyLoad: false,
-            production: true, // This helps remove branding
+            production: true,
             altText: 'Investor Nexus Hero Animation',
             ariaLabel: 'Dynamic background animation for Investor Nexus',
             interactivity: {
@@ -38,24 +57,29 @@ const Landing = () => {
             }
           });
           
-          console.log("Hero animation scene initialized:", scene);
-        } catch (err) {
-          console.error("Unicorn Studio initialization error:", err);
-          // Fallback to static background if animation fails
-          if (heroAnimationRef.current) {
-            heroAnimationRef.current.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%)';
-          }
+          console.log("Hero animation scene initialized successfully:", scene);
+        }
+      } catch (err) {
+        console.error("Unicorn Studio initialization error:", err);
+        // Fallback to static background if animation fails
+        if (heroAnimationRef.current) {
+          heroAnimationRef.current.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%)';
+          heroAnimationRef.current.style.opacity = '1';
         }
       }
     };
 
-    // Add a small delay to ensure the DOM is ready
-    const timer = setTimeout(initAnimation, 100);
+    // Add a delay to ensure the script is loaded
+    const timer = setTimeout(initAnimation, 500);
 
     return () => {
       clearTimeout(timer);
       if (window.UnicornStudio) {
-        window.UnicornStudio.destroy();
+        try {
+          window.UnicornStudio.destroy();
+        } catch (err) {
+          console.log("Cleanup error:", err);
+        }
       }
     };
   }, []);
