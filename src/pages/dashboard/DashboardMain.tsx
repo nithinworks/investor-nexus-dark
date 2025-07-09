@@ -1,3 +1,4 @@
+
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -72,64 +73,74 @@ const DashboardMain = () => {
       value: investorsCount.toLocaleString(),
       description: "Available in database",
       icon: Users,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50 dark:bg-blue-950",
+      color: "text-red-400",
+      bgColor: "bg-red-500/10",
+      borderColor: "border-red-500/20",
     },
     {
       title: "Saved Investors",
       value: savedCount.toString(),
       description: "In your saved lists",
       icon: Bookmark,
-      color: "text-green-600",
-      bgColor: "bg-green-50 dark:bg-green-950",
+      color: "text-red-400",
+      bgColor: "bg-red-500/10",
+      borderColor: "border-red-500/20",
     },
     {
       title: "Contacts Revealed",
       value: revealedCount.toString(),
       description: "This month",
       icon: Eye,
-      color: "text-primary",
-      bgColor: "bg-red-50 dark:bg-red-950",
+      color: "text-red-400",
+      bgColor: "bg-red-500/10",
+      borderColor: "border-red-500/20",
     },
     {
       title: "Usage",
       value: `${profile?.access_used || 0}/${profile?.access_limit || 0}`,
       description: "Monthly limit",
       icon: BarChart3,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50 dark:bg-purple-950",
+      color: "text-red-400",
+      bgColor: "bg-red-500/10",
+      borderColor: "border-red-500/20",
     },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-satoshi">
       {/* Welcome Section */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+      <div className="space-y-3 backdrop-blur-xl bg-gradient-to-r from-red-500/10 via-transparent to-transparent rounded-2xl border border-white/10 p-6">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
           Welcome back!
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-gray-300 text-sm md:text-base">
           Here's what's happening with your investor connections today.
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat) => (
-          <Card key={stat.title} className="border border-border bg-card">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-card-foreground">
-                {stat.title}
-              </CardTitle>
-              <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+      {/* Enhanced Stats Grid - Better Mobile Layout */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        {stats.map((stat, index) => (
+          <Card 
+            key={stat.title} 
+            className={`backdrop-blur-xl bg-white/5 border ${stat.borderColor} hover:bg-white/10 transition-all duration-200 animate-fade-in`}
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 md:px-6 pt-3 md:pt-6">
+              <div className="space-y-1">
+                <CardTitle className="text-xs md:text-sm font-medium text-gray-300 truncate">
+                  {stat.title}
+                </CardTitle>
+                <div className="text-lg md:text-2xl font-bold text-white">
+                  {stat.value}
+                </div>
+              </div>
+              <div className={`p-2 md:p-2.5 rounded-lg ${stat.bgColor} border ${stat.borderColor} backdrop-blur-sm`}>
+                <stat.icon className={`h-3 w-3 md:h-4 md:w-4 ${stat.color}`} />
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-card-foreground">
-                {stat.value}
-              </div>
-              <p className="text-xs text-muted-foreground">
+            <CardContent className="px-3 md:px-6 pb-3 md:pb-6">
+              <p className="text-xs text-gray-400 leading-tight">
                 {stat.description}
               </p>
             </CardContent>
@@ -137,40 +148,50 @@ const DashboardMain = () => {
         ))}
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="border border-border bg-card">
-          <CardHeader>
-            <CardTitle className="text-card-foreground">Recent Activity</CardTitle>
-            <CardDescription>Your latest interactions with investors</CardDescription>
+      {/* Enhanced Quick Actions Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-white font-satoshi">Recent Activity</CardTitle>
+            <CardDescription className="text-gray-400">Your latest interactions with investors</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-sm text-muted-foreground">
+            <div className="space-y-3">
               {revealedCount > 0 ? (
-                <p>You've revealed {revealedCount} investor contacts this month.</p>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                  <p className="text-sm text-gray-300 font-satoshi">
+                    You've revealed {revealedCount} investor contacts this month
+                  </p>
+                </div>
               ) : (
-                <p>No recent activity. Start exploring investors!</p>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                  <p className="text-sm text-gray-400 font-satoshi">
+                    No recent activity. Start exploring investors!
+                  </p>
+                </div>
               )}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border border-border bg-card">
-          <CardHeader>
-            <CardTitle className="text-card-foreground">Account Status</CardTitle>
-            <CardDescription>Your subscription and usage details</CardDescription>
+        <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-white font-satoshi">Account Status</CardTitle>
+            <CardDescription className="text-gray-400">Your subscription and usage details</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Plan:</span>
-                <span className="font-medium text-card-foreground capitalize">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+                <span className="text-sm text-gray-400 font-satoshi">Plan</span>
+                <span className="font-medium text-white capitalize font-satoshi">
                   {profile?.subscription_tier || "Free"}
                 </span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Usage:</span>
-                <span className="font-medium text-card-foreground">
+              <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
+                <span className="text-sm text-gray-400 font-satoshi">Usage</span>
+                <span className="font-medium text-white font-satoshi">
                   {profile?.access_used || 0} / {profile?.access_limit || 0}
                 </span>
               </div>

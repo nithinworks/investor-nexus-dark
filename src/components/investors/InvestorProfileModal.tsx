@@ -21,6 +21,7 @@ import {
   Building2,
   Target,
   Award,
+  X,
 } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
 
@@ -75,100 +76,120 @@ const InvestorProfileModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto bg-black/95 backdrop-blur-xl border border-white/20 text-white p-0 font-satoshi">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-black/95 backdrop-blur-xl border border-white/20 text-white p-0 font-satoshi">
         <DialogHeader className="sr-only">
           <DialogTitle>Investor Profile</DialogTitle>
           <DialogDescription>View detailed information about this investor</DialogDescription>
         </DialogHeader>
 
-        {/* Hero Section */}
-        <div className="relative bg-gradient-to-r from-red-500/20 via-red-600/10 to-transparent p-6 border-b border-white/10">
-          <div className="flex items-start gap-5">
-            <div className="relative">
-              <Avatar className="h-20 w-20 border-3 border-white/20 ring-3 ring-red-500/20 backdrop-blur-sm">
-                <AvatarImage src={investor.image_url || ""} alt={investor.name} />
-                <AvatarFallback className="bg-gradient-to-br from-red-500/30 to-red-600/30 backdrop-blur-sm border border-white/20 relative">
-                  {/* Glass effect background for text */}
-                  <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-full" />
-                  <span className="relative text-white text-xl font-bold font-satoshi z-10">
-                    {investor.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .slice(0, 2)}
-                  </span>
-                </AvatarFallback>
-              </Avatar>
-            </div>
+        {/* Enhanced Header with Better Mobile Layout */}
+        <div className="relative">
+          {/* Close button - better positioning */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 backdrop-blur-sm border border-white/20"
+          >
+            <X className="h-4 w-4 text-white" />
+          </button>
 
-            <div className="flex-1">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-2xl font-bold text-white font-satoshi">
-                      {investor.name}
-                    </h2>
-                    {investor.verified && (
-                      <div className="bg-red-500/20 rounded-full p-1.5 border border-red-500/30 backdrop-blur-sm">
-                        <CheckCircle className="h-4 w-4 text-red-400" />
-                      </div>
-                    )}
-                  </div>
-                  
-                  {investor.company && (
-                    <div className="flex items-center gap-2 text-base text-gray-300 mb-2">
-                      <Building2 className="h-4 w-4" />
-                      <span className="font-medium font-satoshi">{investor.company}</span>
-                    </div>
-                  )}
-                  {investor.location && (
-                    <div className="flex items-center gap-2 text-gray-400">
-                      <MapPin className="h-4 w-4" />
-                      <span className="font-satoshi">{investor.location}</span>
-                    </div>
-                  )}
-                </div>
-
-                {canSave && onToggleSave && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onToggleSave(investor.id)}
-                    className={`h-10 w-10 rounded-full backdrop-blur-sm border transition-all duration-200 font-satoshi ${
-                      isSaved
-                        ? "text-red-400 bg-red-500/20 border-red-500/30 hover:bg-red-500/30"
-                        : "text-gray-400 hover:text-red-400 hover:bg-red-500/10 border-white/20"
-                    }`}
-                  >
-                    <Heart className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
-                  </Button>
-                )}
+          {/* Hero Section with Mobile-First Design */}
+          <div className="bg-gradient-to-r from-red-500/20 via-red-600/10 to-transparent p-4 md:p-6 border-b border-white/10">
+            {/* Mobile Layout: Vertical Stack */}
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-5">
+              {/* Profile Image - Centered on Mobile */}
+              <div className="relative order-1 md:order-1">
+                <Avatar className="h-16 w-16 md:h-20 md:w-20 border-3 border-white/20 ring-3 ring-red-500/20 backdrop-blur-sm">
+                  <AvatarImage src={investor.image_url || ""} alt={investor.name} />
+                  <AvatarFallback className="bg-gradient-to-br from-red-500/30 to-red-600/30 backdrop-blur-sm border border-white/20 relative">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-full" />
+                    <span className="relative text-white text-lg md:text-xl font-bold font-satoshi z-10">
+                      {investor.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .slice(0, 2)}
+                    </span>
+                  </AvatarFallback>
+                </Avatar>
               </div>
 
-              {socialLinks.length > 0 && (
-                <div className="flex items-center gap-2">
-                  {socialLinks.map((link) => (
-                    <a
-                      key={link.type}
-                      href={link.url!}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-all duration-200 backdrop-blur-sm border border-white/10 font-satoshi text-sm"
+              {/* Content - Centered on Mobile */}
+              <div className="flex-1 text-center md:text-left order-2 md:order-2">
+                {/* Name and Verification */}
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3">
+                  <div className="mb-3 md:mb-0">
+                    <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                      <h2 className="text-xl md:text-2xl font-bold text-white font-satoshi">
+                        {investor.name}
+                      </h2>
+                      {investor.verified && (
+                        <div className="bg-red-500/20 rounded-full p-1.5 border border-red-500/30 backdrop-blur-sm">
+                          <CheckCircle className="h-4 w-4 text-red-400" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Company and Location - Stacked on Mobile */}
+                    <div className="space-y-2">
+                      {investor.company && (
+                        <div className="flex items-center justify-center md:justify-start gap-2 text-sm md:text-base text-gray-300">
+                          <Building2 className="h-4 w-4" />
+                          <span className="font-medium font-satoshi">{investor.company}</span>
+                        </div>
+                      )}
+                      {investor.location && (
+                        <div className="flex items-center justify-center md:justify-start gap-2 text-gray-400 text-sm">
+                          <MapPin className="h-4 w-4" />
+                          <span className="font-satoshi">{investor.location}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Save Button - Better Spacing */}
+                  {canSave && onToggleSave && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => onToggleSave(investor.id)}
+                      className={`h-10 w-10 rounded-full backdrop-blur-sm border transition-all duration-200 font-satoshi ml-4 ${
+                        isSaved
+                          ? "text-red-400 bg-red-500/20 border-red-500/30 hover:bg-red-500/30"
+                          : "text-gray-400 hover:text-red-400 hover:bg-red-500/10 border-white/20"
+                      }`}
                     >
-                      <ExternalLink className="h-3 w-3" />
-                      <span>Website</span>
-                    </a>
-                  ))}
+                      <Heart className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
+                    </Button>
+                  )}
                 </div>
-              )}
+
+                {/* Social Links - Centered on Mobile */}
+                {socialLinks.length > 0 && (
+                  <div className="flex items-center justify-center md:justify-start gap-2 order-3 md:order-3">
+                    {socialLinks.map((link) => (
+                      <a
+                        key={link.type}
+                        href={link.url!}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-all duration-200 backdrop-blur-sm border border-white/10 font-satoshi text-sm"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        <span>Website</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="p-6 space-y-6">
+        {/* Content Section */}
+        <div className="p-4 md:p-6 space-y-6">
           {/* Investment Thesis */}
           {investor.funding_description && (
-            <div className="backdrop-blur-xl bg-white/5 rounded-xl p-5 border border-white/10">
+            <div className="backdrop-blur-xl bg-white/5 rounded-xl p-4 md:p-5 border border-white/10">
               <div className="flex items-center gap-2 mb-3">
                 <Target className="h-4 w-4 text-red-400" />
                 <h3 className="text-lg font-semibold text-white font-satoshi">Investment Thesis</h3>
@@ -179,7 +200,7 @@ const InvestorProfileModal = ({
             </div>
           )}
 
-          {/* Investment Details */}
+          {/* Investment Details - Enhanced Mobile Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {investor.funding_type && (
               <div className="backdrop-blur-xl bg-white/5 rounded-xl p-4 border border-white/10">
@@ -216,7 +237,7 @@ const InvestorProfileModal = ({
 
           {/* Industries */}
           {investor.funding_industries && investor.funding_industries.length > 0 && (
-            <div className="backdrop-blur-xl bg-white/5 rounded-xl p-5 border border-white/10">
+            <div className="backdrop-blur-xl bg-white/5 rounded-xl p-4 md:p-5 border border-white/10">
               <h3 className="text-lg font-semibold text-white mb-3 font-satoshi">Industries of Interest</h3>
               <div className="flex flex-wrap gap-2">
                 {investor.funding_industries.map((industry, index) => (
@@ -232,12 +253,12 @@ const InvestorProfileModal = ({
           )}
         </div>
 
-        {/* Contact Section */}
-        <div className="sticky bottom-0 bg-gradient-to-t from-black via-black/95 to-transparent backdrop-blur-xl p-6 border-t border-white/10">
+        {/* Enhanced Contact Section - Sticky Bottom */}
+        <div className="sticky bottom-0 bg-gradient-to-t from-black via-black/95 to-transparent backdrop-blur-xl p-4 md:p-6 border-t border-white/10">
           {isContactRevealed ? (
-            <div className="backdrop-blur-xl bg-red-500/10 border border-red-500/20 rounded-xl p-5">
-              <div className="flex items-center justify-between">
-                <div>
+            <div className="backdrop-blur-xl bg-red-500/10 border border-red-500/20 rounded-xl p-4 md:p-5">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div className="text-center md:text-left">
                   <p className="text-sm text-red-300 mb-1 font-satoshi">
                     {getContactLabel(investor.contact_type || "email")}
                   </p>
@@ -248,19 +269,21 @@ const InvestorProfileModal = ({
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-lg font-semibold text-white hover:underline font-satoshi"
+                    className="text-lg font-semibold text-white hover:underline font-satoshi break-all"
                   >
                     {investor.contact}
                   </a>
                 </div>
-                <div className="backdrop-blur-sm bg-red-500/20 rounded-full p-3 border border-red-500/30">
-                  <Mail className="h-6 w-6 text-red-400" />
+                <div className="flex justify-center md:justify-end">
+                  <div className="backdrop-blur-sm bg-red-500/20 rounded-full p-3 border border-red-500/30">
+                    <Mail className="h-6 w-6 text-red-400" />
+                  </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="text-center md:text-left">
                 <h3 className="text-lg font-semibold text-white mb-1 font-satoshi">
                   Contact Information
                 </h3>
@@ -272,7 +295,7 @@ const InvestorProfileModal = ({
               {canRevealContact && onRevealContact && (
                 <Button
                   onClick={() => onRevealContact(investor.id)}
-                  className="ml-6 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl font-semibold px-6 py-3 text-sm shadow-lg hover:shadow-red-500/25 transition-all duration-200 backdrop-blur-sm border border-red-400/30 font-satoshi"
+                  className="w-full md:w-auto bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl font-semibold px-6 py-3 text-sm shadow-lg hover:shadow-red-500/25 transition-all duration-200 backdrop-blur-sm border border-red-400/30 font-satoshi"
                 >
                   <Eye className="h-4 w-4 mr-2" />
                   Reveal Contact
