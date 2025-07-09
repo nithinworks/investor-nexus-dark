@@ -20,14 +20,14 @@ const DashboardPricing = () => {
 
   const plans = [
     {
-      id: "basic",
-      name: "Basic",
+      id: "free",
+      name: "Free",
       description: "Perfect for getting started",
-      monthlyPrice: 9,
-      yearlyPrice: 90,
-      reveals: 20,
+      monthlyPrice: 0,
+      yearlyPrice: 0,
+      reveals: 5,
       features: [
-        "20 contact reveals per month",
+        "5 contact reveals per month",
         "Basic investor search",
         "Email support",
         "Basic filters"
@@ -37,6 +37,25 @@ const DashboardPricing = () => {
       borderColor: "border-blue-500/20",
       bgColor: "bg-blue-500/10",
       ctaText: "Current Plan"
+    },
+    {
+      id: "basic",
+      name: "Basic", 
+      description: "Great for growing startups",
+      monthlyPrice: 9,
+      yearlyPrice: 90,
+      reveals: 20,
+      features: [
+        "20 contact reveals per month",
+        "Advanced investor search",
+        "Priority email support",
+        "Enhanced filters"
+      ],
+      icon: Star,
+      color: "text-blue-400",
+      borderColor: "border-blue-500/20",
+      bgColor: "bg-blue-500/10",
+      ctaText: "Upgrade to Basic"
     },
     {
       id: "pro",
@@ -124,24 +143,44 @@ const DashboardPricing = () => {
   };
 
   const isCurrentPlan = (planId: string) => {
-    return subscriptionTier?.toLowerCase() === planId;
+    // Map subscription tiers to plan IDs
+    const tierMapping: { [key: string]: string } = {
+      'basic': 'free', // basic tier maps to free plan now
+      'pro': 'basic',
+      'enterprise': 'pro'
+    };
+    
+    const currentTier = subscriptionTier?.toLowerCase() || 'basic';
+    const mappedPlan = tierMapping[currentTier] || currentTier;
+    
+    return mappedPlan === planId;
   };
 
   const getPlanCtaText = (plan: any) => {
     if (isCurrentPlan(plan.id)) {
-      return "Current Plan";
+      return plan.id === "free" ? "Current Plan" : "Manage Plan";
     }
-    if (plan.id === "basic" && subscriptionTier !== "basic") {
-      return "Downgrade";
+    if (plan.id === "free") {
+      return "Contact Support"; // Can't downgrade to free
     }
     return plan.ctaText;
   };
 
   const shouldShowUpgrade = (planId: string) => {
-    const tierOrder = { basic: 1, pro: 2, enterprise: 3 };
-    const currentTierLevel = tierOrder[subscriptionTier?.toLowerCase() as keyof typeof tierOrder] || 1;
-    const planLevel = tierOrder[planId as keyof typeof tierOrder];
-    return planLevel > currentTierLevel;
+    const tierOrder = { free: 0, basic: 1, pro: 2, enterprise: 3 };
+    
+    // Map subscription tiers to plan levels
+    const tierMapping: { [key: string]: number } = {
+      'basic': 0, // basic subscription tier = free plan level
+      'pro': 1,   // pro subscription tier = basic plan level  
+      'enterprise': 2 // enterprise subscription tier = pro plan level
+    };
+    
+    const currentTier = subscriptionTier?.toLowerCase() || 'basic';
+    const currentLevel = tierMapping[currentTier] ?? 0;
+    const planLevel = tierOrder[planId as keyof typeof tierOrder] ?? 0;
+    
+    return planLevel > currentLevel;
   };
 
   return (
@@ -161,7 +200,7 @@ const DashboardPricing = () => {
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2 text-white font-satoshi text-lg">
             <div className="w-2 h-2 rounded-full bg-green-400"></div>
-            You're currently on the {subscriptionTier} plan
+            You're currently on the {subscriptionTier === 'basic' ? 'Free' : subscriptionTier} plan
           </CardTitle>
           <CardDescription className="font-satoshi">
             {subscriptionTier !== "basic" && (
@@ -203,7 +242,7 @@ const DashboardPricing = () => {
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {plans.map((plan) => {
           const PlanIcon = plan.icon;
           const price = getPrice(plan);
@@ -289,8 +328,16 @@ const DashboardPricing = () => {
                         : "border border-white/20 text-white hover:bg-white/10"
                   }`}
                   size="lg"
-                  onClick={() => isCurrent ? openCustomerPortal() : handleSubscribe(plan.id)}
-                  disabled={loadingPlan === plan.id}
+                  onClick={() => {
+                    if (isCurrent) {
+                      if (plan.id === "free") return; // Can't manage free plan
+                      openCustomerPortal();
+                    } else {
+                      if (plan.id === "free") return; // Can't downgrade to free
+                      handleSubscribe(plan.id);
+                    }
+                  }}
+                  disabled={loadingPlan === plan.id || (plan.id === "free" && !isCurrent)}
                 >
                   {loadingPlan === plan.id ? "Loading..." : getPlanCtaText(plan)}
                 </Button>

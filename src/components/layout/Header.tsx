@@ -22,14 +22,23 @@ const Header = () => {
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded bg-red-600 flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">IN</span>
+              <span className="text-white font-semibold text-sm">TF</span>
             </div>
-            <span className="text-xl font-semibold tracking-tight text-white">Investor Nexus</span>
+            <span className="text-xl font-semibold tracking-tight text-white">TheFinance</span>
           </Link>
 
-          {user && (
-            <div className="flex items-center space-x-4">
-              <DropdownMenu>
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <>
+                <Link to="/dashboard">
+                  <Button
+                    variant="ghost"
+                    className="text-white/60 hover:text-white hover:bg-white/5 h-8 px-3 text-sm"
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
@@ -74,10 +83,24 @@ const Header = () => {
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Sign Out</span>
                   </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
+                 </DropdownMenuContent>
+               </DropdownMenu>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost" className="text-white/60 hover:text-white hover:bg-white/5 h-8 px-3 text-sm">
+                    Sign in
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button className="bg-red-700 hover:bg-red-800 text-white text-sm h-8 px-4 rounded-md">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>

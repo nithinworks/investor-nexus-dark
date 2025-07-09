@@ -35,14 +35,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
     return <LoadingSpinner />;
-  }
-
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;

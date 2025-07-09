@@ -76,12 +76,12 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border p-4 md:p-6">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-semibold text-sm font-satoshi">IN</span>
+            <span className="text-primary-foreground font-semibold text-sm font-satoshi">TF</span>
           </div>
           {state === "expanded" && (
             <div className="flex flex-col">
               <span className="text-base md:text-lg font-semibold tracking-tight text-sidebar-foreground font-satoshi">
-                Investor Nexus
+                TheFinance
               </span>
               <span className="text-xs text-sidebar-foreground/60 font-satoshi">
                 Dashboard

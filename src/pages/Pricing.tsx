@@ -19,14 +19,14 @@ const Pricing = () => {
 
   const plans = [
     {
-      id: "basic",
-      name: "Basic",
+      id: "free",
+      name: "Free",
       description: "Perfect for getting started",
-      monthlyPrice: 9,
-      yearlyPrice: 90,
-      reveals: 20,
+      monthlyPrice: 0,
+      yearlyPrice: 0,
+      reveals: 5,
       features: [
-        "20 contact reveals per month",
+        "5 contact reveals per month",
         "Basic investor search",
         "Email support",
         "Basic filters"
@@ -36,6 +36,25 @@ const Pricing = () => {
       borderColor: "border-blue-200",
       bgColor: "bg-blue-50",
       ctaText: "Get Started"
+    },
+    {
+      id: "basic",
+      name: "Basic",
+      description: "Great for growing startups",
+      monthlyPrice: 9,
+      yearlyPrice: 90,
+      reveals: 20,
+      features: [
+        "20 contact reveals per month",
+        "Advanced investor search",
+        "Priority email support",
+        "Enhanced filters"
+      ],
+      icon: Star,
+      color: "text-blue-500",
+      borderColor: "border-blue-200",
+      bgColor: "bg-blue-50",
+      ctaText: "Upgrade to Basic"
     },
     {
       id: "pro",
@@ -137,10 +156,10 @@ const Pricing = () => {
               onClick={() => navigate("/")}
             >
               <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-semibold text-sm">IN</span>
+                <span className="text-primary-foreground font-semibold text-sm">TF</span>
               </div>
               <span className="text-xl font-semibold tracking-tight text-foreground">
-                Investor Nexus
+                TheFinance
               </span>
             </div>
             {user && (
@@ -187,7 +206,7 @@ const Pricing = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {plans.map((plan) => {
             const PlanIcon = plan.icon;
             const price = getPrice(plan);
@@ -258,7 +277,7 @@ const Pricing = () => {
                     className="w-full"
                     variant={plan.popular ? "default" : "outline"}
                     size="lg"
-                    onClick={() => handleSubscribe(plan.id)}
+                    onClick={() => plan.id === "free" ? navigate("/auth") : handleSubscribe(plan.id)}
                     disabled={loadingPlan === plan.id}
                   >
                     {loadingPlan === plan.id ? "Loading..." : plan.ctaText}
