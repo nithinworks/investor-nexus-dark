@@ -29,8 +29,8 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(0 73% 41%)",
-          foreground: "hsl(0 0% 100%)",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -65,6 +65,14 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        "gradient-purple": {
+          start: "hsl(var(--gradient-purple-start))",
+          end: "hsl(var(--gradient-purple-end))",
+        },
+        "gradient-orange": {
+          start: "hsl(var(--gradient-orange-start))",
+          end: "hsl(var(--gradient-orange-end))",
         },
       },
       borderRadius: {
