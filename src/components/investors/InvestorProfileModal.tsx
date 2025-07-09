@@ -92,20 +92,6 @@ const InvestorProfileModal = ({
             <X className="h-4 w-4 text-white" />
           </button>
 
-          {/* Save Button - Top Left for Mobile, Better Desktop Position */}
-          {canSave && onToggleSave && (
-            <button
-              onClick={() => onToggleSave(investor.id)}
-              className={`absolute top-4 left-4 md:top-4 md:right-16 z-10 h-10 w-10 rounded-full backdrop-blur-sm border transition-all duration-200 font-satoshi ${
-                isSaved
-                  ? "text-red-400 bg-red-500/20 border-red-500/30 hover:bg-red-500/30"
-                  : "text-gray-400 hover:text-red-400 hover:bg-red-500/10 border-white/20"
-              }`}
-            >
-              <Heart className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
-            </button>
-          )}
-
           {/* Hero Section with Mobile-First Design */}
           <div className="bg-gradient-to-r from-red-500/20 via-red-600/10 to-transparent p-4 md:p-6 border-b border-white/10">
             {/* Mobile Layout: Vertical Stack */}
@@ -161,23 +147,37 @@ const InvestorProfileModal = ({
                   </div>
                 </div>
 
-                {/* Social Links - Centered on Mobile */}
-                {socialLinks.length > 0 && (
-                  <div className="flex items-center justify-center md:justify-start gap-2 order-3 md:order-3">
-                    {socialLinks.map((link) => (
-                      <a
-                        key={link.type}
-                        href={link.url!}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-all duration-200 backdrop-blur-sm border border-white/10 font-satoshi text-sm"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        <span>Website</span>
-                      </a>
-                    ))}
-                  </div>
-                )}
+                {/* Action Buttons - Website and Favourite */}
+                <div className="flex items-center justify-center md:justify-start gap-3 order-3 md:order-3">
+                  {/* Website Button */}
+                  {socialLinks.length > 0 && socialLinks.map((link) => (
+                    <a
+                      key={link.type}
+                      href={link.url!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-all duration-200 backdrop-blur-sm border border-white/10 font-satoshi text-sm"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      <span>Website</span>
+                    </a>
+                  ))}
+
+                  {/* Favourite Button */}
+                  {canSave && onToggleSave && (
+                    <button
+                      onClick={() => onToggleSave(investor.id)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg backdrop-blur-sm border transition-all duration-200 font-satoshi text-sm ${
+                        isSaved
+                          ? "text-red-400 bg-red-500/20 border-red-500/30 hover:bg-red-500/30"
+                          : "text-gray-300 hover:text-red-400 hover:bg-red-500/10 border-white/10 hover:border-red-500/30"
+                      }`}
+                    >
+                      <Heart className={`h-3 w-3 ${isSaved ? "fill-current" : ""}`} />
+                      <span>{isSaved ? "Remove from List" : "Add to Favourite List"}</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

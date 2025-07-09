@@ -28,10 +28,11 @@ const SubscriptionBanner = ({
             </div>
             <div>
               <h3 className="text-white font-semibold text-sm md:text-base font-satoshi">
-                {subscriptionTier === "enterprise" ? "Enterprise Member" : "Pro Member"}
+                {subscriptionTier === "enterprise" ? "Enterprise Plan" : "Pro Plan"}
               </h3>
               <p className="text-gray-300 text-xs md:text-sm font-satoshi">
-                You have unlimited access to all features.
+                You have used <span className="font-medium">{accessUsed}</span> of{" "}
+                <span className="font-medium">{accessLimit}</span> contact reveals this month.
               </p>
             </div>
           </div>
@@ -53,7 +54,7 @@ const SubscriptionBanner = ({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
         <div className="flex-1">
           <h3 className="font-semibold text-sm md:text-base text-white font-satoshi mb-1">
-            {isAtLimit ? "Access Limit Reached" : "Free Tier Usage"}
+            {isAtLimit ? "Access Limit Reached" : "Basic Plan Usage"}
           </h3>
           <p
             className={`text-xs md:text-sm font-satoshi ${

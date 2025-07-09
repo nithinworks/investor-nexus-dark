@@ -74,13 +74,13 @@ const BillingUsage = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 md:p-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white font-satoshi">
           Billing & Usage
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-gray-400 font-satoshi text-sm md:text-base">
           Monitor your subscription and usage details
         </p>
       </div>
@@ -88,13 +88,13 @@ const BillingUsage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Current Plan */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="border border-border bg-card">
+          <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-lg">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-card-foreground">
-                <CreditCard className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-white font-satoshi">
+                <CreditCard className="h-5 w-5 text-red-400" />
                 Current Plan
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-400 font-satoshi">
                 Your subscription details and features
               </CardDescription>
             </CardHeader>
@@ -102,10 +102,10 @@ const BillingUsage = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-card-foreground capitalize">
+                    <h3 className="text-lg font-semibold text-white capitalize font-satoshi">
                       {subscriptionTier} Plan
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-gray-300 font-satoshi">
                       {subscriptionTier === "basic" 
                         ? "Basic access to investor contacts"
                         : subscriptionTier === "pro"
@@ -114,15 +114,18 @@ const BillingUsage = () => {
                       }
                     </p>
                     {profile?.subscription_price > 0 && (
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-gray-400 mt-1 font-satoshi">
                         ${(getMonthlyPrice() / 100).toFixed(2)}/month ({billingCycle} billing)
                       </p>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge 
-                      variant={subscriptionTier === "basic" ? "secondary" : "default"}
-                      className="capitalize"
+                      className={`capitalize font-satoshi ${
+                        subscriptionTier === "basic" 
+                          ? "bg-white/10 text-gray-300 border-white/20" 
+                          : "bg-red-500/20 text-red-300 border-red-500/30"
+                      }`}
                     >
                       {subscriptionTier}
                     </Badge>
@@ -130,6 +133,7 @@ const BillingUsage = () => {
                       variant="outline" 
                       size="sm"
                       onClick={() => navigate('/dashboard/pricing')}
+                      className="border-white/20 text-white hover:bg-white/10 font-satoshi"
                     >
                       Manage Plans
                     </Button>
@@ -137,18 +141,18 @@ const BillingUsage = () => {
                 </div>
 
                 {subscriptionTier === "basic" && (
-                  <div className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-lg p-4">
+                  <div className="bg-gradient-to-r from-red-500/10 to-red-600/5 border border-red-500/20 rounded-lg p-4 backdrop-blur-sm">
                     <div className="flex items-center gap-3">
-                      <Zap className="h-5 w-5 text-primary" />
+                      <Zap className="h-5 w-5 text-red-400" />
                       <div>
-                        <h4 className="font-medium text-card-foreground">Upgrade to Pro</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-medium text-white font-satoshi">Upgrade to Pro</h4>
+                        <p className="text-sm text-gray-300 font-satoshi">
                           Get unlimited access to investor contacts and advanced features
                         </p>
                       </div>
                     </div>
                     <Button 
-                      className="mt-3 bg-primary hover:bg-primary/90 text-primary-foreground"
+                      className="mt-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-satoshi"
                       onClick={() => navigate('/dashboard/pricing')}
                     >
                       View Plans
@@ -160,13 +164,13 @@ const BillingUsage = () => {
           </Card>
 
           {/* Usage Stats */}
-          <Card className="border border-border bg-card">
+          <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-lg">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-card-foreground">
-                <TrendingUp className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-white font-satoshi">
+                <TrendingUp className="h-5 w-5 text-red-400" />
                 Usage Statistics
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-400 font-satoshi">
                 Your monthly usage and limits
               </CardDescription>
             </CardHeader>
@@ -175,12 +179,12 @@ const BillingUsage = () => {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <Eye className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium text-card-foreground">
+                      <Eye className="h-4 w-4 text-red-400" />
+                      <span className="text-sm font-medium text-white font-satoshi">
                         Contact Reveals
                       </span>
                     </div>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-gray-400 font-satoshi">
                       {accessUsed} / {accessLimit}
                     </span>
                   </div>
@@ -196,7 +200,7 @@ const BillingUsage = () => {
                     ) : (
                       <CheckCircle className="h-4 w-4 text-green-500" />
                     )}
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-gray-400 font-satoshi">
                       {hasExceededLimit 
                         ? "Limit reached - upgrade to continue"
                         : isNearLimit 
@@ -213,56 +217,56 @@ const BillingUsage = () => {
 
         {/* Quick Stats */}
         <div className="space-y-6">
-          <Card className="border border-border bg-card">
+          <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-card-foreground">Quick Stats</CardTitle>
-              <CardDescription>At a glance metrics</CardDescription>
+              <CardTitle className="text-white font-satoshi">Quick Stats</CardTitle>
+              <CardDescription className="text-gray-400 font-satoshi">At a glance metrics</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Reveals Used</span>
-                <span className="font-medium text-card-foreground">
+                <span className="text-sm text-gray-400 font-satoshi">Reveals Used</span>
+                <span className="font-medium text-white font-satoshi">
                   {accessUsed}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Reveals Remaining</span>
-                <span className="font-medium text-card-foreground">
+                <span className="text-sm text-gray-400 font-satoshi">Reveals Remaining</span>
+                <span className="font-medium text-white font-satoshi">
                   {Math.max(0, accessLimit - accessUsed)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Billing Cycle</span>
-                <span className="font-medium text-card-foreground capitalize">
+                <span className="text-sm text-gray-400 font-satoshi">Billing Cycle</span>
+                <span className="font-medium text-white font-satoshi capitalize">
                   {billingCycle}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Usage Percentage</span>
-                <span className="font-medium text-card-foreground">
+                <span className="text-sm text-gray-400 font-satoshi">Usage Percentage</span>
+                <span className="font-medium text-white font-satoshi">
                   {usagePercentage}%
                 </span>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border border-border bg-card">
+          <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-lg">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-card-foreground">
-                <Calendar className="h-4 w-4" />
+              <CardTitle className="flex items-center gap-2 text-white font-satoshi">
+                <Calendar className="h-4 w-4 text-red-400" />
                 Billing Cycle
               </CardTitle>
-              <CardDescription>Your subscription timing</CardDescription>
+              <CardDescription className="text-gray-400 font-satoshi">Your subscription timing</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <div className="text-sm text-muted-foreground">Next Reset</div>
-                <div className="font-medium text-card-foreground">{resetDate}</div>
+                <div className="text-sm text-gray-400 font-satoshi">Next Reset</div>
+                <div className="font-medium text-white font-satoshi">{resetDate}</div>
               </div>
               {subscriptionEnd && (
                 <div>
-                  <div className="text-sm text-muted-foreground">Subscription Ends</div>
-                  <div className="font-medium text-card-foreground">
+                  <div className="text-sm text-gray-400 font-satoshi">Subscription Ends</div>
+                  <div className="font-medium text-white font-satoshi">
                     {new Date(subscriptionEnd).toLocaleDateString()}
                   </div>
                 </div>
