@@ -9,21 +9,27 @@ import { toast } from "@/hooks/use-toast";
 import { Loader2, Mail, Download, Copy } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
-const InvestorEmailGenerator = () => {
+interface InvestorEmailFormData {
+  investorName: string;
+  companyName: string;
+  pitchSummary: string;
+  fundingAmount: string;
+  useOfFunds: string;
+  contactInfo: string;
+}
+
+interface InvestorEmailGeneratorProps {
+  formData: InvestorEmailFormData;
+  setFormData: (data: InvestorEmailFormData) => void;
+}
+
+const InvestorEmailGenerator = ({ formData, setFormData }: InvestorEmailGeneratorProps) => {
   const { user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
-  const [formData, setFormData] = useState({
-    investorName: "",
-    companyName: "",
-    pitchSummary: "",
-    fundingAmount: "",
-    useOfFunds: "",
-    contactInfo: "",
-  });
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData({ ...formData, [field]: value });
   };
 
   const handleGenerate = async () => {

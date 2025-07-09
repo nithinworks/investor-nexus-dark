@@ -10,6 +10,27 @@ import { useSubscription } from "@/hooks/useSubscription";
 const AITools = () => {
   const { subscriptionTier, loading } = useSubscription();
   const [activeTab, setActiveTab] = useState("pitch-deck");
+  
+  // Lifted state for persistent form data
+  const [pitchDeckForm, setPitchDeckForm] = useState({
+    companyName: "",
+    industry: "",
+    problem: "",
+    solution: "",
+    targetMarket: "",
+    businessModel: "",
+    fundingAmount: "",
+    useOfFunds: "",
+  });
+  
+  const [investorEmailForm, setInvestorEmailForm] = useState({
+    investorName: "",
+    companyName: "",
+    pitchSummary: "",
+    fundingAmount: "",
+    useOfFunds: "",
+    contactInfo: "",
+  });
 
   const isPaidUser = subscriptionTier === "pro" || subscriptionTier === "enterprise";
 
@@ -127,11 +148,17 @@ const AITools = () => {
           </TabsList>
 
           <TabsContent value="pitch-deck" className="space-y-4">
-            <PitchDeckGenerator />
+            <PitchDeckGenerator 
+              formData={pitchDeckForm}
+              setFormData={setPitchDeckForm}
+            />
           </TabsContent>
 
           <TabsContent value="investor-email" className="space-y-4">
-            <InvestorEmailGenerator />
+            <InvestorEmailGenerator 
+              formData={investorEmailForm}
+              setFormData={setInvestorEmailForm}
+            />
           </TabsContent>
         </Tabs>
       </div>

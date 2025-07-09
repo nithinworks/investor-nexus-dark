@@ -8,3 +8,9 @@ verify_jwt = true
 
 [functions.customer-portal]
 verify_jwt = true
+
+[functions.generate-pitch-deck]
+verify_jwt = true
+
+[functions.generate-investor-email]
+verify_jwt = true

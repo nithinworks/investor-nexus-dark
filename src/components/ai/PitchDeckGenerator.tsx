@@ -9,23 +9,29 @@ import { toast } from "@/hooks/use-toast";
 import { Loader2, FileText, Download, Copy } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
-const PitchDeckGenerator = () => {
+interface PitchDeckFormData {
+  companyName: string;
+  industry: string;
+  problem: string;
+  solution: string;
+  targetMarket: string;
+  businessModel: string;
+  fundingAmount: string;
+  useOfFunds: string;
+}
+
+interface PitchDeckGeneratorProps {
+  formData: PitchDeckFormData;
+  setFormData: (data: PitchDeckFormData) => void;
+}
+
+const PitchDeckGenerator = ({ formData, setFormData }: PitchDeckGeneratorProps) => {
   const { user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
-  const [formData, setFormData] = useState({
-    companyName: "",
-    industry: "",
-    problem: "",
-    solution: "",
-    targetMarket: "",
-    businessModel: "",
-    fundingAmount: "",
-    useOfFunds: "",
-  });
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData({ ...formData, [field]: value });
   };
 
   const handleGenerate = async () => {
