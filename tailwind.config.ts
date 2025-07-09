@@ -112,7 +112,7 @@ export default {
         "hero-bg": {
           "0%": {
             opacity: "0",
-            transform: "scale(1.1)"
+            transform: "scale(1.05)"
           },
           "100%": {
             opacity: "1",
@@ -125,7 +125,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-out",
         "slide-up": "slide-up 0.8s ease-out",
-        "hero-bg": "hero-bg 1.2s ease-out",
+        "hero-bg": "hero-bg 1.5s ease-out",
       },
     },
   },

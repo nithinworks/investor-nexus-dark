@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -17,7 +18,7 @@ const Auth = () => {
 
   return (
     <AuthLayout
-      title={isLogin ? "Sign In to Investor Nexus" : "Create an account"}
+      title={isLogin ? "Sign In to TheFinance" : "Create an account"}
       subtitle={
         isLogin
           ? "Welcome back! Please enter your details."

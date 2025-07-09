@@ -21,10 +21,10 @@ const Landing = () => {
             <div className="flex items-center">
               <div className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xs">IN</span>
+                  <span className="text-white font-semibold text-xs">TF</span>
                 </div>
                 <h1 className="text-base font-medium">
-                  Investor Nexus
+                  TheFinance
                 </h1>
               </div>
               <nav className="hidden md:flex items-center space-x-8 ml-12">
@@ -57,18 +57,27 @@ const Landing = () => {
 
       {/* Hero Section */}
       <main className="relative pt-16 overflow-hidden">
-        {/* Hero Background Image - Only in hero section */}
-        <section className="relative pt-24 pb-32 text-center">
+        {/* Hero Background Image with preload and blur effect */}
+        <section className="relative pt-24 pb-32 text-center min-h-screen flex items-center">
+          {/* Background Image Container with blur overlay */}
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-black/40 z-10"></div>
+            {/* Preloaded background image */}
             <img
               src="/lovable-uploads/c91f989b-a507-4c26-9009-6ccac777f819.png"
               alt="Hero Background"
-              className="w-full h-full object-cover animate-hero-bg"
+              className="w-full h-full object-cover opacity-0 animate-[hero-bg_1.5s_ease-out_0.3s_forwards]"
+              loading="eager"
+              onLoad={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
             />
+            {/* Blur overlay */}
+            <div className="absolute inset-0 backdrop-blur-sm bg-black/50 z-10"></div>
+            {/* Additional gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 z-20"></div>
           </div>
 
-          <div className="relative z-20 max-w-4xl mx-auto px-6">
+          <div className="relative z-30 max-w-4xl mx-auto px-6">
             {/* Badge */}
             <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
               <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></div>
@@ -89,20 +98,14 @@ const Landing = () => {
               investor profiles to find your perfect funding partners.
             </p>
 
-            {/* CTA Buttons - White/transparent for hero */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16 animate-slide-up [animation-delay:0.4s]">
+            {/* Single CTA Button */}
+            <div className="flex justify-center mb-16 animate-slide-up [animation-delay:0.4s]">
               <Link to="/auth">
-                <Button className="bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm font-medium px-6 py-2.5 text-sm rounded-md transition-all duration-200 hover:scale-105">
+                <Button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 text-base rounded-lg transition-all duration-200 hover:scale-105 shadow-lg shadow-red-500/25">
                   Start for free
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Button 
-                variant="outline" 
-                className="border border-white/30 text-white hover:bg-white/10 backdrop-blur-sm font-medium px-6 py-2.5 text-sm rounded-md transition-all duration-200"
-              >
-                Watch demo
-              </Button>
             </div>
 
             {/* Stats */}
@@ -270,9 +273,9 @@ const Landing = () => {
             <div className="col-span-2">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xs">IN</span>
+                  <span className="text-white font-semibold text-xs">TF</span>
                 </div>
-                <h3 className="text-base font-medium">Investor Nexus</h3>
+                <h3 className="text-base font-medium">TheFinance</h3>
               </div>
               <p className="text-white/60 text-sm max-w-sm">
                 AI-powered investor matching for ambitious startups.
@@ -296,7 +299,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="mt-8 border-t border-white/10 pt-8 text-center text-white/50 text-sm">
-            <p>&copy; 2024 Investor Nexus. All rights reserved.</p>
+            <p>&copy; 2024 TheFinance. All rights reserved.</p>
           </div>
         </div>
       </footer>

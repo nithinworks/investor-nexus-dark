@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface AuthFormProps {
   isLogin: boolean;
@@ -61,29 +61,24 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-5">
-        <div className="space-y-3">
-          <Label htmlFor="email" className="text-white/90 text-sm font-semibold flex items-center gap-2">
-            <Mail className="h-4 w-4 text-red-400" />
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-white/90 text-sm font-medium">
             Email Address
           </Label>
-          <div className="relative">
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="backdrop-blur-sm bg-white/10 border-white/30 text-white h-12 rounded-xl focus:ring-2 focus:ring-red-500/50 focus:border-red-400 placeholder:text-white/50 transition-all duration-200 hover:bg-white/15"
-              placeholder="Enter your email"
-            />
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500/5 to-transparent pointer-events-none" />
-          </div>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="bg-white/10 border-white/20 text-white h-11 rounded-lg focus:ring-2 focus:ring-red-500/50 focus:border-red-400 placeholder:text-white/50 transition-all duration-200"
+            placeholder="Enter your email"
+          />
         </div>
         
-        <div className="space-y-3">
-          <Label htmlFor="password" className="text-white/90 text-sm font-semibold flex items-center gap-2">
-            <Lock className="h-4 w-4 text-red-400" />
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-white/90 text-sm font-medium">
             Password
           </Label>
           <div className="relative">
@@ -93,7 +88,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="backdrop-blur-sm bg-white/10 border-white/30 text-white h-12 rounded-xl focus:ring-2 focus:ring-red-500/50 focus:border-red-400 placeholder:text-white/50 transition-all duration-200 hover:bg-white/15 pr-12"
+              className="bg-white/10 border-white/20 text-white h-11 rounded-lg focus:ring-2 focus:ring-red-500/50 focus:border-red-400 placeholder:text-white/50 transition-all duration-200 pr-10"
               placeholder="Enter your password"
             />
             <button
@@ -101,38 +96,35 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors"
             >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500/5 to-transparent pointer-events-none" />
           </div>
         </div>
       </div>
 
-      <div className="pt-2">
-        <Button
-          type="submit"
-          className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white h-12 text-base font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-red-500/25 hover:shadow-red-500/40 border border-red-500/30 backdrop-blur-sm"
-          disabled={loading}
-        >
-          {loading ? (
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              {isLogin ? "Signing in..." : "Creating account..."}
-            </div>
-          ) : (
-            isLogin ? "Sign In" : "Create Account"
-          )}
-        </Button>
-      </div>
+      <Button
+        type="submit"
+        className="w-full bg-red-600 hover:bg-red-700 text-white h-11 text-sm font-medium rounded-lg transition-all duration-200"
+        disabled={loading}
+      >
+        {loading ? (
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            {isLogin ? "Signing in..." : "Creating account..."}
+          </div>
+        ) : (
+          isLogin ? "Sign In" : "Create Account"
+        )}
+      </Button>
 
       <div className="text-center pt-4">
-        <div className="relative">
+        <div className="relative mb-4">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-white/20"></div>
           </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-gradient-to-r from-transparent via-black/50 to-transparent text-white/60">
-              {isLogin ? "New to Investor Nexus?" : "Already have an account?"}
+          <div className="relative flex justify-center text-xs">
+            <span className="px-3 bg-transparent text-white/60">
+              {isLogin ? "New to TheFinance?" : "Already have an account?"}
             </span>
           </div>
         </div>
@@ -140,7 +132,7 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
         <button
           type="button"
           onClick={onToggle}
-          className="mt-4 text-white/80 hover:text-white text-sm font-medium transition-colors duration-200 hover:underline underline-offset-4"
+          className="text-white/80 hover:text-white text-sm font-medium transition-colors duration-200 hover:underline"
         >
           {isLogin
             ? "Create your free account"
