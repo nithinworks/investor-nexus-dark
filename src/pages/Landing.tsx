@@ -1,6 +1,7 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   ArrowRight,
   Search,
@@ -12,74 +13,22 @@ import {
 } from "lucide-react";
 
 const Landing = () => {
-  const heroAnimationRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const initAnimation = async () => {
-      // Wait for UnicornStudio to be available
-      const checkUnicornStudio = () => {
-        return new Promise((resolve) => {
-          if (window.UnicornStudio) {
-            resolve(true);
-          } else {
-            setTimeout(() => resolve(checkUnicornStudio()), 100);
-          }
+    // Initialize Unicorn Studio when component mounts
+    if (window.UnicornStudio) {
+      window.UnicornStudio.init()
+        .then((scenes) => {
+          console.log("Unicorn Studio scenes initialized:", scenes);
+        })
+        .catch((err) => {
+          console.error("Unicorn Studio initialization error:", err);
         });
-      };
+    }
 
-      try {
-        await checkUnicornStudio();
-        
-        if (heroAnimationRef.current) {
-          // Initialize Unicorn Studio if not already initialized
-          if (!window.UnicornStudio.isInitialized) {
-            await window.UnicornStudio.init();
-          }
-          
-          // Clear the fallback background and show animation
-          heroAnimationRef.current.style.background = 'transparent';
-          heroAnimationRef.current.style.opacity = '1';
-          
-          // Add the scene to the specific element
-          const scene = await window.UnicornStudio.addScene({
-            elementId: 'hero-animation',
-            projectId: 'sKrgkBLRKdIX7LOPhpv6',
-            scale: 1,
-            dpi: 1.5,
-            lazyLoad: false,
-            production: true,
-            altText: 'Investor Nexus Hero Animation',
-            ariaLabel: 'Dynamic background animation for Investor Nexus',
-            interactivity: {
-              mouse: {
-                disableMobile: false
-              }
-            }
-          });
-          
-          console.log("Hero animation scene initialized successfully:", scene);
-        }
-      } catch (err) {
-        console.error("Unicorn Studio initialization error:", err);
-        // Fallback to static background if animation fails
-        if (heroAnimationRef.current) {
-          heroAnimationRef.current.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%)';
-          heroAnimationRef.current.style.opacity = '1';
-        }
-      }
-    };
-
-    // Add a delay to ensure the script is loaded
-    const timer = setTimeout(initAnimation, 500);
-
+    // Cleanup function to destroy scenes when component unmounts
     return () => {
-      clearTimeout(timer);
       if (window.UnicornStudio) {
-        try {
-          window.UnicornStudio.destroy();
-        } catch (err) {
-          console.log("Cleanup error:", err);
-        }
+        window.UnicornStudio.destroy();
       }
     };
   }, []);
@@ -130,16 +79,21 @@ const Landing = () => {
       {/* Hero Section */}
       <main className="relative pt-16 overflow-hidden">
         {/* Hero Background Animation - Unicorn Studio */}
-        <section className="relative pt-24 pb-32 text-center min-h-screen">
-          <div 
-            ref={heroAnimationRef}
-            id="hero-animation"
-            className="absolute inset-0 z-0 opacity-0 transition-opacity duration-1000 hero-fade-in"
-            style={{ 
-              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%)'
-            }}
-          />
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <section className="relative pt-24 pb-32 text-center">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-black/40 z-10"></div>
+            <div 
+              className="w-full h-full"
+              data-us-project="sKrgkBLRKdIX7LOPhpv6"
+              data-us-scale="1"
+              data-us-dpi="1.5"
+              data-us-lazyload="true"
+              data-us-disablemobile="false"
+              data-us-alttext="Investor Nexus Hero Animation"
+              data-us-arialabel="Dynamic background animation for Investor Nexus"
+              style={{ width: '100%', height: '100%', minHeight: '900px' }}
+            />
+          </div>
 
           <div className="relative z-20 max-w-4xl mx-auto px-6">
             {/* Badge */}
