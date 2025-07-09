@@ -14,6 +14,7 @@ import SavedLists from "./pages/dashboard/SavedLists";
 import BillingUsage from "./pages/dashboard/BillingUsage";
 import AccountSettings from "./pages/dashboard/AccountSettings";
 import DashboardPricing from "./pages/dashboard/DashboardPricing";
+import AITools from "./pages/dashboard/AITools";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
@@ -80,6 +81,7 @@ const App = () => (
               <Route index element={<DashboardMain />} />
               <Route path="investors" element={<InvestorDatabase />} />
               <Route path="saved" element={<SavedLists />} />
+              <Route path="ai-tools" element={<AITools />} />
               <Route path="billing" element={<BillingUsage />} />
               <Route path="pricing" element={<DashboardPricing />} />
               <Route path="settings" element={<AccountSettings />} />

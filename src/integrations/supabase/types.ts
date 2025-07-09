@@ -43,6 +43,48 @@ export type Database = {
           },
         ]
       }
+      investor_emails: {
+        Row: {
+          company_name: string
+          contact_info: string | null
+          created_at: string
+          funding_amount: string | null
+          generated_content: string | null
+          id: string
+          investor_name: string | null
+          pitch_summary: string | null
+          updated_at: string
+          use_of_funds: string | null
+          user_id: string
+        }
+        Insert: {
+          company_name: string
+          contact_info?: string | null
+          created_at?: string
+          funding_amount?: string | null
+          generated_content?: string | null
+          id?: string
+          investor_name?: string | null
+          pitch_summary?: string | null
+          updated_at?: string
+          use_of_funds?: string | null
+          user_id: string
+        }
+        Update: {
+          company_name?: string
+          contact_info?: string | null
+          created_at?: string
+          funding_amount?: string | null
+          generated_content?: string | null
+          id?: string
+          investor_name?: string | null
+          pitch_summary?: string | null
+          updated_at?: string
+          use_of_funds?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       investors: {
         Row: {
           bio: string | null
@@ -100,6 +142,54 @@ export type Database = {
           name?: string
           updated_at?: string
           verified?: boolean | null
+        }
+        Relationships: []
+      }
+      pitch_decks: {
+        Row: {
+          business_model: string | null
+          company_name: string
+          created_at: string
+          funding_amount: string | null
+          generated_content: string | null
+          id: string
+          industry: string | null
+          problem: string | null
+          solution: string | null
+          target_market: string | null
+          updated_at: string
+          use_of_funds: string | null
+          user_id: string
+        }
+        Insert: {
+          business_model?: string | null
+          company_name: string
+          created_at?: string
+          funding_amount?: string | null
+          generated_content?: string | null
+          id?: string
+          industry?: string | null
+          problem?: string | null
+          solution?: string | null
+          target_market?: string | null
+          updated_at?: string
+          use_of_funds?: string | null
+          user_id: string
+        }
+        Update: {
+          business_model?: string | null
+          company_name?: string
+          created_at?: string
+          funding_amount?: string | null
+          generated_content?: string | null
+          id?: string
+          industry?: string | null
+          problem?: string | null
+          solution?: string | null
+          target_market?: string | null
+          updated_at?: string
+          use_of_funds?: string | null
+          user_id?: string
         }
         Relationships: []
       }

@@ -6,7 +6,8 @@ import {
   Bookmark, 
   CreditCard,
   Settings,
-  Star
+  Star,
+  Crown
 } from "lucide-react";
 import {
   Sidebar,
@@ -36,6 +37,11 @@ const navigationItems = [
     title: "Saved Lists",
     url: "/dashboard/saved",
     icon: Bookmark,
+  },
+  {
+    title: "AI Tools",
+    url: "/dashboard/ai-tools",
+    icon: Crown,
   },
   {
     title: "Billing & Usage",
