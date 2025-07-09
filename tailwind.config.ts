@@ -66,14 +66,22 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        "gradient-purple": {
-          start: "hsl(var(--gradient-purple-start))",
-          end: "hsl(var(--gradient-purple-end))",
+        "gradient-primary": {
+          DEFAULT: "hsl(var(--gradient-primary))",
+          end: "hsl(var(--gradient-primary-end))",
         },
-        "gradient-orange": {
-          start: "hsl(var(--gradient-orange-start))",
-          end: "hsl(var(--gradient-orange-end))",
+        "gradient-secondary": {
+          DEFAULT: "hsl(var(--gradient-secondary))",
+          end: "hsl(var(--gradient-secondary-end))",
         },
+        "gradient-warm": {
+          DEFAULT: "hsl(var(--gradient-warm))",
+          end: "hsl(var(--gradient-warm-end))",
+        },
+        "glass-bg": "hsl(var(--glass-bg))",
+        "glass-border": "hsl(var(--glass-border))",
+        "glow-primary": "hsl(var(--glow-primary))",
+        "glow-secondary": "hsl(var(--glow-secondary))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -126,6 +134,32 @@ export default {
             opacity: "1",
             transform: "scale(1)"
           }
+        },
+        "glow-pulse": {
+          "0%, 100%": {
+            opacity: "1"
+          },
+          "50%": {
+            opacity: "0.6"
+          }
+        },
+        "float": {
+          "0%, 100%": {
+            transform: "translateY(0px)"
+          },
+          "50%": {
+            transform: "translateY(-10px)"
+          }
+        },
+        "scale-in": {
+          "0%": {
+            opacity: "0",
+            transform: "scale(0.95)"
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale(1)"
+          }
         }
       },
       animation: {
@@ -134,6 +168,9 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "slide-up": "slide-up 0.8s ease-out",
         "hero-bg": "hero-bg 1.2s ease-out",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "float": "float 6s ease-in-out infinite",
+        "scale-in": "scale-in 0.6s ease-out",
       },
     },
   },
