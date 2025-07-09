@@ -176,7 +176,7 @@ const SavedLists = () => {
           <Button
             onClick={exportToCSV}
             disabled={investorDetails.length === 0}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl font-semibold px-6 py-2.5 shadow-lg hover:shadow-red-500/25 transition-all duration-200 backdrop-blur-sm border border-red-400/30"
           >
             <Download className="h-4 w-4 mr-2" />
             Export CSV
@@ -185,45 +185,44 @@ const SavedLists = () => {
       </div>
 
       {/* Stats Card */}
-      <Card className="border border-border bg-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-card-foreground">
-            <FileText className="h-5 w-5" />
-            Saved Investors Summary
-          </CardTitle>
-          <CardDescription>
-            Overview of your saved investor list
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-card-foreground">
-                {investorDetails.length}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Total Saved
-              </div>
+      <div className="backdrop-blur-xl bg-gradient-to-r from-red-500/5 to-red-600/5 rounded-xl border border-red-500/20 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-red-500/20 rounded-lg border border-red-500/30">
+            <FileText className="h-5 w-5 text-red-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">Saved Investors Summary</h3>
+            <p className="text-sm text-muted-foreground">Overview of your saved investor list</p>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="backdrop-blur-xl bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+            <div className="text-2xl font-bold text-foreground mb-1">
+              {investorDetails.length}
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-card-foreground">
-                {investorDetails.filter(inv => revealedContacts.includes(inv.id)).length}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Contacts Revealed
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-card-foreground">
-                {investorDetails.filter(inv => inv.verified).length}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Verified Investors
-              </div>
+            <div className="text-sm text-muted-foreground">
+              Total Saved
             </div>
           </div>
-        </CardContent>
-      </Card>
+          <div className="backdrop-blur-xl bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+            <div className="text-2xl font-bold text-foreground mb-1">
+              {investorDetails.filter(inv => revealedContacts.includes(inv.id)).length}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Contacts Revealed
+            </div>
+          </div>
+          <div className="backdrop-blur-xl bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+            <div className="text-2xl font-bold text-foreground mb-1">
+              {investorDetails.filter(inv => inv.verified).length}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Verified Investors
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Investor List */}
       <div className="space-y-4">

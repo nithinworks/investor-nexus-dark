@@ -222,79 +222,75 @@ const InvestorDatabase = () => {
       </div>
 
       {/* Stats Card */}
-      <Card className="border border-border bg-card">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-card-foreground">
-            <Database className="h-5 w-5" />
-            Database Overview
-          </CardTitle>
-          <CardDescription>
-            Current investor database statistics
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-card-foreground">
-                {investors.length.toLocaleString()}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Total Investors
-              </div>
+      <div className="backdrop-blur-xl bg-gradient-to-r from-red-500/5 to-red-600/5 rounded-xl border border-red-500/20 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-red-500/20 rounded-lg border border-red-500/30">
+            <Database className="h-5 w-5 text-red-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">Database Overview</h3>
+            <p className="text-sm text-muted-foreground">Current investor database statistics</p>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="backdrop-blur-xl bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+            <div className="text-2xl font-bold text-foreground mb-1">
+              {investors.length.toLocaleString()}
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-card-foreground">
-                {filteredInvestors.length.toLocaleString()}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Filtered Results
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-card-foreground">
-                {savedInvestors.length}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                Your Saved
-              </div>
+            <div className="text-sm text-muted-foreground">
+              Total Investors
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-1">
-          <FilterSection
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            selectedCountry={selectedCountry}
-            setSelectedCountry={setSelectedCountry}
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
-            selectedStage={selectedStage}
-            setSelectedStage={setSelectedStage}
-            selectedTags={selectedTags}
-            setSelectedTags={setSelectedTags}
-            availableTags={allTags}
-            countries={countries}
-          />
+          <div className="backdrop-blur-xl bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+            <div className="text-2xl font-bold text-foreground mb-1">
+              {filteredInvestors.length.toLocaleString()}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Filtered Results
+            </div>
+          </div>
+          <div className="backdrop-blur-xl bg-white/5 rounded-lg p-4 border border-white/10 text-center">
+            <div className="text-2xl font-bold text-foreground mb-1">
+              {savedInvestors.length}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Your Saved
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div className="lg:col-span-3">
-          <InvestorList
-            investors={filteredInvestors}
-            savedInvestors={savedInvestors}
-            onToggleSave={(investorId) =>
-              toggleSaveMutation.mutate(investorId)
-            }
-            canSave={true}
-            revealedContacts={revealedContacts}
-            onRevealContact={(investorId) =>
-              revealContactMutation.mutate(investorId)
-            }
-            canRevealContact={true}
-          />
-        </div>
+      {/* Filters and Search */}
+      <div className="space-y-4">
+        <FilterSection
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          selectedStage={selectedStage}
+          setSelectedStage={setSelectedStage}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          availableTags={allTags}
+          countries={countries}
+        />
+
+        <InvestorList
+          investors={filteredInvestors}
+          savedInvestors={savedInvestors}
+          onToggleSave={(investorId) =>
+            toggleSaveMutation.mutate(investorId)
+          }
+          canSave={true}
+          revealedContacts={revealedContacts}
+          onRevealContact={(investorId) =>
+            revealContactMutation.mutate(investorId)
+          }
+          canRevealContact={true}
+        />
       </div>
     </div>
   );

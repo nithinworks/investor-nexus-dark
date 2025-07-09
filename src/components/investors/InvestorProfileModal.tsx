@@ -84,7 +84,7 @@ const InvestorProfileModal = ({
 
         {/* Enhanced Header with Better Mobile Layout */}
         <div className="relative">
-          {/* Close button - better positioning */}
+          {/* Close button */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-200 backdrop-blur-sm border border-white/20"
@@ -92,10 +92,24 @@ const InvestorProfileModal = ({
             <X className="h-4 w-4 text-white" />
           </button>
 
+          {/* Save Button - Top Left for Mobile, Better Desktop Position */}
+          {canSave && onToggleSave && (
+            <button
+              onClick={() => onToggleSave(investor.id)}
+              className={`absolute top-4 left-4 md:top-4 md:right-16 z-10 h-10 w-10 rounded-full backdrop-blur-sm border transition-all duration-200 font-satoshi ${
+                isSaved
+                  ? "text-red-400 bg-red-500/20 border-red-500/30 hover:bg-red-500/30"
+                  : "text-gray-400 hover:text-red-400 hover:bg-red-500/10 border-white/20"
+              }`}
+            >
+              <Heart className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
+            </button>
+          )}
+
           {/* Hero Section with Mobile-First Design */}
           <div className="bg-gradient-to-r from-red-500/20 via-red-600/10 to-transparent p-4 md:p-6 border-b border-white/10">
             {/* Mobile Layout: Vertical Stack */}
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-5">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-5 pt-8 md:pt-0">
               {/* Profile Image - Centered on Mobile */}
               <div className="relative order-1 md:order-1">
                 <Avatar className="h-16 w-16 md:h-20 md:w-20 border-3 border-white/20 ring-3 ring-red-500/20 backdrop-blur-sm">
@@ -116,8 +130,8 @@ const InvestorProfileModal = ({
               {/* Content - Centered on Mobile */}
               <div className="flex-1 text-center md:text-left order-2 md:order-2">
                 {/* Name and Verification */}
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3">
-                  <div className="mb-3 md:mb-0">
+                <div className="flex flex-col">
+                  <div className="mb-3">
                     <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
                       <h2 className="text-xl md:text-2xl font-bold text-white font-satoshi">
                         {investor.name}
@@ -145,22 +159,6 @@ const InvestorProfileModal = ({
                       )}
                     </div>
                   </div>
-
-                  {/* Save Button - Better Spacing */}
-                  {canSave && onToggleSave && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => onToggleSave(investor.id)}
-                      className={`h-10 w-10 rounded-full backdrop-blur-sm border transition-all duration-200 font-satoshi ml-4 ${
-                        isSaved
-                          ? "text-red-400 bg-red-500/20 border-red-500/30 hover:bg-red-500/30"
-                          : "text-gray-400 hover:text-red-400 hover:bg-red-500/10 border-white/20"
-                      }`}
-                    >
-                      <Heart className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
-                    </Button>
-                  )}
                 </div>
 
                 {/* Social Links - Centered on Mobile */}
