@@ -61,7 +61,7 @@ const InvestorSubmissionsManager = () => {
     setProcessingIds(prev => new Set(prev).add(submission.id));
     
     try {
-      // First, add to investors table
+      // First, add to investors table - ensure required fields have valid values
       const { error: insertError } = await supabase
         .from("investors")
         .insert({
@@ -69,12 +69,16 @@ const InvestorSubmissionsManager = () => {
           bio: submission.bio,
           company: submission.company,
           company_url: submission.company_url,
-          contact: submission.contact,
-          contact_type: submission.contact_type,
+          contact: submission.contact || '',
+          contact_type: submission.contact_type || 'email',
           location: submission.location,
-          funding_type: submission.funding_type,
-          funding_stage: submission.funding_stage,
-          funding_industries: submission.funding_industries,
+          funding_type: submission.funding_type && ['VC', 'Angel', 'Family Office', 'Corporate'].includes(submission.funding_type) 
+            ? submission.funding_type 
+            : 'VC',
+          funding_stage: submission.funding_stage && ['Pre-Seed', 'Seed', 'Series A', 'Series B', 'Series C+', 'Growth'].includes(submission.funding_stage)
+            ? submission.funding_stage 
+            : 'Seed',
+          funding_industries: submission.funding_industries || [],
           funding_description: submission.funding_description,
           check_sizes: submission.check_sizes,
           image_url: submission.image_url,
@@ -187,7 +191,7 @@ const InvestorSubmissionsManager = () => {
                     {submission.company && <span>{submission.company}</span>}
                     {submission.location && (
                       <>
-                        <Separator orientation="vertical" className="h-4" />
+                        <span className="text-white/40">•</span>
                         <MapPin className="h-3 w-3" />
                         <span>{submission.location}</span>
                       </>

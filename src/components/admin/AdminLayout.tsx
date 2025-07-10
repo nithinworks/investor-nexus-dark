@@ -21,8 +21,8 @@ const AdminLayout = () => {
     { name: 'Investors', href: '/admin/investors', icon: Database },
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Applications', href: '/admin/applications', icon: UserCheck },
-    { name: 'Payments', href: '/admin/payments', icon: CreditCard },
-    { name: 'Settings', href: '/admin/settings', icon: Settings },
+    { name: 'Payment Stats', href: '/admin/payments', icon: CreditCard },
+    { name: 'Admin Management', href: '/admin/admin-management', icon: Settings },
   ];
 
   return (
@@ -60,7 +60,7 @@ const AdminLayout = () => {
 
       <div className="flex">
         {/* Admin Sidebar */}
-        <aside className="w-64 bg-black/50 backdrop-blur-xl border-r border-white/10 min-h-[calc(100vh-81px)]">
+        <aside className="w-64 bg-black/50 backdrop-blur-xl border-r border-white/10 min-h-[calc(100vh-81px)] fixed left-0 top-[81px] z-30">
           <nav className="p-4 space-y-2">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
@@ -83,7 +83,7 @@ const AdminLayout = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 ml-64 p-6">
           <Outlet />
         </main>
       </div>

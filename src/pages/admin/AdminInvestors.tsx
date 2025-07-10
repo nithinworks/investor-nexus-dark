@@ -306,11 +306,33 @@ const AdminInvestors = () => {
               </div>
               <div className="space-y-2">
                 <Label>Funding Type</Label>
-                <Input
-                  value={formData.funding_type}
-                  onChange={(e) => setFormData({ ...formData, funding_type: e.target.value })}
-                  className="bg-white/10 border-white/20 text-white"
-                />
+                <Select value={formData.funding_type} onValueChange={(value) => setFormData({ ...formData, funding_type: value })}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select funding type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="VC">VC</SelectItem>
+                    <SelectItem value="Angel">Angel</SelectItem>
+                    <SelectItem value="Family Office">Family Office</SelectItem>
+                    <SelectItem value="Corporate">Corporate</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Funding Stage</Label>
+                <Select value={formData.funding_stage} onValueChange={(value) => setFormData({ ...formData, funding_stage: value })}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select funding stage" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Pre-Seed">Pre-Seed</SelectItem>
+                    <SelectItem value="Seed">Seed</SelectItem>
+                    <SelectItem value="Series A">Series A</SelectItem>
+                    <SelectItem value="Series B">Series B</SelectItem>
+                    <SelectItem value="Series C+">Series C+</SelectItem>
+                    <SelectItem value="Growth">Growth</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="col-span-2 space-y-2">
                 <Label>Bio</Label>
@@ -479,11 +501,33 @@ const AdminInvestors = () => {
             </div>
             <div className="space-y-2">
               <Label>Funding Type</Label>
-              <Input
-                value={formData.funding_type}
-                onChange={(e) => setFormData({ ...formData, funding_type: e.target.value })}
-                className="bg-white/10 border-white/20 text-white"
-              />
+              <Select value={formData.funding_type} onValueChange={(value) => setFormData({ ...formData, funding_type: value })}>
+                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                  <SelectValue placeholder="Select funding type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="VC">VC</SelectItem>
+                  <SelectItem value="Angel">Angel</SelectItem>
+                  <SelectItem value="Family Office">Family Office</SelectItem>
+                  <SelectItem value="Corporate">Corporate</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Funding Stage</Label>
+              <Select value={formData.funding_stage} onValueChange={(value) => setFormData({ ...formData, funding_stage: value })}>
+                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                  <SelectValue placeholder="Select funding stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Pre-Seed">Pre-Seed</SelectItem>
+                  <SelectItem value="Seed">Seed</SelectItem>
+                  <SelectItem value="Series A">Series A</SelectItem>
+                  <SelectItem value="Series B">Series B</SelectItem>
+                  <SelectItem value="Series C+">Series C+</SelectItem>
+                  <SelectItem value="Growth">Growth</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="col-span-2 space-y-2">
               <Label>Bio</Label>
