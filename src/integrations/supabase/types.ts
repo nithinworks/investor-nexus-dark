@@ -85,6 +85,75 @@ export type Database = {
         }
         Relationships: []
       }
+      investor_submissions: {
+        Row: {
+          bio: string | null
+          check_sizes: string | null
+          company: string | null
+          company_url: string | null
+          contact: string
+          contact_type: string | null
+          created_at: string
+          funding_description: string | null
+          funding_industries: string[] | null
+          funding_stage: string | null
+          funding_type: string | null
+          id: string
+          image_url: string | null
+          location: string | null
+          name: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          submitted_at: string
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          check_sizes?: string | null
+          company?: string | null
+          company_url?: string | null
+          contact: string
+          contact_type?: string | null
+          created_at?: string
+          funding_description?: string | null
+          funding_industries?: string[] | null
+          funding_stage?: string | null
+          funding_type?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          name: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          submitted_at?: string
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          check_sizes?: string | null
+          company?: string | null
+          company_url?: string | null
+          contact?: string
+          contact_type?: string | null
+          created_at?: string
+          funding_description?: string | null
+          funding_industries?: string[] | null
+          funding_stage?: string | null
+          funding_type?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          name?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          submitted_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       investors: {
         Row: {
           bio: string | null

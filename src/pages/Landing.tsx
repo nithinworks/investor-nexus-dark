@@ -31,8 +31,11 @@ const Landing = () => {
                 <Link to="#" className="text-sm text-white/60 hover:text-white transition-colors">
                   Features
                 </Link>
-                <Link to="#" className="text-sm text-white/60 hover:text-white transition-colors">
+                <Link to="/pricing" className="text-sm text-white/60 hover:text-white transition-colors">
                   Pricing
+                </Link>
+                <Link to="/apply" className="text-sm text-white/60 hover:text-white transition-colors">
+                  Join as Investor
                 </Link>
                 <Link to="#" className="text-sm text-white/60 hover:text-white transition-colors">
                   About

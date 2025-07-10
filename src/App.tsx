@@ -18,6 +18,8 @@ import AITools from "./pages/dashboard/AITools";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
+import InvestorApplication from "./pages/InvestorApplication";
+import InvestorSubmissionsManager from "./components/admin/InvestorSubmissionsManager";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +90,24 @@ const App = () => (
             </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="pricing" element={<Pricing />} />
+            <Route 
+              path="/apply" 
+              element={
+                <PublicRoute>
+                  <InvestorApplication />
+                </PublicRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/admin/submissions" 
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              } 
+            >
+              <Route index element={<InvestorSubmissionsManager />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
             </Routes>
           </SubscriptionProvider>
