@@ -14,53 +14,127 @@ const StockTicker = () => {
   const [stocks, setStocks] = useState<StockData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Popular stock symbols to display
-  const symbols = ['AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'META', 'NVDA', 'NFLX'];
+  // Expanded list of popular stock symbols
+  const symbols = [
+    'AAPL', 'GOOGL', 'MSFT', 'TSLA', 'AMZN', 'META', 'NVDA', 'NFLX',
+    'ADBE', 'CRM', 'ORCL', 'IBM', 'INTC', 'AMD', 'QCOM', 'UBER',
+    'LYFT', 'SPOT', 'TWTR', 'SNAP'
+  ];
+
+  const API_KEY = 'N74XQN6CP7TUHGP7';
 
   useEffect(() => {
     const fetchStockData = async () => {
       try {
-        // Using Alpha Vantage free API - you can get a free API key
-        // For demo purposes, I'll use mock data that looks realistic
-        const mockData: StockData[] = [
-          { symbol: 'AAPL', name: 'Apple Inc.', price: 189.25, change: 2.15, changePercent: 1.15 },
-          { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 138.45, change: -1.23, changePercent: -0.88 },
-          { symbol: 'MSFT', name: 'Microsoft Corp.', price: 378.90, change: 4.56, changePercent: 1.22 },
-          { symbol: 'TSLA', name: 'Tesla Inc.', price: 248.50, change: -5.20, changePercent: -2.05 },
-          { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 153.75, change: 1.89, changePercent: 1.24 },
-          { symbol: 'META', name: 'Meta Platforms', price: 486.30, change: 8.45, changePercent: 1.77 },
-          { symbol: 'NVDA', name: 'NVIDIA Corp.', price: 875.20, change: 15.60, changePercent: 1.81 },
-          { symbol: 'NFLX', name: 'Netflix Inc.', price: 485.60, change: -2.10, changePercent: -0.43 },
-        ];
+        setLoading(true);
+        console.log('Fetching stock data from Alpha Vantage...');
+        
+        const stockPromises = symbols.map(async (symbol) => {
+          try {
+            const response = await fetch(
+              `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`
+            );
+            const data = await response.json();
+            
+            // Alpha Vantage response structure
+            const quote = data['Global Quote'];
+            
+            if (!quote || !quote['05. price']) {
+              console.warn(`No data for ${symbol}, using fallback`);
+              // Fallback to mock data if API fails
+              return getFallbackData(symbol);
+            }
 
-        // Add some randomness to make it look more realistic
-        const updatedData = mockData.map(stock => ({
-          ...stock,
-          price: stock.price + (Math.random() - 0.5) * 10,
-          change: stock.change + (Math.random() - 0.5) * 2,
-          changePercent: stock.changePercent + (Math.random() - 0.5) * 0.5,
-        }));
+            const price = parseFloat(quote['05. price']);
+            const change = parseFloat(quote['09. change']);
+            const changePercent = parseFloat(quote['10. change percent'].replace('%', ''));
 
-        setStocks(updatedData);
-        setLoading(false);
+            return {
+              symbol,
+              name: getCompanyName(symbol),
+              price,
+              change,
+              changePercent,
+            };
+          } catch (error) {
+            console.error(`Error fetching ${symbol}:`, error);
+            return getFallbackData(symbol);
+          }
+        });
+
+        const results = await Promise.all(stockPromises);
+        setStocks(results);
+        console.log('Stock data loaded:', results.length, 'stocks');
       } catch (error) {
         console.error('Error fetching stock data:', error);
+        // Use fallback data if API completely fails
+        setStocks(symbols.map(getFallbackData));
+      } finally {
         setLoading(false);
       }
     };
 
     fetchStockData();
     
-    // Update every 30 seconds
-    const interval = setInterval(fetchStockData, 30000);
+    // Update every 5 minutes (Alpha Vantage has rate limits)
+    const interval = setInterval(fetchStockData, 300000);
     return () => clearInterval(interval);
   }, []);
+
+  const getCompanyName = (symbol: string): string => {
+    const companyNames: { [key: string]: string } = {
+      'AAPL': 'Apple Inc.',
+      'GOOGL': 'Alphabet Inc.',
+      'MSFT': 'Microsoft Corp.',
+      'TSLA': 'Tesla Inc.',
+      'AMZN': 'Amazon.com Inc.',
+      'META': 'Meta Platforms',
+      'NVDA': 'NVIDIA Corp.',
+      'NFLX': 'Netflix Inc.',
+      'ADBE': 'Adobe Inc.',
+      'CRM': 'Salesforce Inc.',
+      'ORCL': 'Oracle Corp.',
+      'IBM': 'IBM Corp.',
+      'INTC': 'Intel Corp.',
+      'AMD': 'Advanced Micro Devices',
+      'QCOM': 'Qualcomm Inc.',
+      'UBER': 'Uber Technologies',
+      'LYFT': 'Lyft Inc.',
+      'SPOT': 'Spotify Technology',
+      'TWTR': 'Twitter Inc.',
+      'SNAP': 'Snap Inc.'
+    };
+    return companyNames[symbol] || symbol;
+  };
+
+  const getFallbackData = (symbol: string): StockData => {
+    // Realistic fallback data based on typical stock prices
+    const fallbackPrices: { [key: string]: number } = {
+      'AAPL': 189.25, 'GOOGL': 138.45, 'MSFT': 378.90, 'TSLA': 248.50,
+      'AMZN': 153.75, 'META': 486.30, 'NVDA': 875.20, 'NFLX': 485.60,
+      'ADBE': 620.40, 'CRM': 285.30, 'ORCL': 118.75, 'IBM': 185.20,
+      'INTC': 43.85, 'AMD': 158.90, 'QCOM': 168.45, 'UBER': 67.30,
+      'LYFT': 14.25, 'SPOT': 298.75, 'TWTR': 45.60, 'SNAP': 11.85
+    };
+
+    const basePrice = fallbackPrices[symbol] || 100;
+    const randomChange = (Math.random() - 0.5) * 10;
+    const changePercent = (randomChange / basePrice) * 100;
+
+    return {
+      symbol,
+      name: getCompanyName(symbol),
+      price: basePrice + randomChange,
+      change: randomChange,
+      changePercent,
+    };
+  };
 
   if (loading) {
     return (
       <div className="bg-black/90 border-b border-white/10 py-2 overflow-hidden">
         <div className="animate-pulse flex space-x-8">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(8)].map((_, i) => (
             <div key={i} className="flex items-center space-x-2 min-w-fit">
               <div className="w-12 h-4 bg-white/20 rounded"></div>
               <div className="w-16 h-4 bg-white/20 rounded"></div>
