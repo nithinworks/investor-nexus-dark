@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Check, X, Eye, Calendar, MapPin, DollarSign } from "lucide-react";
+import { Check, X, Eye, Calendar, MapPin, DollarSign, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -33,6 +34,7 @@ const InvestorSubmissionsManager = () => {
   const [submissions, setSubmissions] = useState<InvestorSubmission[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('pending');
+  const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchSubmissions();
@@ -56,6 +58,8 @@ const InvestorSubmissionsManager = () => {
   };
 
   const handleApprove = async (submission: InvestorSubmission) => {
+    setProcessingIds(prev => new Set(prev).add(submission.id));
+    
     try {
       // First, add to investors table
       const { error: insertError } = await supabase
@@ -95,10 +99,18 @@ const InvestorSubmissionsManager = () => {
     } catch (error) {
       console.error("Error approving submission:", error);
       toast.error("Failed to approve submission");
+    } finally {
+      setProcessingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(submission.id);
+        return newSet;
+      });
     }
   };
 
   const handleReject = async (submissionId: string) => {
+    setProcessingIds(prev => new Set(prev).add(submissionId));
+    
     try {
       const { error } = await supabase
         .from("investor_submissions")
@@ -115,6 +127,12 @@ const InvestorSubmissionsManager = () => {
     } catch (error) {
       console.error("Error rejecting submission:", error);
       toast.error("Failed to reject submission");
+    } finally {
+      setProcessingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(submissionId);
+        return newSet;
+      });
     }
   };
 
@@ -259,17 +277,27 @@ const InvestorSubmissionsManager = () => {
                       size="sm"
                       variant="outline"
                       onClick={() => handleReject(submission.id)}
+                      disabled={processingIds.has(submission.id)}
                       className="text-red-600 hover:text-red-700"
                     >
-                      <X className="h-4 w-4 mr-1" />
+                      {processingIds.has(submission.id) ? (
+                        <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                      ) : (
+                        <X className="h-4 w-4 mr-1" />
+                      )}
                       Reject
                     </Button>
                     <Button
                       size="sm"
                       onClick={() => handleApprove(submission)}
+                      disabled={processingIds.has(submission.id)}
                       className="text-green-600 hover:text-green-700"
                     >
-                      <Check className="h-4 w-4 mr-1" />
+                      {processingIds.has(submission.id) ? (
+                        <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                      ) : (
+                        <Check className="h-4 w-4 mr-1" />
+                      )}
                       Approve
                     </Button>
                   </div>
