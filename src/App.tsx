@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { SubscriptionProvider } from "@/hooks/useSubscription";
+import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import DashboardLayout from "./components/layout/DashboardLayout";
@@ -20,6 +21,12 @@ import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import InvestorApplication from "./pages/InvestorApplication";
 import InvestorSubmissionsManager from "./components/admin/InvestorSubmissionsManager";
+import AdminLogin from "./pages/AdminLogin";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminProtectedRoute from "./components/admin/AdminProtectedRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminInvestors from "./pages/admin/AdminInvestors";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const queryClient = new QueryClient();
 
@@ -55,7 +62,8 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <SubscriptionProvider>
-            <Routes>
+            <AdminAuthProvider>
+              <Routes>
             <Route
               path="/"
               element={
@@ -98,6 +106,24 @@ const App = () => (
                 </PublicRoute>
               } 
             />
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route 
+              path="/admin" 
+              element={
+                <AdminProtectedRoute>
+                  <AdminLayout />
+                </AdminProtectedRoute>
+              } 
+            >
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="investors" element={<AdminInvestors />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="applications" element={<InvestorSubmissionsManager />} />
+              <Route path="payments" element={<div className="text-white">Payment Reports - Coming Soon</div>} />
+              <Route path="settings" element={<div className="text-white">Admin Settings - Coming Soon</div>} />
+            </Route>
+            
             <Route 
               path="/dashboard/admin/submissions" 
               element={
@@ -110,6 +136,7 @@ const App = () => (
             </Route>
             <Route path="*" element={<NotFound />} />
             </Routes>
+            </AdminAuthProvider>
           </SubscriptionProvider>
         </AuthProvider>
       </BrowserRouter>
