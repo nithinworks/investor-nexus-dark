@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
@@ -10,12 +9,16 @@ import {
   Briefcase,
   BarChart,
 } from "lucide-react";
+import StockTicker from "@/components/ui/StockTicker";
 
 const Landing = () => {
   return (
     <div className="min-h-screen bg-black text-white font-satoshi antialiased">
+      {/* Stock Ticker */}
+      <StockTicker />
+
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
+      <header className="fixed top-8 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -59,7 +62,7 @@ const Landing = () => {
       </header>
 
       {/* Hero Section */}
-      <main className="relative pt-16 overflow-hidden">
+      <main className="relative pt-24 overflow-hidden">
         {/* Hero Background Image with preload and blur effect */}
         <section className="relative pt-24 pb-32 text-center min-h-screen flex items-center">
           {/* Background Image Container with blur overlay */}

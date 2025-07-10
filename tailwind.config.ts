@@ -118,6 +118,14 @@ export default {
             opacity: "1",
             transform: "scale(1)"
           }
+        },
+        "marquee": {
+          "0%": {
+            transform: "translateX(0%)"
+          },
+          "100%": {
+            transform: "translateX(-50%)"
+          }
         }
       },
       animation: {
@@ -126,6 +134,7 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "slide-up": "slide-up 0.8s ease-out",
         "hero-bg": "hero-bg 1.5s ease-out",
+        "marquee": "marquee 60s linear infinite",
       },
     },
   },
