@@ -42,11 +42,6 @@ const navigationItems = [
     icon: Bookmark,
   },
   {
-    title: "AI Tools",
-    url: "/dashboard/ai-tools",
-    icon: Crown,
-  },
-  {
     title: "Email Generator",
     url: "/dashboard/email-generator",
     icon: Mail,

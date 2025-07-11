@@ -24,6 +24,13 @@ serve(async (req) => {
   }
 
   try {
+    console.log('Received request for investor email generation');
+    
+    // Check if Gemini API key is available
+    if (!geminiApiKey) {
+      throw new Error("GEMINI_API_KEY not configured");
+    }
+    
     // Create Supabase client
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -87,7 +94,7 @@ Subject: [subject line]
 Best regards,
 [signature block]`;
 
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + geminiApiKey, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -106,10 +113,18 @@ Best regards,
     });
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error(`Gemini API error: ${response.status} - ${response.statusText}`, errorText);
+      throw new Error(`Gemini API error: ${response.status} - ${response.statusText}: ${errorText}`);
     }
 
     const data = await response.json();
+    console.log('Gemini response:', JSON.stringify(data, null, 2));
+    
+    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+      throw new Error('Invalid response format from Gemini API');
+    }
+    
     const generatedContent = data.candidates[0].content.parts[0].text;
 
     // Save to database
