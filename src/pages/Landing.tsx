@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight,
-  Search,
-  Zap,
-  ShieldCheck,
-  Users,
-  Briefcase,
-  BarChart,
-} from "lucide-react";
+  IconClipboardCopy,
+  IconFileBroken,
+  IconSignature,
+  IconTableColumn,
+} from "@tabler/icons-react";
+import { motion } from "framer-motion";
 import StockTicker from "@/components/ui/StockTicker";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { ArrowRight } from "lucide-react";
 
 const Landing = () => {
   return (
@@ -26,28 +26,41 @@ const Landing = () => {
                 <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center">
                   <span className="text-white font-semibold text-xs">TF</span>
                 </div>
-                <h1 className="text-base font-medium">
-                  TheFinance
-                </h1>
+                <h1 className="text-base font-medium">TheFinance</h1>
               </div>
               <nav className="hidden md:flex items-center space-x-8 ml-12">
-                <Link to="#" className="text-sm text-white/60 hover:text-white transition-colors">
+                <Link
+                  to="#"
+                  className="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   Features
                 </Link>
-                <Link to="/pricing" className="text-sm text-white/60 hover:text-white transition-colors">
+                <Link
+                  to="/pricing"
+                  className="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   Pricing
                 </Link>
-                <Link to="/apply" className="text-sm text-white/60 hover:text-white transition-colors">
+                <Link
+                  to="/apply"
+                  className="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   Join as Investor
                 </Link>
-                <Link to="#" className="text-sm text-white/60 hover:text-white transition-colors">
+                <Link
+                  to="#"
+                  className="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   About
                 </Link>
               </nav>
             </div>
             <div className="flex items-center space-x-3">
               <Link to="/auth">
-                <Button variant="ghost" className="text-sm text-white/60 hover:text-white hover:bg-white/5 h-8 px-3">
+                <Button
+                  variant="ghost"
+                  className="text-sm text-white/60 hover:text-white hover:bg-white/5 h-8 px-3"
+                >
                   Sign in
                 </Button>
               </Link>
@@ -74,7 +87,7 @@ const Landing = () => {
               className="w-full h-full object-cover opacity-0 animate-[hero-bg_1.5s_ease-out_0.3s_forwards]"
               loading="eager"
               onLoad={(e) => {
-                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.opacity = "1";
               }}
             />
             {/* Blur overlay */}
@@ -100,8 +113,9 @@ const Landing = () => {
 
             {/* Subtitle */}
             <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up [animation-delay:0.2s]">
-              Connect with investors who match your vision. Our AI analyzes thousands of 
-              investor profiles to find your perfect funding partners.
+              Connect with investors who match your vision. Our AI analyzes
+              thousands of investor profiles to find your perfect funding
+              partners.
             </p>
 
             {/* Single CTA Button */}
@@ -140,60 +154,22 @@ const Landing = () => {
                 Everything you need to find investors
               </h2>
               <p className="text-white/60 text-base max-w-2xl mx-auto">
-                Our platform combines AI matching with comprehensive investor data 
-                to streamline your fundraising process.
+                Our platform combines AI matching with comprehensive investor
+                data to streamline your fundraising process.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Feature 1 */}
-              <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Search className="h-5 w-5 text-red-500 mb-4" />
-                <h3 className="text-base font-medium mb-2">Smart Search</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Find investors by stage, industry, and investment thesis with AI-powered search.
-                </p>
-              </div>
-              {/* Feature 2 */}
-              <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Zap className="h-5 w-5 text-red-500 mb-4" />
-                <h3 className="text-base font-medium mb-2">Instant Matching</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Get matched with relevant investors in seconds using our proprietary algorithm.
-                </p>
-              </div>
-              {/* Feature 3 */}
-              <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <ShieldCheck className="h-5 w-5 text-red-500 mb-4" />
-                <h3 className="text-base font-medium mb-2">Verified Data</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Access verified contact information and investment preferences.
-                </p>
-              </div>
-              {/* Feature 4 */}
-              <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <BarChart className="h-5 w-5 text-red-500 mb-4" />
-                <h3 className="text-base font-medium mb-2">Analytics</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Track your outreach performance and optimize your approach.
-                </p>
-              </div>
-              {/* Feature 5 */}
-              <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Users className="h-5 w-5 text-red-500 mb-4" />
-                <h3 className="text-base font-medium mb-2">Team Collaboration</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Work together with your team to manage investor relationships.
-                </p>
-              </div>
-              {/* Feature 6 */}
-              <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <Briefcase className="h-5 w-5 text-red-500 mb-4" />
-                <h3 className="text-base font-medium mb-2">CRM Integration</h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Seamlessly integrate with your existing CRM and workflow tools.
-                </p>
-              </div>
-            </div>
+            <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem] md:grid-cols-3">
+              {items.map((item, i) => (
+                <BentoGridItem
+                  key={i}
+                  title={item.title}
+                  description={item.description}
+                  header={item.header}
+                  className={item.className}
+                  icon={item.icon}
+                />
+              ))}
+            </BentoGrid>
           </div>
         </section>
 
@@ -207,8 +183,8 @@ const Landing = () => {
               {/* Testimonial 1 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm">
                 <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                  "Found our Series A lead investor in just two weeks. The AI matching 
-                  was incredibly accurate."
+                  "Found our Series A lead investor in just two weeks. The AI
+                  matching was incredibly accurate."
                 </p>
                 <div className="flex items-center">
                   <div className="w-8 h-8 rounded-full bg-red-500/20 mr-3"></div>
@@ -221,21 +197,23 @@ const Landing = () => {
               {/* Testimonial 2 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm">
                 <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                  "The platform saved us months of research. Every investor match 
-                  was relevant to our industry."
+                  "The platform saved us months of research. Every investor
+                  match was relevant to our industry."
                 </p>
                 <div className="flex items-center">
                   <div className="w-8 h-8 rounded-full bg-red-500/20 mr-3"></div>
                   <div>
                     <p className="font-medium text-sm">Marcus Johnson</p>
-                    <p className="text-white/60 text-xs">Founder, GreenTech Labs</p>
+                    <p className="text-white/60 text-xs">
+                      Founder, GreenTech Labs
+                    </p>
                   </div>
                 </div>
               </div>
               {/* Testimonial 3 */}
               <div className="bg-white/5 p-6 rounded-lg border border-white/10 backdrop-blur-sm">
                 <p className="text-white/80 mb-4 text-sm leading-relaxed">
-                  "Simple, clean interface with powerful features. Exactly what 
+                  "Simple, clean interface with powerful features. Exactly what
                   we needed for our fundraising."
                 </p>
                 <div className="flex items-center">
@@ -258,7 +236,7 @@ const Landing = () => {
                 Ready to find your investors?
               </h2>
               <p className="text-white/60 mb-8 text-base">
-                Join thousands of founders who have successfully raised funding 
+                Join thousands of founders who have successfully raised funding
                 with our platform.
               </p>
               <Link to="/auth">
@@ -290,17 +268,41 @@ const Landing = () => {
             <div>
               <h4 className="font-medium mb-4 text-sm">Product</h4>
               <ul className="space-y-2 text-white/60 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    API
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-medium mb-4 text-sm">Company</h4>
               <ul className="space-y-2 text-white/60 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition-colors">
+                    Careers
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -312,5 +314,574 @@ const Landing = () => {
     </div>
   );
 };
+
+const SkeletonOne = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Top Curated Investors Database */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Header with count */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="bg-red-500/20 backdrop-blur-sm rounded-lg px-3 py-1 border border-red-500/30">
+            <span className="text-red-400 text-xs font-medium">Database</span>
+          </div>
+          <span className="text-red-400 text-xs font-mono">10,000+</span>
+        </div>
+
+        {/* Investor List */}
+        <div className="space-y-2">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/20 hover:border-red-500/40 transition-all">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-400 shadow-lg shadow-red-500/30 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">AC</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-sm font-medium">
+                  Andreessen Horowitz
+                </div>
+                <div className="text-red-400/70 text-xs">
+                  Series A-C • $1M-$50M
+                </div>
+              </div>
+              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/20">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-600 to-red-500 shadow-lg shadow-red-500/30 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">SV</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-sm font-medium">
+                  Sequoia Capital
+                </div>
+                <div className="text-red-400/70 text-xs">
+                  Seed-Series B • $500K-$25M
+                </div>
+              </div>
+              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/20">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-400 to-red-600 shadow-lg shadow-red-500/30 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">BV</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-sm font-medium">
+                  Bessemer Ventures
+                </div>
+                <div className="text-red-400/70 text-xs">
+                  Series A-D • $2M-$100M
+                </div>
+              </div>
+              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonTwo = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Investor Details Profile */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Profile Header */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 mb-3 border border-red-500/30">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-red-500 to-red-400 shadow-lg shadow-red-500/40 flex items-center justify-center">
+              <span className="text-white text-sm font-bold">JS</span>
+            </div>
+            <div className="flex-1">
+              <div className="text-white/80 text-sm font-medium">
+                John Smith
+              </div>
+              <div className="text-red-400/70 text-xs">
+                Partner @ Accel Partners
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Details Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-white/5 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="text-red-400/60 text-xs mb-1">Check Size</div>
+            <div className="text-white/70 text-xs font-medium">$1M - $10M</div>
+          </div>
+          <div className="bg-white/5 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="text-red-400/60 text-xs mb-1">Stage</div>
+            <div className="text-white/70 text-xs font-medium">Series A</div>
+          </div>
+          <div className="bg-white/5 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="text-red-400/60 text-xs mb-1">Industry</div>
+            <div className="text-white/70 text-xs font-medium">
+              SaaS, FinTech
+            </div>
+          </div>
+          <div className="bg-white/5 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="text-red-400/60 text-xs mb-1">Location</div>
+            <div className="text-white/70 text-xs font-medium">
+              San Francisco
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonThree = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Smart Filters & Search */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Search Bar */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 mb-3 border border-red-500/30">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded bg-red-400/60 shadow-sm shadow-red-400/50"></div>
+            <span className="text-white/60 text-sm">Search investors...</span>
+          </div>
+        </div>
+
+        {/* Filter Tags */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          <div className="bg-red-500/20 backdrop-blur-sm rounded-full px-3 py-1 border border-red-500/40">
+            <span className="text-red-400 text-xs">FinTech</span>
+          </div>
+          <div className="bg-red-500/20 backdrop-blur-sm rounded-full px-3 py-1 border border-red-500/40">
+            <span className="text-red-400 text-xs">Series A</span>
+          </div>
+          <div className="bg-red-500/20 backdrop-blur-sm rounded-full px-3 py-1 border border-red-500/40">
+            <span className="text-red-400 text-xs">$1M+</span>
+          </div>
+        </div>
+
+        {/* Filter Results */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+          <div className="flex items-center justify-between">
+            <span className="text-white/60 text-xs">Results found</span>
+            <span className="text-red-400/70 text-xs font-mono">247</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonFour = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Save & Export Lists */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Saved Lists */}
+        <div className="mb-3">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/30 mb-2">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-red-500/30 shadow-sm shadow-red-500/50 flex items-center justify-center">
+                <span className="text-red-400 text-xs">📁</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-sm font-medium">
+                  FinTech Investors
+                </div>
+                <div className="text-red-400/60 text-xs">42 investors</div>
+              </div>
+              <div className="w-4 h-4 rounded bg-red-400/60 flex items-center justify-center">
+                <span className="text-white text-xs">⋯</span>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/30">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-red-500/30 shadow-sm shadow-red-500/50 flex items-center justify-center">
+                <span className="text-red-400 text-xs">📁</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-sm font-medium">
+                  Series A VCs
+                </div>
+                <div className="text-red-400/60 text-xs">28 investors</div>
+              </div>
+              <div className="w-4 h-4 rounded bg-red-400/60 flex items-center justify-center">
+                <span className="text-white text-xs">⋯</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Export Button */}
+        <div className="bg-red-500/20 backdrop-blur-sm rounded-lg p-3 border border-red-500/40 text-center">
+          <span className="text-red-400 text-sm font-medium">
+            Export to CSV
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonFive = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* AI Tools */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* AI Header */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-6 h-6 rounded-full bg-gradient-to-r from-red-500 to-red-400 shadow-lg shadow-red-500/40 flex items-center justify-center">
+            <span className="text-white text-xs">🤖</span>
+          </div>
+          <span className="text-red-400 text-sm font-medium">AI</span>
+        </div>
+
+        {/* AI Tools Grid */}
+        <div className="space-y-2">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/30">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-red-500/60 shadow-sm shadow-red-500/50 flex items-center justify-center">
+                <span className="text-white text-xs">📄</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">
+                  Pitch Deck Generator
+                </div>
+                <div className="text-red-400/60 text-xs">
+                  Create compelling decks
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/30">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-red-500/60 shadow-sm shadow-red-500/50 flex items-center justify-center">
+                <span className="text-white text-xs">✉️</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">
+                  Email Generator
+                </div>
+                <div className="text-red-400/60 text-xs">
+                  Personalized outreach
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/30">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-red-500/60 shadow-sm shadow-red-500/50 flex items-center justify-center">
+                <span className="text-white text-xs">📊</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">
+                  Market Analysis
+                </div>
+                <div className="text-red-400/60 text-xs">
+                  AI-powered insights
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonSix = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Pricing */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Price Display */}
+        <div className="text-center mb-3">
+          <div className="bg-red-500/20 backdrop-blur-sm rounded-lg p-3 border border-red-500/40">
+            <div className="text-red-400 text-lg font-bold mb-1">$29</div>
+            <div className="text-white/60 text-xs">/month</div>
+          </div>
+        </div>
+
+        {/* Features List */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+            <span className="text-white/70 text-xs">10,000+ investors</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+            <span className="text-white/70 text-xs">Unlimited searches</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+            <span className="text-white/70 text-xs">AI-powered tools</span>
+          </div>
+        </div>
+
+        {/* Value Badge */}
+        <div className="mt-3 bg-red-500/30 backdrop-blur-sm rounded-full px-3 py-1 border border-red-500/50 text-center">
+          <span className="text-red-400 text-xs font-medium">Best Value</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Add three more skeleton components for the complete 3x3 grid
+const SkeletonSeven = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Analytics Dashboard */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-red-400 text-sm font-medium">Analytics</span>
+          <span className="text-white/60 text-xs">Last 30 days</span>
+        </div>
+
+        {/* Metrics */}
+        <div className="grid grid-cols-2 gap-2 mb-3">
+          <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-red-500/20">
+            <div className="text-red-400/60 text-xs">Open Rate</div>
+            <div className="text-white/80 text-sm font-bold">24.5%</div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded p-2 border border-red-500/20">
+            <div className="text-red-400/60 text-xs">Response Rate</div>
+            <div className="text-white/80 text-sm font-bold">8.2%</div>
+          </div>
+        </div>
+
+        {/* Chart */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+          <div className="flex items-end gap-1 h-12">
+            <div className="bg-gradient-to-t from-red-500 to-red-400 rounded-sm w-2 h-6"></div>
+            <div className="bg-gradient-to-t from-red-500 to-red-400 rounded-sm w-2 h-8"></div>
+            <div className="bg-gradient-to-t from-red-500 to-red-400 rounded-sm w-2 h-4"></div>
+            <div className="bg-gradient-to-t from-red-500 to-red-400 rounded-sm w-2 h-10"></div>
+            <div className="bg-gradient-to-t from-red-500 to-red-400 rounded-sm w-2 h-7"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonEight = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* Team Collaboration */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-red-400 text-sm font-medium">Team</span>
+          <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></div>
+        </div>
+
+        {/* Team Members */}
+        <div className="space-y-2">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-r from-red-500 to-red-400 flex items-center justify-center">
+                <span className="text-white text-xs">JD</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">
+                  John Doe
+                </div>
+                <div className="text-red-400/60 text-xs">
+                  Reviewing prospects
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-r from-red-600 to-red-500 flex items-center justify-center">
+                <span className="text-white text-xs">SM</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">
+                  Sarah Miller
+                </div>
+                <div className="text-red-400/60 text-xs">Sending outreach</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Activity */}
+        <div className="mt-3 bg-white/5 backdrop-blur-sm rounded p-2 border border-red-500/20">
+          <span className="text-white/60 text-xs">3 active campaigns</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkeletonNine = () => {
+  return (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+      {/* Red Glow Effect */}
+      <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+      {/* CRM Integration */}
+      <div className="absolute inset-0 p-4 z-10">
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-red-400 text-sm font-medium">Integrations</span>
+          <div className="w-2 h-2 rounded-full bg-green-400"></div>
+        </div>
+
+        {/* Integration Cards */}
+        <div className="space-y-2">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-red-500/30 flex items-center justify-center">
+                <span className="text-red-400 text-xs">SF</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">
+                  Salesforce
+                </div>
+                <div className="text-green-400/60 text-xs">Connected</div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-red-500/30 flex items-center justify-center">
+                <span className="text-red-400 text-xs">HS</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">HubSpot</div>
+                <div className="text-green-400/60 text-xs">Connected</div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-red-500/20">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-red-500/30 flex items-center justify-center">
+                <span className="text-red-400 text-xs">ZP</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-white/80 text-xs font-medium">Zapier</div>
+                <div className="text-green-400/60 text-xs">Available</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const items = [
+  {
+    title: "Curated Investor Database",
+    description:
+      "Access our premium database of 10,000+ verified investors across all stages and industries.",
+    header: <SkeletonOne />,
+    className: "md:col-span-1",
+    icon: <IconClipboardCopy className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "Detailed Investor Profiles",
+    description:
+      "Get complete investor information including contact details, fund size, check size, and investment preferences.",
+    header: <SkeletonTwo />,
+    className: "md:col-span-1",
+    icon: <IconFileBroken className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "Smart Filters & Search",
+    description:
+      "Find the perfect investors using advanced filters by industry, stage, check size, and investment focus.",
+    header: <SkeletonThree />,
+    className: "md:col-span-1",
+    icon: <IconSignature className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "Save & Export Lists",
+    description:
+      "Create custom investor lists, save your searches, and export data to CSV for your outreach campaigns.",
+    header: <SkeletonFour />,
+    className: "md:col-span-1",
+    icon: <IconTableColumn className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "AI-Powered Tools",
+    description:
+      "Generate personalized pitch decks and investor emails using our advanced AI technology.",
+    header: <SkeletonFive />,
+    className: "md:col-span-1",
+    icon: <IconClipboardCopy className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "Unbeatable Value",
+    description:
+      "Get the most comprehensive investor platform at the most competitive price in the market.",
+    header: <SkeletonSix />,
+    className: "md:col-span-1",
+    icon: <IconFileBroken className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "Advanced Analytics",
+    description:
+      "Track your outreach performance and optimize your approach with detailed analytics and insights.",
+    header: <SkeletonSeven />,
+    className: "md:col-span-1",
+    icon: <IconSignature className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "Team Collaboration",
+    description:
+      "Work together with your team to manage investor relationships and coordinate outreach efforts.",
+    header: <SkeletonEight />,
+    className: "md:col-span-1",
+    icon: <IconTableColumn className="h-4 w-4 text-red-500" />,
+  },
+  {
+    title: "CRM Integration",
+    description:
+      "Seamlessly integrate with your existing CRM and workflow tools like Salesforce, HubSpot, and more.",
+    header: <SkeletonNine />,
+    className: "md:col-span-1",
+    icon: <IconClipboardCopy className="h-4 w-4 text-red-500" />,
+  },
+];
 
 export default Landing;
