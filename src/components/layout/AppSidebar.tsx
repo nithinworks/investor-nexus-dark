@@ -8,7 +8,9 @@ import {
   Settings,
   Star,
   Crown,
-  UserCheck
+  UserCheck,
+  Mail,
+  FileText
 } from "lucide-react";
 import {
   Sidebar,
@@ -43,6 +45,16 @@ const navigationItems = [
     title: "AI Tools",
     url: "/dashboard/ai-tools",
     icon: Crown,
+  },
+  {
+    title: "Email Generator",
+    url: "/dashboard/email-generator",
+    icon: Mail,
+  },
+  {
+    title: "Pitch Deck Generator",
+    url: "/dashboard/pitch-deck",
+    icon: FileText,
   },
   {
     title: "Billing & Usage",
