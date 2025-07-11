@@ -47,15 +47,17 @@ const AdminPayments = () => {
       ) || [];
 
       const totalRevenue = activeProfiles.reduce((sum, profile) => {
-        const price = profile.subscription_price || 0;
+        const price = (profile.subscription_price || 0) / 100; // Convert cents to dollars
         const multiplier = profile.billing_cycle === 'yearly' ? 12 : 1;
         return sum + (price * multiplier);
       }, 0);
 
       const subscriptionBreakdown = activeProfiles.reduce((breakdown, profile) => {
         const tier = profile.subscription_tier?.toLowerCase() || 'basic';
-        if (tier in breakdown) {
-          breakdown[tier as keyof typeof breakdown]++;
+        // Map 'pro' to 'premium' for consistency
+        const mappedTier = tier === 'pro' ? 'premium' : tier;
+        if (mappedTier in breakdown) {
+          breakdown[mappedTier as keyof typeof breakdown]++;
         }
         return breakdown;
       }, { basic: 0, premium: 0, enterprise: 0 });

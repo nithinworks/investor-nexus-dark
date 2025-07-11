@@ -126,16 +126,6 @@ const App = () => (
               <Route path="admin-management" element={<AdminManagement />} />
             </Route>
             
-            <Route 
-              path="/dashboard/admin/submissions" 
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              } 
-            >
-              <Route index element={<InvestorSubmissionsManager />} />
-            </Route>
             <Route path="*" element={<NotFound />} />
             </Routes>
             </AdminAuthProvider>

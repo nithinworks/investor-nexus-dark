@@ -61,13 +61,7 @@ const navigationItems = [
   },
 ];
 
-const adminItems = [
-  {
-    title: "Review Submissions",
-    url: "/dashboard/admin/submissions",
-    icon: UserCheck,
-  },
-];
+const adminItems: any[] = [];
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -132,30 +126,32 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium px-2 mb-2 font-satoshi text-xs">
-            Admin
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {adminItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
-                      className={({ isActive }) => 
-                        `flex items-center gap-3 text-sm ${getNavClasses(isActive)}`
-                      }
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {state === "expanded" && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+{adminItems.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium px-2 mb-2 font-satoshi text-xs">
+              Admin
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink 
+                        to={item.url} 
+                        className={({ isActive }) => 
+                          `flex items-center gap-3 text-sm ${getNavClasses(isActive)}`
+                        }
+                      >
+                        <item.icon className="h-4 w-4" />
+                        {state === "expanded" && <span>{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
   );
