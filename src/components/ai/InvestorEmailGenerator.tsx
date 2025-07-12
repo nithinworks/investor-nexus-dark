@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Loader2, Mail, Download, Copy } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useActions } from "@/hooks/useActions";
 
 interface InvestorEmailFormData {
   investorName: string;
@@ -25,6 +26,7 @@ interface InvestorEmailGeneratorProps {
 
 const InvestorEmailGenerator = ({ formData, setFormData }: InvestorEmailGeneratorProps) => {
   const { user } = useAuth();
+  const { consumeAction, canPerformAction, getRemainingActions } = useActions();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
 
@@ -51,6 +53,27 @@ const InvestorEmailGenerator = ({ formData, setFormData }: InvestorEmailGenerato
       return;
     }
 
+    // Check if user can perform action and consume 2 credits for AI tool
+    if (!canPerformAction()) {
+      toast({
+        title: "Action Limit Reached",
+        description: `You need at least 2 actions to use this AI tool. You have ${getRemainingActions()} actions remaining.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const actionConsumed = await consumeAction('ai_tool');
+    if (!actionConsumed) {
+      return; // Action consumption failed, error already shown
+    }
+
+    // Consume second credit for AI tool (total 2 credits)
+    const secondActionConsumed = await consumeAction('ai_tool');
+    if (!secondActionConsumed) {
+      return; // Action consumption failed, error already shown
+    }
+
     setIsGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-investor-email", {
@@ -62,7 +85,7 @@ const InvestorEmailGenerator = ({ formData, setFormData }: InvestorEmailGenerato
       setGeneratedContent(data.generatedContent);
       toast({
         title: "Success!",
-        description: "Your investor email has been generated successfully.",
+        description: "Your investor email has been generated successfully. (2 actions consumed)",
       });
     } catch (error: any) {
       console.error("Error generating investor email:", error);

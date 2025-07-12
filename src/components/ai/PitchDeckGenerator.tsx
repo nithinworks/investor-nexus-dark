@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Loader2, FileText, Download, Copy } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useActions } from "@/hooks/useActions";
 
 interface PitchDeckFormData {
   companyName: string;
@@ -27,6 +28,7 @@ interface PitchDeckGeneratorProps {
 
 const PitchDeckGenerator = ({ formData, setFormData }: PitchDeckGeneratorProps) => {
   const { user } = useAuth();
+  const { consumeAction, canPerformAction, getRemainingActions } = useActions();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
 
@@ -53,6 +55,27 @@ const PitchDeckGenerator = ({ formData, setFormData }: PitchDeckGeneratorProps) 
       return;
     }
 
+    // Check if user can perform action and consume 2 credits for AI tool
+    if (!canPerformAction()) {
+      toast({
+        title: "Action Limit Reached",
+        description: `You need at least 2 actions to use this AI tool. You have ${getRemainingActions()} actions remaining.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const actionConsumed = await consumeAction('ai_tool');
+    if (!actionConsumed) {
+      return; // Action consumption failed, error already shown
+    }
+
+    // Consume second credit for AI tool (total 2 credits)
+    const secondActionConsumed = await consumeAction('ai_tool');
+    if (!secondActionConsumed) {
+      return; // Action consumption failed, error already shown
+    }
+
     setIsGenerating(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-pitch-deck", {
@@ -64,7 +87,7 @@ const PitchDeckGenerator = ({ formData, setFormData }: PitchDeckGeneratorProps) 
       setGeneratedContent(data.generatedContent);
       toast({
         title: "Success!",
-        description: "Your pitch deck has been generated successfully.",
+        description: "Your pitch deck has been generated successfully. (2 actions consumed)",
       });
     } catch (error: any) {
       console.error("Error generating pitch deck:", error);

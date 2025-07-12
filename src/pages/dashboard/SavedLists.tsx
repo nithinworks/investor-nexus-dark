@@ -8,11 +8,13 @@ import { Download, Trash2, FileText } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import InvestorList from "@/components/investors/InvestorList";
 import { Tables } from "@/integrations/supabase/types";
+import { useActions } from "@/hooks/useActions";
 
 type Investor = Tables<"investors">;
 
 const SavedLists = () => {
   const { user } = useAuth();
+  const { consumeAction, canPerformAction, getRemainingActions } = useActions();
   const queryClient = useQueryClient();
 
   // Fetch saved investors
@@ -90,7 +92,7 @@ const SavedLists = () => {
   });
 
   // Export to CSV function
-  const exportToCSV = () => {
+  const exportToCSV = async () => {
     if (investorDetails.length === 0) {
       toast({
         title: "No data to export",
@@ -98,6 +100,21 @@ const SavedLists = () => {
         variant: "destructive",
       });
       return;
+    }
+
+    // Check if user can perform action and consume 1 credit for export
+    if (!canPerformAction()) {
+      toast({
+        title: "Action Limit Reached",
+        description: `You need at least 1 action to export data. You have ${getRemainingActions()} actions remaining.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const actionConsumed = await consumeAction('export');
+    if (!actionConsumed) {
+      return; // Action consumption failed, error already shown
     }
 
     // Define CSV headers
@@ -156,7 +173,7 @@ const SavedLists = () => {
 
     toast({
       title: "Export successful",
-      description: `Exported ${investorDetails.length} investors to CSV`,
+      description: `Exported ${investorDetails.length} investors to CSV (1 action consumed)`,
     });
   };
 

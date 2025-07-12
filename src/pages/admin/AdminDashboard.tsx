@@ -55,7 +55,7 @@ const AdminDashboard = () => {
       
       if (profiles) {
         profiles.forEach(profile => {
-          if (profile.subscription_tier && profile.subscription_tier !== 'basic') {
+          if (profile.subscription_tier && profile.subscription_tier !== 'free') {
             activeSubscriptions++;
             totalRevenue += profile.subscription_price || 0;
           }

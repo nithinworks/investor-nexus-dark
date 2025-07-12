@@ -8,11 +8,13 @@ import InvestorList from "@/components/investors/InvestorList";
 import { toast } from "@/hooks/use-toast";
 import { Database, Users } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useActions } from "@/hooks/useActions";
 
 type Investor = Tables<"investors">;
 
 const InvestorDatabase = () => {
   const { user } = useAuth();
+  const { consumeAction, canPerformAction, getRemainingActions } = useActions();
   const queryClient = useQueryClient();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -123,14 +125,16 @@ const InvestorDatabase = () => {
         return;
       }
 
-      // Check access limit for free users
-      if (
-        profile?.subscription_tier === "free" &&
-        profile.access_used >= profile.access_limit
-      ) {
+      // Check if user can perform action and consume 1 credit for contact reveal
+      if (!canPerformAction()) {
         throw new Error(
-          "You have reached your monthly contact reveal limit. Please upgrade to Pro."
+          `You need at least 1 action to reveal contact information. You have ${getRemainingActions()} actions remaining.`
         );
+      }
+
+      const actionConsumed = await consumeAction('contact_reveal');
+      if (!actionConsumed) {
+        throw new Error("Failed to consume action for contact reveal.");
       }
 
       // Insert contact reveal record
@@ -140,21 +144,13 @@ const InvestorDatabase = () => {
       });
 
       if (error) throw error;
-
-      // Update access count for free users
-      if (profile?.subscription_tier === "free") {
-        await supabase
-          .from("profiles")
-          .update({ access_used: (profile.access_used || 0) + 1 })
-          .eq("id", user!.id);
-      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["revealed-contacts"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       toast({
         title: "Success",
-        description: "Contact information revealed!",
+        description: "Contact information revealed! (1 action consumed)",
       });
     },
     onError: (error: any) => {

@@ -54,14 +54,14 @@ const AdminUsers = () => {
   };
 
   const getSubscriptionBadge = (tier: string | null) => {
-    if (!tier || tier === 'basic') {
+    if (!tier || tier === 'free') {
       return <Badge variant="secondary">Free</Badge>;
     }
-    if (tier === 'premium') {
-      return <Badge className="bg-blue-600">Premium</Badge>;
+    if (tier === 'starter') {
+      return <Badge className="bg-blue-600">Starter</Badge>;
     }
-    if (tier === 'enterprise') {
-      return <Badge className="bg-purple-600">Enterprise</Badge>;
+    if (tier === 'premium') {
+      return <Badge className="bg-purple-600">Premium</Badge>;
     }
     return <Badge variant="secondary">{tier}</Badge>;
   };
@@ -103,7 +103,7 @@ const AdminUsers = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-white">
-              {users.filter(u => u.subscription_tier && u.subscription_tier !== 'basic').length}
+              {users.filter(u => u.subscription_tier && u.subscription_tier !== 'free').length}
             </div>
             <p className="text-xs text-white/60">Paying subscribers</p>
           </CardContent>
@@ -151,7 +151,7 @@ const AdminUsers = () => {
                 <TableHead className="text-white/80">Email</TableHead>
                 <TableHead className="text-white/80">Company</TableHead>
                 <TableHead className="text-white/80">Subscription</TableHead>
-                <TableHead className="text-white/80">Usage</TableHead>
+                <TableHead className="text-white/80">Action Usage</TableHead>
                 <TableHead className="text-white/80">Joined</TableHead>
               </TableRow>
             </TableHeader>
