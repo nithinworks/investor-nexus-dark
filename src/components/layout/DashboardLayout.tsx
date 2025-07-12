@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import {
   SidebarProvider,
   SidebarInset,
@@ -35,21 +35,10 @@ const DashboardLayout = () => {
       <div className="min-h-screen flex w-full bg-black">
         <AppSidebar />
         <SidebarInset className="flex-1">
-          {/* Enhanced Header with Better Branding */}
+          {/* Enhanced Header */}
           <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/10">
             <div className="flex h-16 items-center gap-4 px-4 md:px-6">
               <SidebarTrigger className="text-white hover:bg-white/10 transition-all duration-200 rounded-lg p-2 font-satoshi" />
-
-              {/* Brand Logo - Visible when sidebar is collapsed */}
-              <div className="flex items-center space-x-3 lg:hidden">
-                <div className="w-7 h-7 rounded bg-red-600 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xs">TF</span>
-                </div>
-                <span className="text-lg font-semibold tracking-tight text-white font-satoshi">
-                  TheFinance
-                </span>
-              </div>
-
               <div className="flex-1" />
             </div>
           </header>

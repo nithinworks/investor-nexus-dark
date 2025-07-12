@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -14,14 +15,13 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
         <div className="w-full max-w-md mx-auto lg:mx-0 order-1 lg:order-1">
           <div className="backdrop-blur-xl bg-white/5 rounded-3xl border border-white/10 p-8 md:p-10 shadow-2xl">
             {/* Logo and Brand */}
-            <div className="flex items-center justify-center lg:justify-start space-x-3 mb-8">
-              <div className="w-8 h-8 rounded bg-red-600 flex items-center justify-center">
-                <span className="text-white font-semibold text-sm">TF</span>
-              </div>
-              <span className="text-xl font-semibold tracking-tight text-white">
-                TheFinance
-              </span>
-            </div>
+            <Link to="/" className="flex items-center space-x-3 mb-8">
+              <img
+                src="/thefinance-logo.svg"
+                alt="TheFinance"
+                className="h-12 w-auto flex-shrink-0"
+              />
+            </Link>
 
             {/* Header */}
             <div className="text-center lg:text-left mb-8">

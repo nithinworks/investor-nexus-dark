@@ -204,7 +204,7 @@ const StockTicker = () => {
 
   if (loading) {
     return (
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 border-b border-white/10 py-2 overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 z-[9999] bg-black/90 border-b border-white/10 py-2 overflow-hidden">
         <div className="animate-pulse flex space-x-8">
           {[...Array(12)].map((_, i) => (
             <div key={i} className="flex items-center space-x-2 min-w-fit">
@@ -227,7 +227,7 @@ const StockTicker = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 border-b border-white/10 py-3 overflow-hidden">
+    <div className="fixed top-0 left-0 right-0 z-[9999] bg-black/90 border-b border-white/10 py-3 overflow-hidden">
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(100%); }

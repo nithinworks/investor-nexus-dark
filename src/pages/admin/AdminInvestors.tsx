@@ -271,14 +271,16 @@ const AdminInvestors = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">Investors</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+            Investors
+          </h1>
           <p className="text-white/60">Manage investor database</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-red-600 hover:bg-red-700 text-white">
+            <Button className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Add Investor
             </Button>
@@ -290,7 +292,7 @@ const AdminInvestors = () => {
                 Add a new investor to the database
               </DialogDescription>
             </DialogHeader>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Name *</Label>
                 <Input
@@ -451,7 +453,7 @@ const AdminInvestors = () => {
 
       <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
         <CardHeader>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div>
               <CardTitle className="text-white">Investor Database</CardTitle>
               <CardDescription className="text-white/60">
@@ -465,74 +467,101 @@ const AdminInvestors = () => {
                   placeholder="Search investors..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-white/10 border-white/20 text-white w-64"
+                  className="pl-10 bg-white/10 border-white/20 text-white w-full sm:w-64"
                 />
               </div>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="border-white/10">
-                <TableHead className="text-white/80">Name</TableHead>
-                <TableHead className="text-white/80">Company</TableHead>
-                <TableHead className="text-white/80">Location</TableHead>
-                <TableHead className="text-white/80">Funding Type</TableHead>
-                <TableHead className="text-white/80">Verified</TableHead>
-                <TableHead className="text-white/80">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredInvestors.map((investor) => (
-                <TableRow key={investor.id} className="border-white/10">
-                  <TableCell className="text-white">{investor.name}</TableCell>
-                  <TableCell className="text-white/80">
-                    {investor.company || "-"}
-                  </TableCell>
-                  <TableCell className="text-white/80">
-                    {investor.location || "-"}
-                  </TableCell>
-                  <TableCell className="text-white/80">
-                    {investor.funding_type || "-"}
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={investor.verified ? "default" : "secondary"}
-                    >
-                      {investor.verified ? "Verified" : "Unverified"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => openViewDialog(investor)}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => openEditDialog(investor)}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDelete(investor.id)}
-                        className="text-red-400 hover:text-red-300"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-white/10">
+                  <TableHead className="text-white/80 min-w-[150px]">
+                    Name
+                  </TableHead>
+                  <TableHead className="text-white/80 min-w-[150px] hidden sm:table-cell">
+                    Company
+                  </TableHead>
+                  <TableHead className="text-white/80 min-w-[120px] hidden md:table-cell">
+                    Location
+                  </TableHead>
+                  <TableHead className="text-white/80 min-w-[120px] hidden lg:table-cell">
+                    Funding Type
+                  </TableHead>
+                  <TableHead className="text-white/80 min-w-[100px]">
+                    Verified
+                  </TableHead>
+                  <TableHead className="text-white/80 min-w-[120px]">
+                    Actions
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredInvestors.map((investor) => (
+                  <TableRow key={investor.id} className="border-white/10">
+                    <TableCell className="text-white">
+                      <div className="font-medium">{investor.name}</div>
+                      <div className="sm:hidden text-xs text-white/60 mt-1">
+                        {investor.company || "-"}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white/80 hidden sm:table-cell">
+                      <div>{investor.company || "-"}</div>
+                      <div className="md:hidden text-xs text-white/60 mt-1">
+                        {investor.location || "-"}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white/80 hidden md:table-cell">
+                      <div>{investor.location || "-"}</div>
+                      <div className="lg:hidden text-xs text-white/60 mt-1">
+                        {investor.funding_type || "-"}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white/80 hidden lg:table-cell">
+                      {investor.funding_type || "-"}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={investor.verified ? "default" : "secondary"}
+                      >
+                        {investor.verified ? "Verified" : "Unverified"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex space-x-1 sm:space-x-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => openViewDialog(investor)}
+                          className="p-2"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => openEditDialog(investor)}
+                          className="p-2"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleDelete(investor.id)}
+                          className="text-red-400 hover:text-red-300 p-2"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 
@@ -546,7 +575,7 @@ const AdminInvestors = () => {
             </DialogDescription>
           </DialogHeader>
           {/* Same form fields as Add Dialog */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Name *</Label>
               <Input

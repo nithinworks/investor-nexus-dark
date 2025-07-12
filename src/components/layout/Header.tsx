@@ -22,23 +22,19 @@ const Header = ({ showLandingNav = false }: HeaderProps) => {
   };
 
   return (
-    <header className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-5xl px-4 md:px-6">
+    <header className="fixed top-10 sm:top-12 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-5xl px-3 sm:px-4 md:px-6">
       <div className="bg-black/20 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
-        <div className="flex justify-between items-center h-14 px-4 md:px-6">
+        <div className="flex justify-between items-center h-12 sm:h-14 px-3 sm:px-4 md:px-6">
           <div className="flex items-center min-w-0 flex-1">
-            <Link
-              to="/"
-              className="flex items-center space-x-2 md:space-x-3 min-w-0"
-            >
-              <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-semibold text-xs">TF</span>
-              </div>
-              <h1 className="text-sm md:text-base font-medium text-white truncate">
-                TheFinance
-              </h1>
+            <Link to="/" className="flex items-center space-x-3">
+              <img
+                src="/thefinance-logo.svg"
+                alt="TheFinance"
+                className="h-10 w-auto flex-shrink-0"
+              />
             </Link>
             {(showLandingNav || isLandingPage) && (
-              <nav className="hidden md:flex items-center space-x-6 ml-8">
+              <nav className="hidden lg:flex items-center space-x-6 ml-8">
                 <button
                   onClick={() => scrollToSection("features")}
                   className="text-sm text-white/70 hover:text-white transition-colors"
@@ -67,16 +63,16 @@ const Header = ({ showLandingNav = false }: HeaderProps) => {
             )}
           </div>
           <div className="flex items-center space-x-2 md:space-x-3 flex-shrink-0">
-            <Link to="/auth" className="hidden md:block">
+            <Link to="/auth" className="hidden sm:block">
               <Button
                 variant="ghost"
-                className="text-sm text-white/70 hover:text-white hover:bg-white/10 h-8 px-3 rounded-full"
+                className="text-xs sm:text-sm text-white/70 hover:text-white hover:bg-white/10 h-7 sm:h-8 px-2 sm:px-3 rounded-full"
               >
                 Sign in
               </Button>
             </Link>
             <Link to="/auth">
-              <Button className="bg-red-600 hover:bg-red-700 text-white text-xs md:text-sm h-8 px-3 md:px-4 rounded-full transition-all duration-200">
+              <Button className="bg-red-600 hover:bg-red-700 text-white text-xs md:text-sm h-7 sm:h-8 px-2 sm:px-3 md:px-4 rounded-full transition-all duration-200">
                 Get Started
               </Button>
             </Link>

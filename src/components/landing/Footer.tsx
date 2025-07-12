@@ -19,12 +19,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Section */}
           <div className="md:col-span-1">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-6 h-6 rounded bg-red-600 flex items-center justify-center">
-                <span className="text-white font-semibold text-xs">TF</span>
-              </div>
-              <h3 className="text-base font-medium text-white">TheFinance</h3>
-            </div>
+            <Link to="/" className="flex items-center space-x-3">
+              <img
+                src="/thefinance-logo.svg"
+                alt="TheFinance"
+                className="h-10 w-auto flex-shrink-0"
+              />
+            </Link>
             <p className="text-white/60 text-sm max-w-sm mb-6">
               AI-powered investor matching for ambitious startups. Find the
               right investors for your next funding round.
