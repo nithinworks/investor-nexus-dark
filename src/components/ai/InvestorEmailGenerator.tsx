@@ -53,25 +53,14 @@ const InvestorEmailGenerator = ({ formData, setFormData }: InvestorEmailGenerato
       return;
     }
 
-    // Check if user can perform action and consume 2 credits for AI tool
-    if (!canPerformAction()) {
+    // Check if user can perform action (need 2 credits for AI tool)
+    if (getRemainingActions() < 2) {
       toast({
         title: "Action Limit Reached",
         description: `You need at least 2 actions to use this AI tool. You have ${getRemainingActions()} actions remaining.`,
         variant: "destructive",
       });
       return;
-    }
-
-    const actionConsumed = await consumeAction('ai_tool');
-    if (!actionConsumed) {
-      return; // Action consumption failed, error already shown
-    }
-
-    // Consume second credit for AI tool (total 2 credits)
-    const secondActionConsumed = await consumeAction('ai_tool');
-    if (!secondActionConsumed) {
-      return; // Action consumption failed, error already shown
     }
 
     setIsGenerating(true);
@@ -81,6 +70,17 @@ const InvestorEmailGenerator = ({ formData, setFormData }: InvestorEmailGenerato
       });
 
       if (error) throw error;
+
+      // Only consume actions if AI generation was successful
+      const firstActionConsumed = await consumeAction('ai_tool');
+      if (!firstActionConsumed) {
+        return; // Action consumption failed, error already shown
+      }
+
+      const secondActionConsumed = await consumeAction('ai_tool');
+      if (!secondActionConsumed) {
+        return; // Action consumption failed, error already shown
+      }
 
       setGeneratedContent(data.generatedContent);
       toast({

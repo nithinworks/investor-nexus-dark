@@ -28,7 +28,11 @@ serve(async (req) => {
     
     // Check if Gemini API key is available
     if (!geminiApiKey) {
-      throw new Error("GEMINI_API_KEY not configured");
+      console.error("GEMINI_API_KEY not configured");
+      return new Response(JSON.stringify({ error: "Gemini API key not configured. Please contact administrator." }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
     
     // Create Supabase client
@@ -54,8 +58,8 @@ serve(async (req) => {
       .eq("id", user.id)
       .single();
 
-    if (!profile || (profile.subscription_tier !== "pro" && profile.subscription_tier !== "enterprise")) {
-      return new Response(JSON.stringify({ error: "This feature is only available for Pro and Enterprise users" }), {
+    if (!profile || (profile.subscription_tier === "free")) {
+      return new Response(JSON.stringify({ error: "This feature is only available for Starter, Pro and Enterprise users" }), {
         status: 403,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
