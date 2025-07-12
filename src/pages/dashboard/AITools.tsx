@@ -134,7 +134,7 @@ const AITools = () => {
               <div className="text-center">
                 <Button
                   className="bg-red-600 hover:bg-red-700 text-white font-medium px-8 py-3 rounded-lg shadow-lg hover:shadow-red-500/25 transition-all duration-200"
-                  onClick={() => window.open("/pricing", "_blank")}
+                  onClick={() => window.open("/dashboard/pricing", "_blank")}
                 >
                   Upgrade to Pro
                   <ArrowRight className="h-4 w-4 ml-2" />

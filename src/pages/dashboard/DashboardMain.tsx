@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -19,15 +19,19 @@ const DashboardMain = () => {
   const { user } = useAuth();
   const { refreshSubscription } = useSubscription();
   const [searchParams, setSearchParams] = useSearchParams();
+  const processedSessionRef = useRef<string | null>(null);
 
   // Handle successful Stripe checkout
   useEffect(() => {
     const sessionId = searchParams.get("session_id");
-    if (sessionId && user) {
+    if (sessionId && user && processedSessionRef.current !== sessionId) {
       console.log(
         "Detected Stripe session_id, refreshing subscription:",
         sessionId
       );
+
+      // Mark this session as being processed
+      processedSessionRef.current = sessionId;
 
       // Call check-subscription to sync the latest subscription status
       const syncSubscription = async () => {

@@ -19,7 +19,6 @@ import PitchDeckTool from "./pages/dashboard/PitchDeckTool";
 import BillingUsage from "./pages/dashboard/BillingUsage";
 import DashboardPricing from "./pages/dashboard/DashboardPricing";
 import AccountSettings from "./pages/dashboard/AccountSettings";
-import Pricing from "./pages/Pricing";
 import InvestorApplication from "./pages/InvestorApplication";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -129,7 +128,6 @@ const App = () => (
                     <Route path="settings" element={<AccountSettings />} />
                   </Route>
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="pricing" element={<Pricing />} />
                   <Route
                     path="/apply"
                     element={

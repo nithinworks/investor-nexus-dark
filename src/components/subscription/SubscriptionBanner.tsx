@@ -81,7 +81,7 @@ const SubscriptionBanner = ({
         </div>
         <Button
           className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold font-satoshi px-4 md:px-6 py-2 rounded-xl shadow-lg hover:shadow-red-500/25 transition-all duration-200 border border-red-400/30 backdrop-blur-sm text-sm"
-          onClick={() => window.open("/pricing", "_blank")}
+          onClick={() => window.open("/dashboard/pricing", "_blank")}
         >
           <Zap className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
           View Plans
