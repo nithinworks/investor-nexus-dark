@@ -1,99 +1,76 @@
-
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {
   IconClipboardCopy,
   IconFileBroken,
   IconSignature,
   IconTableColumn,
+  IconDatabase,
+  IconRobot,
 } from "@tabler/icons-react";
 import { FeatureSkeletons } from "./FeatureSkeletons";
 
 const FeaturesSection = () => {
   const items = [
     {
-      title: "Curated Investor Database",
+      title: "Premium Investor Database",
       description:
-        "Access our premium database of 10,000+ verified investors across all stages and industries.",
+        "Access 10,000+ verified investor profiles with detailed contact information, fund details, and investment preferences.",
       header: <FeatureSkeletons.SkeletonOne />,
       className: "md:col-span-1",
-      icon: <IconClipboardCopy className="h-4 w-4 text-red-500" />,
+      icon: <IconDatabase className="h-4 w-4 text-red-500" />,
     },
     {
-      title: "Detailed Investor Profiles",
+      title: "Advanced Search & Filters",
       description:
-        "Get complete investor information including contact details, fund size, check size, and investment preferences.",
+        "Find your perfect investors using powerful filters by industry, stage, check size, location, and investment focus.",
       header: <FeatureSkeletons.SkeletonTwo />,
-      className: "md:col-span-1",
-      icon: <IconFileBroken className="h-4 w-4 text-red-500" />,
-    },
-    {
-      title: "Smart Filters & Search",
-      description:
-        "Find the perfect investors using advanced filters by industry, stage, check size, and investment focus.",
-      header: <FeatureSkeletons.SkeletonThree />,
       className: "md:col-span-1",
       icon: <IconSignature className="h-4 w-4 text-red-500" />,
     },
     {
       title: "Save & Export Lists",
       description:
-        "Create custom investor lists, save your searches, and export data to CSV for your outreach campaigns.",
-      header: <FeatureSkeletons.SkeletonFour />,
+        "Create custom investor lists, save your searches, and export complete investor data to CSV for your outreach campaigns.",
+      header: <FeatureSkeletons.SkeletonThree />,
       className: "md:col-span-1",
       icon: <IconTableColumn className="h-4 w-4 text-red-500" />,
     },
     {
-      title: "AI-Powered Tools",
+      title: "AI Pitch Deck Generator",
       description:
-        "Generate personalized pitch decks and investor emails using our advanced AI technology.",
+        "Generate professional, investor-ready pitch decks tailored to your startup using our advanced AI technology.",
+      header: <FeatureSkeletons.SkeletonFour />,
+      className: "md:col-span-1",
+      icon: <IconFileBroken className="h-4 w-4 text-red-500" />,
+    },
+    {
+      title: "AI Email Generator",
+      description:
+        "Create personalized, compelling investor outreach emails that get responses using AI-powered copywriting.",
       header: <FeatureSkeletons.SkeletonFive />,
       className: "md:col-span-1",
       icon: <IconClipboardCopy className="h-4 w-4 text-red-500" />,
     },
     {
-      title: "Unbeatable Value",
+      title: "Complete Investor Intel",
       description:
-        "Get the most comprehensive investor platform at the most competitive price in the market.",
+        "Get fund size, check size ranges, portfolio companies, contact details, and investment thesis for each investor.",
       header: <FeatureSkeletons.SkeletonSix />,
       className: "md:col-span-1",
-      icon: <IconFileBroken className="h-4 w-4 text-red-500" />,
-    },
-    {
-      title: "Advanced Analytics",
-      description:
-        "Track your outreach performance and optimize your approach with detailed analytics and insights.",
-      header: <FeatureSkeletons.SkeletonSeven />,
-      className: "md:col-span-1",
-      icon: <IconSignature className="h-4 w-4 text-red-500" />,
-    },
-    {
-      title: "Team Collaboration",
-      description:
-        "Work together with your team to manage investor relationships and coordinate outreach efforts.",
-      header: <FeatureSkeletons.SkeletonEight />,
-      className: "md:col-span-1",
-      icon: <IconTableColumn className="h-4 w-4 text-red-500" />,
-    },
-    {
-      title: "CRM Integration",
-      description:
-        "Seamlessly integrate with your existing CRM and workflow tools like Salesforce, HubSpot, and more.",
-      header: <FeatureSkeletons.SkeletonNine />,
-      className: "md:col-span-1",
-      icon: <IconClipboardCopy className="h-4 w-4 text-red-500" />,
+      icon: <IconRobot className="h-4 w-4 text-red-500" />,
     },
   ];
 
   return (
-    <section className="py-24 bg-black">
+    <section id="features" className="py-24 bg-black">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-2xl font-semibold mb-4">
-            Everything you need to find investors
+            Everything you need to raise funding
           </h2>
           <p className="text-white/60 text-base max-w-2xl mx-auto">
-            Our platform combines AI matching with comprehensive investor
-            data to streamline your fundraising process.
+            Premium investor database, advanced search tools, and AI-powered
+            content generation to accelerate your fundraising process.
           </p>
         </div>
         <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem] md:grid-cols-3">

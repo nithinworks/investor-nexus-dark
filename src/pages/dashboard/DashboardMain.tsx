@@ -1,13 +1,76 @@
-
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useSubscription } from "@/hooks/useSubscription";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { BarChart3, Users, Bookmark, Activity } from "lucide-react";
 import { ActionUsage } from "@/components/dashboard/ActionUsage";
+import { toast } from "@/hooks/use-toast";
 
 const DashboardMain = () => {
   const { user } = useAuth();
+  const { refreshSubscription } = useSubscription();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Handle successful Stripe checkout
+  useEffect(() => {
+    const sessionId = searchParams.get("session_id");
+    if (sessionId && user) {
+      console.log(
+        "Detected Stripe session_id, refreshing subscription:",
+        sessionId
+      );
+
+      // Call check-subscription to sync the latest subscription status
+      const syncSubscription = async () => {
+        try {
+          const { data, error } = await supabase.functions.invoke(
+            "check-subscription"
+          );
+
+          if (error) {
+            console.error("Error checking subscription:", error);
+            throw error;
+          }
+
+          console.log("Subscription sync result:", data);
+
+          // Refresh the frontend subscription state
+          await refreshSubscription(false);
+
+          // Show success message
+          toast({
+            title: "Payment Successful!",
+            description: "Your subscription has been updated successfully.",
+            variant: "default",
+          });
+
+          // Clean up the URL by removing session_id
+          searchParams.delete("session_id");
+          setSearchParams(searchParams, { replace: true });
+        } catch (error) {
+          console.error("Failed to sync subscription:", error);
+          toast({
+            title: "Subscription Sync Error",
+            description:
+              "Payment was successful, but there was an issue updating your account. Please refresh the page.",
+            variant: "destructive",
+          });
+        }
+      };
+
+      // Small delay to ensure user is properly authenticated
+      setTimeout(syncSubscription, 1000);
+    }
+  }, [searchParams, setSearchParams, user, refreshSubscription]);
 
   // Fetch user profile for usage stats
   const { data: profile } = useQuery({
@@ -113,8 +176,8 @@ const DashboardMain = () => {
       {/* Enhanced Stats Grid - Better Mobile Layout */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
         {stats.map((stat, index) => (
-          <Card 
-            key={stat.title} 
+          <Card
+            key={stat.title}
             className={`backdrop-blur-xl bg-white/5 border ${stat.borderColor} hover:bg-white/10 transition-all duration-200 animate-fade-in`}
             style={{ animationDelay: `${index * 100}ms` }}
           >
@@ -127,7 +190,9 @@ const DashboardMain = () => {
                   {stat.value}
                 </div>
               </div>
-              <div className={`p-2 md:p-2.5 rounded-lg ${stat.bgColor} border ${stat.borderColor} backdrop-blur-sm`}>
+              <div
+                className={`p-2 md:p-2.5 rounded-lg ${stat.bgColor} border ${stat.borderColor} backdrop-blur-sm`}
+              >
                 <stat.icon className={`h-3 w-3 md:h-4 md:w-4 ${stat.color}`} />
               </div>
             </CardHeader>
@@ -143,12 +208,16 @@ const DashboardMain = () => {
       {/* Action Usage and Activity Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <ActionUsage />
-        
+
         {/* Recent Activity */}
         <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white font-satoshi">Recent Activity</CardTitle>
-            <CardDescription className="text-gray-400">Your latest interactions with investors</CardDescription>
+            <CardTitle className="text-white font-satoshi">
+              Recent Activity
+            </CardTitle>
+            <CardDescription className="text-gray-400">
+              Your latest interactions with investors
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -173,8 +242,12 @@ const DashboardMain = () => {
 
         <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-white font-satoshi">Account Status</CardTitle>
-            <CardDescription className="text-gray-400">Your subscription and usage details</CardDescription>
+            <CardTitle className="text-white font-satoshi">
+              Account Status
+            </CardTitle>
+            <CardDescription className="text-gray-400">
+              Your subscription and usage details
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -185,7 +258,9 @@ const DashboardMain = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
-                <span className="text-sm text-gray-400 font-satoshi">Actions</span>
+                <span className="text-sm text-gray-400 font-satoshi">
+                  Actions
+                </span>
                 <span className="font-medium text-white font-satoshi">
                   {profile?.access_used || 0} / {profile?.access_limit || 0}
                 </span>

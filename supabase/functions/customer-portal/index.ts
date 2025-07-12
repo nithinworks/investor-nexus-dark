@@ -4,11 +4,12 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 const logStep = (step: string, details?: any) => {
-  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : "";
   console.log(`[CUSTOMER-PORTAL] ${step}${detailsStr}`);
 };
 
@@ -21,8 +22,11 @@ serve(async (req) => {
     logStep("Function started");
 
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
-    logStep("Stripe key verified");
+    if (!stripeKey) {
+      logStep("ERROR: STRIPE_SECRET_KEY is not set");
+      throw new Error("STRIPE_SECRET_KEY is not set");
+    }
+    logStep("Stripe key verified", { keyPrefix: stripeKey.substring(0, 8) });
 
     // Use service role key for authentication
     const supabaseClient = createClient(
@@ -32,36 +36,76 @@ serve(async (req) => {
     );
 
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) throw new Error("No authorization header provided");
+    if (!authHeader) {
+      logStep("ERROR: No authorization header provided");
+      throw new Error("No authorization header provided");
+    }
 
     const token = authHeader.replace("Bearer ", "");
-    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
-    if (userError) throw new Error(`Authentication error: ${userError.message}`);
-    
+    const { data: userData, error: userError } =
+      await supabaseClient.auth.getUser(token);
+    if (userError) {
+      logStep("ERROR: Authentication error", { error: userError.message });
+      throw new Error(`Authentication error: ${userError.message}`);
+    }
+
     const user = userData.user;
-    if (!user?.email) throw new Error("User not authenticated or email not available");
+    if (!user?.email) {
+      logStep("ERROR: User not authenticated or email not available");
+      throw new Error("User not authenticated or email not available");
+    }
     logStep("User authenticated", { userId: user.id, email: user.email });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
-    
+
     // Find customer
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    logStep("Searching for Stripe customer", { email: user.email });
+    const customers = await stripe.customers.list({
+      email: user.email,
+      limit: 1,
+    });
+
     if (customers.data.length === 0) {
-      throw new Error("No Stripe customer found for this user");
+      logStep("ERROR: No Stripe customer found", { email: user.email });
+      throw new Error(
+        "No Stripe customer found for this user. Please contact support."
+      );
     }
-    
+
     const customerId = customers.data[0].id;
-    logStep("Found Stripe customer", { customerId });
+    logStep("Found Stripe customer", {
+      customerId,
+      customerEmail: customers.data[0].email,
+    });
+
+    // Check if customer has active subscriptions
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customerId,
+      status: "active",
+      limit: 1,
+    });
+
+    logStep("Customer subscriptions", {
+      customerId,
+      activeSubscriptions: subscriptions.data.length,
+      subscriptionIds: subscriptions.data.map((sub) => sub.id),
+    });
 
     const origin = req.headers.get("origin") || "http://localhost:3000";
+    logStep("Creating customer portal session", {
+      customerId,
+      returnUrl: `${origin}/dashboard/billing`,
+    });
+
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: `${origin}/dashboard/billing`,
     });
-    
-    logStep("Customer portal session created", { 
-      sessionId: portalSession.id, 
-      url: portalSession.url 
+
+    logStep("Customer portal session created successfully", {
+      sessionId: portalSession.id,
+      url: portalSession.url,
+      customerId: portalSession.customer,
     });
 
     return new Response(JSON.stringify({ url: portalSession.url }), {
@@ -70,10 +114,23 @@ serve(async (req) => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logStep("ERROR in customer-portal", { message: errorMessage });
-    return new Response(JSON.stringify({ error: errorMessage }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
+    const errorStack = error instanceof Error ? error.stack : undefined;
+
+    logStep("ERROR in customer-portal", {
+      message: errorMessage,
+      stack: errorStack,
+      errorType: error.constructor.name,
     });
+
+    return new Response(
+      JSON.stringify({
+        error: errorMessage,
+        details: "Check the Edge Function logs for more information",
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      }
+    );
   }
 });

@@ -1,8 +1,9 @@
-
 import StockTicker from "@/components/ui/StockTicker";
 import Header from "@/components/landing/Header";
 import HeroSection from "@/components/landing/HeroSection";
 import FeaturesSection from "@/components/landing/FeaturesSection";
+import WhyChooseUsSection from "@/components/landing/WhyChooseUsSection";
+import PricingSection from "@/components/landing/PricingSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import FAQSection from "@/components/landing/FAQSection";
 import CTASection from "@/components/landing/CTASection";
@@ -24,6 +25,12 @@ const Landing = () => {
 
         {/* Features Section */}
         <FeaturesSection />
+
+        {/* Why Choose Us Section */}
+        <WhyChooseUsSection />
+
+        {/* Pricing Section */}
+        <PricingSection />
 
         {/* Testimonials Section */}
         <TestimonialsSection />

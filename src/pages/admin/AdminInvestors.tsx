@@ -1,16 +1,42 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
-import { Search, Plus, Edit, Trash2, Eye } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { Search, Plus, Edit, Trash2, Eye } from "lucide-react";
 
 interface Investor {
   id: string;
@@ -35,26 +61,28 @@ const AdminInvestors = () => {
   const [investors, setInvestors] = useState<Investor[]>([]);
   const [filteredInvestors, setFilteredInvestors] = useState<Investor[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedInvestor, setSelectedInvestor] = useState<Investor | null>(
+    null
+  );
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: '',
-    bio: '',
-    company: '',
-    company_url: '',
-    contact: '',
-    contact_type: 'email',
-    location: '',
-    funding_type: '',
-    funding_stage: '',
-    funding_industries: '',
-    funding_description: '',
-    check_sizes: '',
-    image_url: '',
+    name: "",
+    bio: "",
+    company: "",
+    company_url: "",
+    contact: "",
+    contact_type: "email",
+    location: "",
+    funding_type: "",
+    funding_stage: "",
+    funding_industries: "",
+    funding_description: "",
+    check_sizes: "",
+    image_url: "",
     verified: true,
   });
 
@@ -63,10 +91,11 @@ const AdminInvestors = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = investors.filter(investor =>
-      investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      investor.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      investor.location?.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = investors.filter(
+      (investor) =>
+        investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        investor.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        investor.location?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredInvestors(filtered);
   }, [investors, searchTerm]);
@@ -74,14 +103,14 @@ const AdminInvestors = () => {
   const fetchInvestors = async () => {
     try {
       const { data, error } = await supabase
-        .from('investors')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("investors")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       setInvestors(data || []);
     } catch (error) {
-      console.error('Error fetching investors:', error);
+      console.error("Error fetching investors:", error);
       toast({
         title: "Error",
         description: "Failed to fetch investors",
@@ -94,31 +123,33 @@ const AdminInvestors = () => {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      bio: '',
-      company: '',
-      company_url: '',
-      contact: '',
-      contact_type: 'email',
-      location: '',
-      funding_type: '',
-      funding_stage: '',
-      funding_industries: '',
-      funding_description: '',
-      check_sizes: '',
-      image_url: '',
+      name: "",
+      bio: "",
+      company: "",
+      company_url: "",
+      contact: "",
+      contact_type: "email",
+      location: "",
+      funding_type: "",
+      funding_stage: "",
+      funding_industries: "",
+      funding_description: "",
+      check_sizes: "",
+      image_url: "",
       verified: true,
     });
   };
 
   const handleAdd = async () => {
     try {
-      const { error } = await supabase
-        .from('investors')
-        .insert([{
+      const { error } = await supabase.from("investors").insert([
+        {
           ...formData,
-          funding_industries: formData.funding_industries ? formData.funding_industries.split(',').map(s => s.trim()) : [],
-        }]);
+          funding_industries: formData.funding_industries
+            ? formData.funding_industries.split(",").map((s) => s.trim())
+            : [],
+        },
+      ]);
 
       if (error) throw error;
 
@@ -126,12 +157,12 @@ const AdminInvestors = () => {
         title: "Success",
         description: "Investor added successfully",
       });
-      
+
       fetchInvestors();
       setIsAddDialogOpen(false);
       resetForm();
     } catch (error) {
-      console.error('Error adding investor:', error);
+      console.error("Error adding investor:", error);
       toast({
         title: "Error",
         description: "Failed to add investor",
@@ -145,12 +176,14 @@ const AdminInvestors = () => {
 
     try {
       const { error } = await supabase
-        .from('investors')
+        .from("investors")
         .update({
           ...formData,
-          funding_industries: formData.funding_industries ? formData.funding_industries.split(',').map(s => s.trim()) : [],
+          funding_industries: formData.funding_industries
+            ? formData.funding_industries.split(",").map((s) => s.trim())
+            : [],
         })
-        .eq('id', selectedInvestor.id);
+        .eq("id", selectedInvestor.id);
 
       if (error) throw error;
 
@@ -158,13 +191,13 @@ const AdminInvestors = () => {
         title: "Success",
         description: "Investor updated successfully",
       });
-      
+
       fetchInvestors();
       setIsEditDialogOpen(false);
       setSelectedInvestor(null);
       resetForm();
     } catch (error) {
-      console.error('Error updating investor:', error);
+      console.error("Error updating investor:", error);
       toast({
         title: "Error",
         description: "Failed to update investor",
@@ -174,13 +207,10 @@ const AdminInvestors = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this investor?')) return;
+    if (!confirm("Are you sure you want to delete this investor?")) return;
 
     try {
-      const { error } = await supabase
-        .from('investors')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from("investors").delete().eq("id", id);
 
       if (error) throw error;
 
@@ -188,10 +218,10 @@ const AdminInvestors = () => {
         title: "Success",
         description: "Investor deleted successfully",
       });
-      
+
       fetchInvestors();
     } catch (error) {
-      console.error('Error deleting investor:', error);
+      console.error("Error deleting investor:", error);
       toast({
         title: "Error",
         description: "Failed to delete investor",
@@ -204,18 +234,20 @@ const AdminInvestors = () => {
     setSelectedInvestor(investor);
     setFormData({
       name: investor.name,
-      bio: investor.bio || '',
-      company: investor.company || '',
-      company_url: investor.company_url || '',
+      bio: investor.bio || "",
+      company: investor.company || "",
+      company_url: investor.company_url || "",
       contact: investor.contact,
-      contact_type: investor.contact_type || 'email',
-      location: investor.location || '',
-      funding_type: investor.funding_type || '',
-      funding_stage: investor.funding_stage || '',
-      funding_industries: investor.funding_industries ? investor.funding_industries.join(', ') : '',
-      funding_description: investor.funding_description || '',
-      check_sizes: investor.check_sizes || '',
-      image_url: investor.image_url || '',
+      contact_type: investor.contact_type || "email",
+      location: investor.location || "",
+      funding_type: investor.funding_type || "",
+      funding_stage: investor.funding_stage || "",
+      funding_industries: investor.funding_industries
+        ? investor.funding_industries.join(", ")
+        : "",
+      funding_description: investor.funding_description || "",
+      check_sizes: investor.check_sizes || "",
+      image_url: investor.image_url || "",
       verified: investor.verified || false,
     });
     setIsEditDialogOpen(true);
@@ -263,7 +295,9 @@ const AdminInvestors = () => {
                 <Label>Name *</Label>
                 <Input
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="bg-white/10 border-white/20 text-white"
                 />
               </div>
@@ -271,7 +305,9 @@ const AdminInvestors = () => {
                 <Label>Company</Label>
                 <Input
                   value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, company: e.target.value })
+                  }
                   className="bg-white/10 border-white/20 text-white"
                 />
               </div>
@@ -279,13 +315,20 @@ const AdminInvestors = () => {
                 <Label>Contact *</Label>
                 <Input
                   value={formData.contact}
-                  onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, contact: e.target.value })
+                  }
                   className="bg-white/10 border-white/20 text-white"
                 />
               </div>
               <div className="space-y-2">
                 <Label>Contact Type</Label>
-                <Select value={formData.contact_type} onValueChange={(value) => setFormData({ ...formData, contact_type: value })}>
+                <Select
+                  value={formData.contact_type}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, contact_type: value })
+                  }
+                >
                   <SelectTrigger className="bg-white/10 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
@@ -300,13 +343,20 @@ const AdminInvestors = () => {
                 <Label>Location</Label>
                 <Input
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                   className="bg-white/10 border-white/20 text-white"
                 />
               </div>
               <div className="space-y-2">
                 <Label>Funding Type</Label>
-                <Select value={formData.funding_type} onValueChange={(value) => setFormData({ ...formData, funding_type: value })}>
+                <Select
+                  value={formData.funding_type}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, funding_type: value })
+                  }
+                >
                   <SelectTrigger className="bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder="Select funding type" />
                   </SelectTrigger>
@@ -320,7 +370,12 @@ const AdminInvestors = () => {
               </div>
               <div className="space-y-2">
                 <Label>Funding Stage</Label>
-                <Select value={formData.funding_stage} onValueChange={(value) => setFormData({ ...formData, funding_stage: value })}>
+                <Select
+                  value={formData.funding_stage}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, funding_stage: value })
+                  }
+                >
                   <SelectTrigger className="bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder="Select funding stage" />
                   </SelectTrigger>
@@ -338,7 +393,9 @@ const AdminInvestors = () => {
                 <Label>Bio</Label>
                 <Textarea
                   value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, bio: e.target.value })
+                  }
                   className="bg-white/10 border-white/20 text-white"
                 />
               </div>
@@ -346,17 +403,45 @@ const AdminInvestors = () => {
                 <Label>Industries (comma-separated)</Label>
                 <Input
                   value={formData.funding_industries}
-                  onChange={(e) => setFormData({ ...formData, funding_industries: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      funding_industries: e.target.value,
+                    })
+                  }
                   className="bg-white/10 border-white/20 text-white"
                   placeholder="e.g., FinTech, SaaS, Healthcare"
                 />
               </div>
+              <div className="col-span-2 space-y-2">
+                <Label>Verification Status</Label>
+                <Select
+                  value={formData.verified ? "true" : "false"}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, verified: value === "true" })
+                  }
+                >
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">Verified</SelectItem>
+                    <SelectItem value="false">Unverified</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <div className="flex justify-end space-x-2 pt-4">
-              <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setIsAddDialogOpen(false)}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleAdd} className="bg-red-600 hover:bg-red-700">
+              <Button
+                onClick={handleAdd}
+                className="bg-red-600 hover:bg-red-700"
+              >
                 Add Investor
               </Button>
             </div>
@@ -402,11 +487,19 @@ const AdminInvestors = () => {
               {filteredInvestors.map((investor) => (
                 <TableRow key={investor.id} className="border-white/10">
                   <TableCell className="text-white">{investor.name}</TableCell>
-                  <TableCell className="text-white/80">{investor.company || '-'}</TableCell>
-                  <TableCell className="text-white/80">{investor.location || '-'}</TableCell>
-                  <TableCell className="text-white/80">{investor.funding_type || '-'}</TableCell>
+                  <TableCell className="text-white/80">
+                    {investor.company || "-"}
+                  </TableCell>
+                  <TableCell className="text-white/80">
+                    {investor.location || "-"}
+                  </TableCell>
+                  <TableCell className="text-white/80">
+                    {investor.funding_type || "-"}
+                  </TableCell>
                   <TableCell>
-                    <Badge variant={investor.verified ? "default" : "secondary"}>
+                    <Badge
+                      variant={investor.verified ? "default" : "secondary"}
+                    >
                       {investor.verified ? "Verified" : "Unverified"}
                     </Badge>
                   </TableCell>
@@ -458,7 +551,9 @@ const AdminInvestors = () => {
               <Label>Name *</Label>
               <Input
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="bg-white/10 border-white/20 text-white"
               />
             </div>
@@ -466,7 +561,9 @@ const AdminInvestors = () => {
               <Label>Company</Label>
               <Input
                 value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, company: e.target.value })
+                }
                 className="bg-white/10 border-white/20 text-white"
               />
             </div>
@@ -474,13 +571,20 @@ const AdminInvestors = () => {
               <Label>Contact *</Label>
               <Input
                 value={formData.contact}
-                onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, contact: e.target.value })
+                }
                 className="bg-white/10 border-white/20 text-white"
               />
             </div>
             <div className="space-y-2">
               <Label>Contact Type</Label>
-              <Select value={formData.contact_type} onValueChange={(value) => setFormData({ ...formData, contact_type: value })}>
+              <Select
+                value={formData.contact_type}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, contact_type: value })
+                }
+              >
                 <SelectTrigger className="bg-white/10 border-white/20 text-white">
                   <SelectValue />
                 </SelectTrigger>
@@ -495,13 +599,20 @@ const AdminInvestors = () => {
               <Label>Location</Label>
               <Input
                 value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, location: e.target.value })
+                }
                 className="bg-white/10 border-white/20 text-white"
               />
             </div>
             <div className="space-y-2">
               <Label>Funding Type</Label>
-              <Select value={formData.funding_type} onValueChange={(value) => setFormData({ ...formData, funding_type: value })}>
+              <Select
+                value={formData.funding_type}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, funding_type: value })
+                }
+              >
                 <SelectTrigger className="bg-white/10 border-white/20 text-white">
                   <SelectValue placeholder="Select funding type" />
                 </SelectTrigger>
@@ -515,7 +626,12 @@ const AdminInvestors = () => {
             </div>
             <div className="space-y-2">
               <Label>Funding Stage</Label>
-              <Select value={formData.funding_stage} onValueChange={(value) => setFormData({ ...formData, funding_stage: value })}>
+              <Select
+                value={formData.funding_stage}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, funding_stage: value })
+                }
+              >
                 <SelectTrigger className="bg-white/10 border-white/20 text-white">
                   <SelectValue placeholder="Select funding stage" />
                 </SelectTrigger>
@@ -533,7 +649,9 @@ const AdminInvestors = () => {
               <Label>Bio</Label>
               <Textarea
                 value={formData.bio}
-                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, bio: e.target.value })
+                }
                 className="bg-white/10 border-white/20 text-white"
               />
             </div>
@@ -541,17 +659,45 @@ const AdminInvestors = () => {
               <Label>Industries (comma-separated)</Label>
               <Input
                 value={formData.funding_industries}
-                onChange={(e) => setFormData({ ...formData, funding_industries: e.target.value })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    funding_industries: e.target.value,
+                  })
+                }
                 className="bg-white/10 border-white/20 text-white"
                 placeholder="e.g., FinTech, SaaS, Healthcare"
               />
             </div>
+            <div className="col-span-2 space-y-2">
+              <Label>Verification Status</Label>
+              <Select
+                value={formData.verified ? "true" : "false"}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, verified: value === "true" })
+                }
+              >
+                <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="true">Verified</SelectItem>
+                  <SelectItem value="false">Unverified</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditDialogOpen(false)}
+            >
               Cancel
             </Button>
-            <Button onClick={handleEdit} className="bg-red-600 hover:bg-red-700">
+            <Button
+              onClick={handleEdit}
+              className="bg-red-600 hover:bg-red-700"
+            >
               Update Investor
             </Button>
           </div>
@@ -572,11 +718,15 @@ const AdminInvestors = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label className="text-white/80">Company</Label>
-                  <p className="text-white">{selectedInvestor.company || '-'}</p>
+                  <p className="text-white">
+                    {selectedInvestor.company || "-"}
+                  </p>
                 </div>
                 <div>
                   <Label className="text-white/80">Location</Label>
-                  <p className="text-white">{selectedInvestor.location || '-'}</p>
+                  <p className="text-white">
+                    {selectedInvestor.location || "-"}
+                  </p>
                 </div>
                 <div>
                   <Label className="text-white/80">Contact</Label>
@@ -584,7 +734,9 @@ const AdminInvestors = () => {
                 </div>
                 <div>
                   <Label className="text-white/80">Funding Type</Label>
-                  <p className="text-white">{selectedInvestor.funding_type || '-'}</p>
+                  <p className="text-white">
+                    {selectedInvestor.funding_type || "-"}
+                  </p>
                 </div>
               </div>
               {selectedInvestor.bio && (
@@ -597,9 +749,13 @@ const AdminInvestors = () => {
                 <div>
                   <Label className="text-white/80">Industries</Label>
                   <div className="flex flex-wrap gap-2 mt-1">
-                    {selectedInvestor.funding_industries.map((industry, index) => (
-                      <Badge key={index} variant="secondary">{industry}</Badge>
-                    ))}
+                    {selectedInvestor.funding_industries.map(
+                      (industry, index) => (
+                        <Badge key={index} variant="secondary">
+                          {industry}
+                        </Badge>
+                      )
+                    )}
                   </div>
                 </div>
               )}

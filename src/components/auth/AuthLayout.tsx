@@ -1,4 +1,3 @@
-
 import { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -12,14 +11,16 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
     <div className="min-h-screen bg-black flex items-center justify-center p-4 font-satoshi">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         {/* Left Column - Form */}
-        <div className="w-full max-w-md mx-auto lg:mx-0 order-2 lg:order-1">
+        <div className="w-full max-w-md mx-auto lg:mx-0 order-1 lg:order-1">
           <div className="backdrop-blur-xl bg-white/5 rounded-3xl border border-white/10 p-8 md:p-10 shadow-2xl">
             {/* Logo and Brand */}
             <div className="flex items-center justify-center lg:justify-start space-x-3 mb-8">
               <div className="w-8 h-8 rounded bg-red-600 flex items-center justify-center">
                 <span className="text-white font-semibold text-sm">TF</span>
               </div>
-              <span className="text-xl font-semibold tracking-tight text-white">TheFinance</span>
+              <span className="text-xl font-semibold tracking-tight text-white">
+                TheFinance
+              </span>
             </div>
 
             {/* Header */}
@@ -38,31 +39,37 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
         </div>
 
         {/* Right Column - Hero Image */}
-        <div className="relative order-1 lg:order-2">
+        <div className="relative order-2 lg:order-2">
           <div className="relative backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-700/5 rounded-3xl border border-white/10 p-8 md:p-12 overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-red-700/5"></div>
-            <div className="absolute inset-0 opacity-20" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-            }}></div>
-            
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            ></div>
+
             {/* Hero Content */}
             <div className="relative z-10 text-center lg:text-left">
               <div className="mb-8">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 border border-red-500/30 backdrop-blur-sm mb-6">
                   <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
-                  <span className="text-red-300 text-sm font-medium">Investor Database</span>
+                  <span className="text-red-300 text-sm font-medium">
+                    Investor Database
+                  </span>
                 </div>
-                
+
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                   Connect with
                   <span className="block bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
                     Top Investors
                   </span>
                 </h2>
-                
+
                 <p className="text-gray-300 text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
-                  Access our curated database of verified investors and accelerate your startup's growth journey.
+                  Access our curated database of verified investors and
+                  accelerate your startup's growth journey.
                 </p>
               </div>
 
@@ -72,9 +79,9 @@ const AuthLayout = ({ children, title, subtitle }: AuthLayoutProps) => {
                   "10,000+ verified investors",
                   "Direct contact information",
                   "Advanced filtering & search",
-                  "Real-time updates"
+                  "Real-time updates",
                 ].map((feature, index) => (
-                  <div 
+                  <div
                     key={feature}
                     className="flex items-center gap-3 text-left"
                     style={{ animationDelay: `${index * 150}ms` }}

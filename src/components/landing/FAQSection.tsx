@@ -1,4 +1,3 @@
-
 import {
   Accordion,
   AccordionContent,
@@ -9,45 +8,55 @@ import {
 const FAQSection = () => {
   const faqs = [
     {
-      question: "How does the AI-powered investor matching work?",
-      answer: "Our AI analyzes your startup profile, including industry, stage, funding amount, and business model, then matches you with investors who have a history of investing in similar companies. The algorithm considers over 50 data points to ensure highly relevant matches."
+      question: "How many investors are in your database?",
+      answer:
+        "We have over 10,000 verified investors in our database, including VCs, angel investors, family offices, and corporate venture arms. Our database is continuously updated with new investors and their latest investment activities.",
     },
     {
-      question: "How many investors are in your database?",
-      answer: "We have over 10,000 verified investors in our database, including VCs, angel investors, family offices, and corporate venture arms. Our database is continuously updated with new investors and their latest investment activities."
+      question: "What counts as an action?",
+      answer:
+        "Actions include viewing investor contact details, exporting data to CSV, generating AI emails, and creating AI pitch decks. Browsing, searching, and filtering are always free and unlimited - you only use actions when accessing premium features.",
     },
     {
       question: "What information do you provide about investors?",
-      answer: "Each investor profile includes contact details, investment preferences, check size ranges, portfolio companies, recent investments, geographic focus, and preferred industries. We also provide insights on their investment timeline and decision-making process."
+      answer:
+        "Each investor profile includes contact details, fund size, check size ranges, investment preferences, portfolio companies, geographic focus, and preferred industries. We also provide insights on their investment thesis and recent activity.",
     },
     {
       question: "Can I export investor lists?",
-      answer: "Yes, you can export investor lists to CSV format for your outreach campaigns. You can also save multiple lists, organize them by tags, and share them with your team members."
+      answer:
+        "Yes, you can export investor lists to CSV format for your outreach campaigns. You can also save multiple lists, organize them by tags, and access them anytime. CSV exports include all available investor data.",
     },
     {
-      question: "Do you offer AI-generated pitch materials?",
-      answer: "Yes, our AI tools can generate personalized pitch decks and investor emails based on your company information and the specific investor you're targeting. This helps you create more compelling and relevant outreach materials."
-    },
-    {
-      question: "What's included in the free trial?",
-      answer: "The 7-day free trial includes access to our full investor database, AI matching, basic filtering, and the ability to save up to 50 investors. You can also test our AI pitch deck and email generation tools."
+      question: "How do the AI tools work?",
+      answer:
+        "Our AI pitch deck generator creates professional presentations tailored to your startup and target investors. The AI email generator crafts personalized outreach emails based on investor preferences and your company profile. Both tools use advanced AI to improve your fundraising materials.",
     },
     {
       question: "How accurate is your investor data?",
-      answer: "We maintain over 95% accuracy by continuously updating our database through multiple sources including SEC filings, press releases, and direct verification. Our team reviews and updates investor information monthly."
+      answer:
+        "We maintain over 99% accuracy by continuously updating our database through multiple sources including SEC filings, press releases, and direct verification. Our team reviews and updates investor information regularly to ensure you have the most current data.",
     },
     {
-      question: "Can I collaborate with my team?",
-      answer: "Yes, our platform supports team collaboration. You can share investor lists, assign tasks, track outreach progress, and manage your fundraising pipeline with your co-founders and team members."
+      question: "What search filters are available?",
+      answer:
+        "You can filter by industry, investment stage, check size, geographic location, fund type, recent activity, and over 50+ other criteria. Our advanced search helps you find exactly the right investors for your startup and funding stage.",
     },
     {
-      question: "Do you integrate with CRM systems?",
-      answer: "Yes, we integrate with popular CRM systems including Salesforce, HubSpot, and Pipedrive. You can also use Zapier to connect with over 3,000 other tools and automate your fundraising workflow."
+      question: "Do you offer customer support?",
+      answer:
+        "Yes, we provide email support for all users, with priority support for paid plans. Premium users also get access to a dedicated account manager and can schedule consultation calls for fundraising strategy guidance.",
     },
     {
-      question: "What if I need help with my fundraising strategy?",
-      answer: "We provide comprehensive resources including fundraising guides, best practices, and email templates. Premium users also get access to fundraising workshops and can request strategy consultations with our team."
-    }
+      question: "Can I upgrade or downgrade my plan?",
+      answer:
+        "Yes, you can change your plan at any time. Upgrades take effect immediately, and downgrades take effect at the end of your current billing cycle. Unused actions don't roll over to the next month.",
+    },
+    {
+      question: "Is my data secure?",
+      answer:
+        "Absolutely. We use enterprise-grade security with 99.9% uptime, encrypted data transmission, and secure storage. Your company information and search activity are kept completely confidential and never shared with third parties.",
+    },
   ];
 
   return (
@@ -59,7 +68,8 @@ const FAQSection = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Everything you need to know about TheFinance and how it can help you raise funding
+            Everything you need to know about TheFinance and how it can help you
+            raise funding
           </p>
         </div>
 
@@ -85,9 +95,7 @@ const FAQSection = () => {
 
         {/* Contact CTA */}
         <div className="text-center mt-12">
-          <p className="text-white/60 text-base mb-4">
-            Still have questions?
-          </p>
+          <p className="text-white/60 text-base mb-4">Still have questions?</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="mailto:support@thefinance.com"

@@ -1,6 +1,9 @@
-
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarProvider,
+  SidebarInset,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import SubscriptionBanner from "@/components/subscription/SubscriptionBanner";
 import { useQuery } from "@tanstack/react-query";
@@ -36,28 +39,18 @@ const DashboardLayout = () => {
           <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/10">
             <div className="flex h-16 items-center gap-4 px-4 md:px-6">
               <SidebarTrigger className="text-white hover:bg-white/10 transition-all duration-200 rounded-lg p-2 font-satoshi" />
-              
+
               {/* Brand Logo - Visible when sidebar is collapsed */}
               <div className="flex items-center space-x-3 lg:hidden">
                 <div className="w-7 h-7 rounded bg-red-600 flex items-center justify-center">
                   <span className="text-white font-semibold text-xs">TF</span>
                 </div>
-                <span className="text-lg font-semibold tracking-tight text-white font-satoshi">TheFinance</span>
+                <span className="text-lg font-semibold tracking-tight text-white font-satoshi">
+                  TheFinance
+                </span>
               </div>
-              
+
               <div className="flex-1" />
-              
-              {/* Optional: Add quick stats or user info in header */}
-              {profile && (
-                <div className="hidden md:flex items-center gap-4 text-sm text-gray-400">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                    <span className="font-satoshi">
-                      {profile.access_used}/{profile.access_limit} reveals used
-                    </span>
-                  </div>
-                </div>
-              )}
             </div>
           </header>
 

@@ -1,10 +1,10 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      quote: "Found our Series A lead investor in just two weeks. The AI matching was incredibly accurate and saved us months of research.",
+      quote:
+        "Found our Series A lead investor in just two weeks. The AI matching was incredibly accurate and saved us months of research.",
       author: "Sarah Chen",
       title: "CEO",
       company: "TechFlow",
@@ -12,7 +12,8 @@ const TestimonialsSection = () => {
       rating: 5,
     },
     {
-      quote: "The platform saved us months of research. Every investor match was relevant to our industry and stage. Game-changing for fundraising.",
+      quote:
+        "The platform saved us months of research. Every investor match was relevant to our industry and stage. Game-changing for fundraising.",
       author: "Marcus Johnson",
       title: "Founder",
       company: "GreenTech Labs",
@@ -20,7 +21,8 @@ const TestimonialsSection = () => {
       rating: 5,
     },
     {
-      quote: "Simple, clean interface with powerful features. Exactly what we needed for our fundraising. The export functionality is brilliant.",
+      quote:
+        "Simple, clean interface with powerful features. Exactly what we needed for our fundraising. The export functionality is brilliant.",
       author: "Elena Rodriguez",
       title: "Co-founder",
       company: "DataViz",
@@ -28,7 +30,8 @@ const TestimonialsSection = () => {
       rating: 5,
     },
     {
-      quote: "The detailed investor profiles helped us prepare better pitches. We raised $2M Series A with connections from TheFinance.",
+      quote:
+        "The detailed investor profiles helped us prepare better pitches. We raised $2M Series A with connections from TheFinance.",
       author: "James Park",
       title: "Founder",
       company: "HealthTech Pro",
@@ -36,7 +39,8 @@ const TestimonialsSection = () => {
       rating: 5,
     },
     {
-      quote: "Outstanding customer support and continuous platform improvements. The AI tools are getting better every month.",
+      quote:
+        "Outstanding customer support and continuous platform improvements. The AI tools are getting better every month.",
       author: "Lisa Zhang",
       title: "CEO",
       company: "EdTech Solutions",
@@ -44,7 +48,8 @@ const TestimonialsSection = () => {
       rating: 5,
     },
     {
-      quote: "Best ROI of any tool we've used for fundraising. Paid for itself after finding just one quality investor connection.",
+      quote:
+        "Best ROI of any tool we've used for fundraising. Paid for itself after finding just one quality investor connection.",
       author: "David Kim",
       title: "Co-founder",
       company: "FinTech Innovations",
@@ -57,9 +62,7 @@ const TestimonialsSection = () => {
     return Array.from({ length: 5 }, (_, i) => (
       <span
         key={i}
-        className={`text-sm ${
-          i < rating ? "text-red-400" : "text-white/20"
-        }`}
+        className={`text-sm ${i < rating ? "text-red-400" : "text-white/20"}`}
       >
         ★
       </span>
@@ -75,31 +78,39 @@ const TestimonialsSection = () => {
             Trusted by founders worldwide
           </h2>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Join thousands of successful founders who have raised funding using our platform
+            Join thousands of successful founders who have raised funding using
+            our platform
           </p>
           <div className="flex items-center justify-center gap-2 mt-6">
-            <div className="flex items-center">
-              {renderStars(5)}
-            </div>
-            <span className="text-white/60 text-sm ml-2">4.9/5 from 500+ reviews</span>
+            <div className="flex items-center">{renderStars(5)}</div>
+            <span className="text-white/60 text-sm ml-2">
+              4.9/5 from 500+ reviews
+            </span>
           </div>
         </div>
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-white/5 border border-red-500/20 backdrop-blur-sm hover:border-red-500/40 transition-all duration-300 group">
+            <Card
+              key={index}
+              className="bg-white/5 border border-red-500/20 backdrop-blur-sm hover:border-red-500/40 transition-all duration-300 group"
+            >
               <CardContent className="p-6">
                 {/* Stars */}
                 <div className="flex items-center mb-4">
                   {renderStars(testimonial.rating)}
                 </div>
-                
+
                 {/* Quote */}
                 <blockquote className="text-white/80 text-sm leading-relaxed mb-6 relative">
-                  <span className="text-red-400/60 text-2xl absolute -top-2 -left-1">"</span>
+                  <span className="text-red-400/60 text-2xl absolute -top-2 -left-1">
+                    "
+                  </span>
                   <span className="relative z-10">{testimonial.quote}</span>
-                  <span className="text-red-400/60 text-2xl absolute -bottom-4 -right-1">"</span>
+                  <span className="text-red-400/60 text-2xl absolute -bottom-4 -right-1">
+                    "
+                  </span>
                 </blockquote>
 
                 {/* Author */}
@@ -139,7 +150,7 @@ const TestimonialsSection = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-red-400"></div>
-              <span className="text-white/60 text-sm">7-day free trial</span>
+              <span className="text-white/60 text-sm">Secure payments</span>
             </div>
           </div>
         </div>

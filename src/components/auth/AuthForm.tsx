@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,8 +43,8 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
         });
         if (error) throw error;
         toast({
-          title: "Account created!",
-          description: "Please check your email to verify your account.",
+          title: "Welcome to TheFinance!",
+          description: "Your account has been created successfully.",
         });
       }
     } catch (error: any) {
@@ -76,9 +75,12 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
             placeholder="Enter your email"
           />
         </div>
-        
+
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-white/90 text-sm font-medium">
+          <Label
+            htmlFor="password"
+            className="text-white/90 text-sm font-medium"
+          >
             Password
           </Label>
           <div className="relative">
@@ -96,7 +98,11 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors"
             >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>
@@ -112,8 +118,10 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             {isLogin ? "Signing in..." : "Creating account..."}
           </div>
+        ) : isLogin ? (
+          "Sign In"
         ) : (
-          isLogin ? "Sign In" : "Create Account"
+          "Create Account"
         )}
       </Button>
 
@@ -128,15 +136,13 @@ const AuthForm = ({ isLogin, onToggle }: AuthFormProps) => {
             </span>
           </div>
         </div>
-        
+
         <button
           type="button"
           onClick={onToggle}
           className="text-white/80 hover:text-white text-sm font-medium transition-colors duration-200 hover:underline"
         >
-          {isLogin
-            ? "Create your free account"
-            : "Sign in to your account"}
+          {isLogin ? "Create your free account" : "Sign in to your account"}
         </button>
       </div>
     </form>

@@ -31,6 +31,10 @@ import AdminInvestors from "./pages/admin/AdminInvestors";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminPayments from "./pages/admin/AdminPayments";
 import AdminManagement from "./pages/admin/AdminManagement";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
@@ -68,70 +72,83 @@ const App = () => (
           <SubscriptionProvider>
             <AdminAuthProvider>
               <Routes>
-            <Route
-              path="/"
-              element={
-                <PublicRoute>
-                  <Landing />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/auth"
-              element={
-                <PublicRoute>
-                  <Auth />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<DashboardMain />} />
-              <Route path="investors" element={<InvestorDatabase />} />
-              <Route path="saved" element={<SavedLists />} />
-              <Route path="ai-tools" element={<AITools />} />
-              <Route path="email-generator" element={<InvestorEmailTool />} />
-              <Route path="pitch-deck" element={<PitchDeckTool />} />
-              <Route path="billing" element={<BillingUsage />} />
-              <Route path="pricing" element={<DashboardPricing />} />
-              <Route path="settings" element={<AccountSettings />} />
-            </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="pricing" element={<Pricing />} />
-            <Route 
-              path="/apply" 
-              element={
-                <PublicRoute>
-                  <InvestorApplication />
-                </PublicRoute>
-              } 
-            />
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route 
-              path="/admin" 
-              element={
-                <AdminProtectedRoute>
-                  <AdminLayout />
-                </AdminProtectedRoute>
-              } 
-            >
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="investors" element={<AdminInvestors />} />
-              <Route path="users" element={<AdminUsers />} />
-              <Route path="applications" element={<InvestorSubmissionsManager />} />
-              <Route path="payments" element={<AdminPayments />} />
-              <Route path="admin-management" element={<AdminManagement />} />
-            </Route>
-            
-            <Route path="*" element={<NotFound />} />
-            </Routes>
+                <Route
+                  path="/"
+                  element={
+                    <PublicRoute>
+                      <Landing />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/auth"
+                  element={
+                    <PublicRoute>
+                      <Auth />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardLayout />
+                    </ProtectedRoute>
+                  }
+                >
+                  <Route index element={<DashboardMain />} />
+                  <Route path="investors" element={<InvestorDatabase />} />
+                  <Route path="saved" element={<SavedLists />} />
+                  <Route path="ai-tools" element={<AITools />} />
+                  <Route
+                    path="email-generator"
+                    element={<InvestorEmailTool />}
+                  />
+                  <Route path="pitch-deck" element={<PitchDeckTool />} />
+                  <Route path="billing" element={<BillingUsage />} />
+                  <Route path="pricing" element={<DashboardPricing />} />
+                  <Route path="settings" element={<AccountSettings />} />
+                </Route>
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="pricing" element={<Pricing />} />
+                <Route
+                  path="/apply"
+                  element={
+                    <PublicRoute>
+                      <InvestorApplication />
+                    </PublicRoute>
+                  }
+                />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <AdminProtectedRoute>
+                      <AdminLayout />
+                    </AdminProtectedRoute>
+                  }
+                >
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="investors" element={<AdminInvestors />} />
+                  <Route path="users" element={<AdminUsers />} />
+                  <Route
+                    path="applications"
+                    element={<InvestorSubmissionsManager />}
+                  />
+                  <Route path="payments" element={<AdminPayments />} />
+                  <Route
+                    path="admin-management"
+                    element={<AdminManagement />}
+                  />
+                </Route>
+
+                <Route path="*" element={<NotFound />} />
+              </Routes>
             </AdminAuthProvider>
           </SubscriptionProvider>
         </AuthProvider>

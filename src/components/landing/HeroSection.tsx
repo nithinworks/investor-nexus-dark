@@ -1,56 +1,52 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-24 pb-32 text-center min-h-screen flex items-center">
-      {/* Background Image Container with blur overlay */}
+    <section className="relative pt-32 pb-32 text-center min-h-screen flex items-center">
+      {/* Simple Background with image and subtle overlay */}
       <div className="absolute inset-0 z-0">
-        {/* Preloaded background image */}
-        <img
-          src="/lovable-uploads/c91f989b-a507-4c26-9009-6ccac777f819.png"
-          alt="Hero Background"
-          className="w-full h-full object-cover opacity-0 animate-[hero-bg_1.5s_ease-out_0.3s_forwards]"
-          loading="eager"
-          onLoad={(e) => {
-            e.currentTarget.style.opacity = "1";
-          }}
-        />
-        {/* Blur overlay */}
-        <div className="absolute inset-0 backdrop-blur-sm bg-black/50 z-10"></div>
-        {/* Additional gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 z-20"></div>
+        {/* Background Image with blur effect */}
+        <div className="absolute inset-0">
+          <img
+            src="/lovable-uploads/c91f989b-a507-4c26-9009-6ccac777f819.png"
+            alt="Professional investor background"
+            className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+          {/* Simple dark overlay for text readability */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        </div>
       </div>
 
       <div className="relative z-30 max-w-4xl mx-auto px-6">
         {/* Badge */}
         <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8 animate-fade-in">
-          <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></div>
+          <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2 animate-pulse"></div>
           <span className="text-xs font-medium text-white/90">
-            AI-powered investor matching
+            Premium investor database + AI tools
           </span>
         </div>
 
         {/* Main Heading */}
         <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-6 leading-tight animate-slide-up">
-          <span className="block">Find the right investors</span>
-          <span className="block text-white/80">for your startup</span>
+          <span className="block">Find the Right Investors.</span>
+          <span className="block text-white/80">Instantly.</span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up [animation-delay:0.2s]">
-          Connect with investors who match your vision. Our AI analyzes
-          thousands of investor profiles to find your perfect funding
-          partners.
+          Access a hand-curated investor database with detailed insights. Filter
+          smartly, save your shortlist, export anytime, and pitch with AI tools.
         </p>
 
         {/* Single CTA Button */}
         <div className="flex justify-center mb-16 animate-slide-up [animation-delay:0.4s]">
           <Link to="/auth">
-            <Button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 text-base rounded-lg transition-all duration-200 hover:scale-105 shadow-lg shadow-red-500/25">
-              Start for free
+            <Button className="bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 text-white font-semibold px-8 py-3 text-base rounded-lg transition-all duration-200 hover:scale-105 shadow-lg">
+              Get Started
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
@@ -60,15 +56,15 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-white/60 text-sm animate-slide-up [animation-delay:0.6s]">
           <div className="flex items-center gap-2">
             <div className="w-1 h-1 rounded-full bg-red-500"></div>
-            <span>10,000+ investors</span>
+            <span>10,000+ verified investors</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1 h-1 rounded-full bg-red-500"></div>
-            <span>500+ successful matches</span>
+            <span>Advanced search filters</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1 h-1 rounded-full bg-red-500"></div>
-            <span>AI-powered insights</span>
+            <span>AI pitch deck & email tools</span>
           </div>
         </div>
       </div>

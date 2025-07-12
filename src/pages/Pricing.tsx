@@ -2,13 +2,11 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Check, Zap, Crown, Star, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import Header from "@/components/layout/Header";
 
 const Pricing = () => {
   const { user } = useAuth();
@@ -30,13 +28,13 @@ const Pricing = () => {
         "Contact reveals",
         "AI tools access",
         "Export capability",
-        "Basic filters"
+        "Basic filters",
       ],
       icon: Star,
       color: "text-blue-500",
-      borderColor: "border-blue-200",
-      bgColor: "bg-blue-50",
-      ctaText: "Get Started"
+      borderColor: "border-blue-500/20",
+      bgGradient: "from-blue-500/10 to-blue-600/10",
+      ctaText: "Get Started Free",
     },
     {
       id: "starter",
@@ -50,14 +48,14 @@ const Pricing = () => {
         "All Free features",
         "Advanced search filters",
         "Priority email support",
-        "Enhanced analytics"
+        "Enhanced analytics",
       ],
       icon: Zap,
-      color: "text-orange-500",
-      borderColor: "border-orange-200",
-      bgColor: "bg-orange-50",
-      ctaText: "Upgrade to Starter",
-      popular: true
+      color: "text-red-500",
+      borderColor: "border-red-500/40",
+      bgGradient: "from-red-500/20 to-red-600/20",
+      ctaText: "Get Started",
+      popular: true,
     },
     {
       id: "premium",
@@ -73,14 +71,14 @@ const Pricing = () => {
         "Advanced AI tools",
         "API access",
         "Custom saved lists",
-        "White-label options"
+        "White-label options",
       ],
       icon: Crown,
       color: "text-purple-500",
-      borderColor: "border-purple-200",
-      bgColor: "bg-purple-50",
-      ctaText: "Upgrade to Premium"
-    }
+      borderColor: "border-purple-500/20",
+      bgGradient: "from-purple-500/10 to-purple-600/10",
+      ctaText: "Get Started",
+    },
   ];
 
   const handleSubscribe = async (planId: string) => {
@@ -92,17 +90,20 @@ const Pricing = () => {
     setLoadingPlan(planId);
 
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
-          plan: planId,
-          billingCycle: isYearly ? "yearly" : "monthly"
+      const { data, error } = await supabase.functions.invoke(
+        "create-checkout",
+        {
+          body: {
+            plan: planId,
+            billingCycle: isYearly ? "yearly" : "monthly",
+          },
         }
-      });
+      );
 
       if (error) throw error;
 
       // Open Stripe checkout in a new tab
-      window.open(data.url, '_blank');
+      window.open(data.url, "_blank");
     } catch (error) {
       console.error("Error creating checkout session:", error);
       toast({
@@ -120,6 +121,7 @@ const Pricing = () => {
   };
 
   const getSavings = (plan: any) => {
+    if (plan.monthlyPrice === 0) return null;
     const yearlyTotal = plan.monthlyPrice * 12;
     const savings = yearlyTotal - plan.yearlyPrice;
     const percentage = Math.round((savings / yearlyTotal) * 100);
@@ -127,85 +129,104 @@ const Pricing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black text-white font-satoshi antialiased">
       {/* Header */}
-      <div className="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div 
-              className="flex items-center space-x-3 cursor-pointer" 
-              onClick={() => navigate("/")}
-            >
-              <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-semibold text-sm">TF</span>
-              </div>
-              <span className="text-xl font-semibold tracking-tight text-foreground">
-                TheFinance
-              </span>
-            </div>
-            {user && (
-              <Button 
-                variant="outline" 
-                onClick={() => navigate("/dashboard")}
-              >
-                Dashboard
-              </Button>
-            )}
-          </div>
-        </div>
+      <Header />
+
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-red-500/5 via-transparent to-red-500/5"></div>
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-red-500/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-            Choose Your Plan
+          <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 backdrop-blur-sm mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2 animate-pulse"></div>
+            <span className="text-xs font-medium text-red-400">
+              Pricing Plans
+            </span>
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            Choose Your
+            <span className="block bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+              Growth Plan
+            </span>
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Get access to our comprehensive investor database and unlock the funding opportunities your startup needs.
+
+          <p className="text-xl text-white/70 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Get access to our comprehensive investor database and unlock the
+            funding opportunities your startup needs.
           </p>
-          
+
           {/* Actions Explanation */}
-          <div className="bg-muted/50 rounded-lg p-6 max-w-4xl mx-auto mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <Activity className="h-6 w-6 text-primary" />
-              <h3 className="text-lg font-semibold text-foreground">What are Actions?</h3>
+          <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 max-w-4xl mx-auto mb-8 border border-red-500/20">
+            <div className="flex items-center gap-3 mb-6 justify-center">
+              <Activity className="h-6 w-6 text-red-400" />
+              <h3 className="text-lg font-semibold text-white">
+                What are Actions?
+              </h3>
             </div>
-            <p className="text-muted-foreground mb-4">
-              Actions are credits that let you access our platform's key features. Here's how they're consumed:
+            <p className="text-white/70 mb-6 text-center">
+              Actions are credits that let you access our platform's key
+              features. Here's how they're consumed:
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span><strong>1 Action</strong> = 1 Contact Reveal</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white/5 rounded-xl p-4 border border-red-500/20 text-center">
+                <div className="w-2 h-2 rounded-full bg-red-500 mx-auto mb-2"></div>
+                <span className="text-white font-medium block">
+                  <strong>1 Action</strong> = 1 Contact Reveal
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span><strong>1 Action</strong> = 1 AI Tool Usage</span>
+              <div className="bg-white/5 rounded-xl p-4 border border-red-500/20 text-center">
+                <div className="w-2 h-2 rounded-full bg-red-500 mx-auto mb-2"></div>
+                <span className="text-white font-medium block">
+                  <strong>1 Action</strong> = 1 AI Tool Usage
+                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-primary"></div>
-                <span><strong>1 Action</strong> = 1 Data Export</span>
+              <div className="bg-white/5 rounded-xl p-4 border border-red-500/20 text-center">
+                <div className="w-2 h-2 rounded-full bg-red-500 mx-auto mb-2"></div>
+                <span className="text-white font-medium block">
+                  <strong>1 Action</strong> = 1 Data Export
+                </span>
               </div>
             </div>
           </div>
 
           {/* Billing Toggle */}
-          <div className="flex items-center justify-center space-x-4 mb-8">
-            <Label htmlFor="billing-toggle" className="text-base">
+          <div className="flex items-center justify-center space-x-4 mb-12">
+            <span
+              className={`text-base ${
+                !isYearly ? "text-white" : "text-white/60"
+              }`}
+            >
               Monthly
-            </Label>
-            <Switch
-              id="billing-toggle"
-              checked={isYearly}
-              onCheckedChange={setIsYearly}
-            />
-            <Label htmlFor="billing-toggle" className="text-base">
+            </span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                isYearly ? "bg-red-600" : "bg-white/20"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  isYearly ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+            <span
+              className={`text-base ${
+                isYearly ? "text-white" : "text-white/60"
+              }`}
+            >
               Yearly
-            </Label>
+            </span>
             {isYearly && (
-              <Badge variant="secondary" className="ml-2">
-                Save up to 17%
+              <Badge className="bg-red-500/20 text-red-400 border-red-500/20">
+                Save up to 20%
               </Badge>
             )}
           </div>
@@ -213,106 +234,134 @@ const Pricing = () => {
 
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan) => {
-            const PlanIcon = plan.icon;
+          {plans.map((plan, index) => {
             const price = getPrice(plan);
             const savings = getSavings(plan);
+            const IconComponent = plan.icon;
 
             return (
-              <Card
+              <div
                 key={plan.id}
-                className={`relative ${plan.borderColor} ${
-                  plan.popular ? 'ring-2 ring-primary shadow-lg scale-105' : ''
+                className={`relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border transition-all duration-300 hover:transform hover:scale-105 ${
+                  plan.popular
+                    ? "border-red-500/40 shadow-xl shadow-red-500/10"
+                    : plan.borderColor
                 }`}
               >
+                {/* Popular Badge */}
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-red-600 text-white px-4 py-1">
                       Most Popular
                     </Badge>
                   </div>
                 )}
 
-                <CardHeader className="text-center pb-8">
-                  <div className={`w-16 h-16 mx-auto ${plan.bgColor} rounded-full flex items-center justify-center mb-4`}>
-                    <PlanIcon className={`h-8 w-8 ${plan.color}`} />
+                {/* Plan Header */}
+                <div className="text-center mb-8">
+                  <div
+                    className={`w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br ${plan.bgGradient} border ${plan.borderColor} flex items-center justify-center`}
+                  >
+                    <IconComponent className={`h-8 w-8 ${plan.color}`} />
                   </div>
-                  <CardTitle className="text-2xl font-bold text-card-foreground">
+
+                  <h3 className="text-2xl font-bold text-white mb-2">
                     {plan.name}
-                  </CardTitle>
-                  <CardDescription className="text-base">
-                    {plan.description}
-                  </CardDescription>
-                  <div className="mt-6">
-                    <div className="flex items-baseline justify-center">
-                      <span className="text-4xl font-bold text-card-foreground">
-                        ${price}
+                  </h3>
+                  <p className="text-white/70 text-sm">{plan.description}</p>
+                </div>
+
+                {/* Pricing */}
+                <div className="text-center mb-8">
+                  <div className="flex items-baseline justify-center mb-2">
+                    <span className="text-4xl font-bold text-white">
+                      ${price}
+                    </span>
+                    {price > 0 && (
+                      <span className="text-white/60 ml-1">
+                        /{isYearly ? "year" : "month"}
                       </span>
-                      <span className="text-muted-foreground ml-1">
-                        /{isYearly ? 'year' : 'month'}
-                      </span>
-                    </div>
-                    {isYearly && savings.amount > 0 && (
-                      <p className="text-sm text-green-600 mt-1">
-                        Save ${savings.amount} ({savings.percentage}% off)
-                      </p>
                     )}
                   </div>
-                </CardHeader>
 
-                <CardContent className="space-y-6">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-card-foreground">
-                      {plan.actions} actions
+                  {isYearly && savings && (
+                    <div className="text-green-400 text-sm">
+                      Save ${savings.amount}/year ({savings.percentage}% off)
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      per month
-                    </div>
+                  )}
+
+                  <div className="text-red-400 font-semibold mt-2">
+                    {plan.actions} actions/month
                   </div>
+                </div>
 
-                  <ul className="space-y-3">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-card-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Features */}
+                <div className="space-y-3 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <div key={featureIndex} className="flex items-center gap-3">
+                      <Check className="h-5 w-5 text-green-400 flex-shrink-0" />
+                      <span className="text-white/80 text-sm">{feature}</span>
+                    </div>
+                  ))}
+                </div>
 
-                  <Button
-                    className="w-full"
-                    variant={plan.popular ? "default" : "outline"}
-                    size="lg"
-                    onClick={() => plan.id === "free" ? navigate("/auth") : handleSubscribe(plan.id)}
-                    disabled={loadingPlan === plan.id}
-                  >
-                    {loadingPlan === plan.id ? "Loading..." : plan.ctaText}
-                  </Button>
-                </CardContent>
-              </Card>
+                {/* CTA Button */}
+                <Button
+                  className={`w-full py-3 font-semibold transition-all duration-200 hover:scale-105 ${
+                    plan.popular
+                      ? "bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-500/25"
+                      : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                  }`}
+                  onClick={() =>
+                    plan.id === "free"
+                      ? navigate("/auth")
+                      : handleSubscribe(plan.id)
+                  }
+                  disabled={loadingPlan === plan.id}
+                >
+                  {loadingPlan === plan.id ? "Loading..." : plan.ctaText}
+                </Button>
+              </div>
             );
           })}
         </div>
 
-        {/* FAQ or Additional Info */}
+        {/* Bottom Section */}
         <div className="mt-16 text-center">
-          <h3 className="text-2xl font-bold text-foreground mb-4">
-            All plans include:
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center space-x-2">
-              <Check className="h-5 w-5 text-green-500" />
-              <span className="text-muted-foreground">Verified investor contacts</span>
+          <p className="text-white/60 text-sm mb-6">
+            All plans include comprehensive investor access. No credit card
+            required to start.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-8 text-white/50 text-sm mb-8">
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-green-400" />
+              <span>Verified investor contacts</span>
             </div>
-            <div className="flex items-center justify-center space-x-2">
-              <Check className="h-5 w-5 text-green-500" />
-              <span className="text-muted-foreground">Regular database updates</span>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-green-400" />
+              <span>Regular database updates</span>
             </div>
-            <div className="flex items-center justify-center space-x-2">
-              <Check className="h-5 w-5 text-green-500" />
-              <span className="text-muted-foreground">Cancel anytime</span>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-green-400" />
+              <span>24/7 customer support</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-green-400" />
+              <span>Cancel anytime</span>
             </div>
           </div>
+
+          {/* Back to Dashboard */}
+          {user && (
+            <Button
+              variant="outline"
+              onClick={() => navigate("/dashboard")}
+              className="border-red-500/50 text-red-400 hover:bg-red-500/10 hover:border-red-500"
+            >
+              Back to Dashboard
+            </Button>
+          )}
         </div>
       </div>
     </div>

@@ -1,10 +1,15 @@
-
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -17,6 +22,7 @@ const DashboardPricing = () => {
   const { subscriptionTier, openCustomerPortal } = useSubscription();
   const [isYearly, setIsYearly] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [isOpeningPortal, setIsOpeningPortal] = useState(false);
 
   const plans = [
     {
@@ -31,17 +37,17 @@ const DashboardPricing = () => {
         "Contact reveals",
         "AI tools access",
         "Export capability",
-        "Basic filters"
+        "Basic filters",
       ],
       icon: Star,
       color: "text-blue-400",
       borderColor: "border-blue-500/20",
       bgColor: "bg-blue-500/10",
-      ctaText: "Current Plan"
+      ctaText: "Current Plan",
     },
     {
       id: "starter",
-      name: "Starter", 
+      name: "Starter",
       description: "Great for growing startups",
       monthlyPrice: 19,
       yearlyPrice: 190,
@@ -51,14 +57,14 @@ const DashboardPricing = () => {
         "All Free features",
         "Advanced search filters",
         "Priority email support",
-        "Enhanced analytics"
+        "Enhanced analytics",
       ],
       icon: Zap,
       color: "text-orange-400",
       borderColor: "border-orange-500/20",
       bgColor: "bg-orange-500/10",
       ctaText: "Upgrade to Starter",
-      popular: true
+      popular: true,
     },
     {
       id: "premium",
@@ -74,14 +80,14 @@ const DashboardPricing = () => {
         "Advanced AI tools",
         "API access",
         "Custom saved lists",
-        "White-label options"
+        "White-label options",
       ],
       icon: Crown,
       color: "text-purple-400",
       borderColor: "border-purple-500/20",
       bgColor: "bg-purple-500/10",
-      ctaText: "Upgrade to Premium"
-    }
+      ctaText: "Upgrade to Premium",
+    },
   ];
 
   const handleSubscribe = async (planId: string) => {
@@ -90,16 +96,19 @@ const DashboardPricing = () => {
     setLoadingPlan(planId);
 
     try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
-          plan: planId,
-          billingCycle: isYearly ? "yearly" : "monthly"
+      const { data, error } = await supabase.functions.invoke(
+        "create-checkout",
+        {
+          body: {
+            plan: planId,
+            billingCycle: isYearly ? "yearly" : "monthly",
+          },
         }
-      });
+      );
 
       if (error) throw error;
 
-      window.open(data.url, '_blank');
+      window.open(data.url, "_blank");
     } catch (error) {
       console.error("Error creating checkout session:", error);
       toast({
@@ -109,6 +118,15 @@ const DashboardPricing = () => {
       });
     } finally {
       setLoadingPlan(null);
+    }
+  };
+
+  const handleOpenCustomerPortal = async () => {
+    setIsOpeningPortal(true);
+    try {
+      await openCustomerPortal();
+    } finally {
+      setIsOpeningPortal(false);
     }
   };
 
@@ -126,14 +144,14 @@ const DashboardPricing = () => {
   const isCurrentPlan = (planId: string) => {
     // Map subscription tiers to plan IDs
     const tierMapping: { [key: string]: string } = {
-      'free': 'free',
-      'starter': 'starter', 
-      'premium': 'premium'
+      free: "free",
+      starter: "starter",
+      premium: "premium",
     };
-    
-    const currentTier = subscriptionTier?.toLowerCase() || 'free';
-    const mappedPlan = tierMapping[currentTier] || 'free';
-    
+
+    const currentTier = subscriptionTier?.toLowerCase() || "free";
+    const mappedPlan = tierMapping[currentTier] || "free";
+
     return mappedPlan === planId;
   };
 
@@ -149,18 +167,18 @@ const DashboardPricing = () => {
 
   const shouldShowUpgrade = (planId: string) => {
     const tierOrder = { free: 0, starter: 1, premium: 2 };
-    
+
     // Map subscription tiers to plan levels
     const tierMapping: { [key: string]: number } = {
-      'free': 0,
-      'starter': 1,
-      'premium': 2
+      free: 0,
+      starter: 1,
+      premium: 2,
     };
-    
-    const currentTier = subscriptionTier?.toLowerCase() || 'free';
+
+    const currentTier = subscriptionTier?.toLowerCase() || "free";
     const currentLevel = tierMapping[currentTier] ?? 0;
     const planLevel = tierOrder[planId as keyof typeof tierOrder] ?? 0;
-    
+
     return planLevel > currentLevel;
   };
 
@@ -172,7 +190,8 @@ const DashboardPricing = () => {
           Pricing Plans
         </h1>
         <p className="text-gray-400 font-satoshi text-sm md:text-base mt-2">
-          Choose the plan that best fits your needs. Upgrade or downgrade anytime.
+          Choose the plan that best fits your needs. Upgrade or downgrade
+          anytime.
         </p>
       </div>
 
@@ -181,19 +200,23 @@ const DashboardPricing = () => {
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2 text-white font-satoshi text-lg">
             <div className="w-2 h-2 rounded-full bg-green-400"></div>
-            You're currently on the {subscriptionTier === 'free' ? 'Free' : subscriptionTier} plan
+            You're currently on the{" "}
+            {subscriptionTier === "free" ? "Free" : subscriptionTier} plan
           </CardTitle>
           <CardDescription className="font-satoshi">
             {subscriptionTier !== "free" && (
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                <span className="text-gray-300">Manage your subscription or billing details</span>
+                <span className="text-gray-300">
+                  Manage your subscription or billing details
+                </span>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={openCustomerPortal}
+                  onClick={handleOpenCustomerPortal}
+                  disabled={isOpeningPortal}
                   className="h-8 px-3 text-xs font-satoshi border-white/20 text-white hover:bg-white/10"
                 >
-                  Manage Subscription
+                  {isOpeningPortal ? "Opening..." : "Manage Subscription"}
                   <ArrowRight className="ml-1 h-3 w-3" />
                 </Button>
               </div>
@@ -204,7 +227,10 @@ const DashboardPricing = () => {
 
       {/* Billing Toggle */}
       <div className="flex items-center justify-center space-x-4 py-4">
-        <Label htmlFor="billing-toggle" className="text-white font-satoshi text-sm">
+        <Label
+          htmlFor="billing-toggle"
+          className="text-white font-satoshi text-sm"
+        >
           Monthly
         </Label>
         <Switch
@@ -212,11 +238,17 @@ const DashboardPricing = () => {
           checked={isYearly}
           onCheckedChange={setIsYearly}
         />
-        <Label htmlFor="billing-toggle" className="text-white font-satoshi text-sm">
+        <Label
+          htmlFor="billing-toggle"
+          className="text-white font-satoshi text-sm"
+        >
           Yearly
         </Label>
         {isYearly && (
-          <Badge variant="secondary" className="ml-2 bg-green-500/20 text-green-400 border-green-500/30 font-satoshi text-xs">
+          <Badge
+            variant="secondary"
+            className="ml-2 bg-green-500/20 text-green-400 border-green-500/30 font-satoshi text-xs"
+          >
             Save up to 17%
           </Badge>
         )}
@@ -234,9 +266,14 @@ const DashboardPricing = () => {
           return (
             <Card
               key={plan.id}
-              className={`relative backdrop-blur-xl bg-white/5 border transition-all duration-300 hover:bg-white/10 hover:scale-105 ${plan.borderColor} ${
-                isCurrent ? 'ring-2 ring-primary shadow-lg shadow-primary/20' : 
-                plan.popular && !isCurrent ? 'ring-2 ring-primary/50 shadow-lg shadow-primary/10' : ''
+              className={`relative backdrop-blur-xl bg-white/5 border transition-all duration-300 hover:bg-white/10 hover:scale-105 ${
+                plan.borderColor
+              } ${
+                isCurrent
+                  ? "ring-2 ring-primary shadow-lg shadow-primary/20"
+                  : plan.popular && !isCurrent
+                  ? "ring-2 ring-primary/50 shadow-lg shadow-primary/10"
+                  : ""
               }`}
             >
               {isCurrent && (
@@ -255,7 +292,9 @@ const DashboardPricing = () => {
               )}
 
               <CardHeader className="text-center pb-6">
-                <div className={`w-12 h-12 md:w-16 md:h-16 mx-auto ${plan.bgColor} rounded-2xl flex items-center justify-center mb-4 border ${plan.borderColor}`}>
+                <div
+                  className={`w-12 h-12 md:w-16 md:h-16 mx-auto ${plan.bgColor} rounded-2xl flex items-center justify-center mb-4 border ${plan.borderColor}`}
+                >
                   <PlanIcon className={`h-6 w-6 md:h-8 md:w-8 ${plan.color}`} />
                 </div>
                 <CardTitle className="text-xl md:text-2xl font-bold text-white font-satoshi">
@@ -270,7 +309,7 @@ const DashboardPricing = () => {
                       ${price}
                     </span>
                     <span className="text-gray-400 ml-1 font-satoshi text-sm">
-                      /{isYearly ? 'year' : 'month'}
+                      /{isYearly ? "year" : "month"}
                     </span>
                   </div>
                   {isYearly && savings.amount > 0 && (
@@ -295,32 +334,39 @@ const DashboardPricing = () => {
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
                       <Check className="h-4 w-4 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-xs md:text-sm text-gray-300 font-satoshi">{feature}</span>
+                      <span className="text-xs md:text-sm text-gray-300 font-satoshi">
+                        {feature}
+                      </span>
                     </li>
                   ))}
                 </ul>
 
                 <Button
                   className={`w-full font-satoshi text-sm font-semibold transition-all duration-200 ${
-                    isCurrent 
-                      ? "bg-white/10 text-white border border-white/20 hover:bg-white/20" 
-                      : showUpgrade 
-                        ? "bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-primary/25" 
-                        : "border border-white/20 text-white hover:bg-white/10"
+                    isCurrent
+                      ? "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                      : showUpgrade
+                      ? "bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-primary/25"
+                      : "border border-white/20 text-white hover:bg-white/10"
                   }`}
                   size="lg"
                   onClick={() => {
                     if (isCurrent) {
                       if (plan.id === "free") return; // Can't manage free plan
-                      openCustomerPortal();
+                      handleOpenCustomerPortal();
                     } else {
                       if (plan.id === "free") return; // Can't downgrade to free
                       handleSubscribe(plan.id);
                     }
                   }}
-                  disabled={loadingPlan === plan.id || (plan.id === "free" && !isCurrent)}
+                  disabled={
+                    loadingPlan === plan.id ||
+                    (plan.id === "free" && !isCurrent)
+                  }
                 >
-                  {loadingPlan === plan.id ? "Loading..." : getPlanCtaText(plan)}
+                  {loadingPlan === plan.id
+                    ? "Loading..."
+                    : getPlanCtaText(plan)}
                 </Button>
               </CardContent>
             </Card>
@@ -331,7 +377,8 @@ const DashboardPricing = () => {
       {/* Additional Info */}
       <div className="text-center mt-8">
         <p className="text-sm text-gray-400 font-satoshi px-4">
-          All plans include verified investor contacts, regular database updates, and the ability to cancel anytime.
+          All plans include verified investor contacts, regular database
+          updates, and the ability to cancel anytime.
         </p>
       </div>
     </div>

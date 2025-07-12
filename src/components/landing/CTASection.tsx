@@ -1,73 +1,69 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Rocket } from "lucide-react";
 
 const CTASection = () => {
   return (
-    <section className="py-24 bg-black">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="bg-gradient-to-r from-red-500/10 via-red-500/5 to-red-500/10 p-12 rounded-2xl text-center border border-red-500/20 backdrop-blur-sm relative overflow-hidden">
-          {/* Background glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 via-transparent to-red-500/5 blur-xl"></div>
-          
-          <div className="relative z-10">
-            <h2 className="text-3xl font-semibold mb-4 text-white">
-              Ready to find your investors?
-            </h2>
-            <p className="text-white/70 mb-8 text-lg max-w-2xl mx-auto leading-relaxed">
-              Join thousands of founders who have successfully raised funding
-              with our platform. Start your fundraising journey today.
-            </p>
-            
-            {/* Features grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white/5 rounded-lg p-4 border border-red-500/20">
-                <div className="text-red-400 text-2xl mb-2">⚡</div>
-                <div className="text-white font-medium text-sm mb-1">Quick Setup</div>
-                <div className="text-white/60 text-xs">Get started in under 5 minutes</div>
-              </div>
-              <div className="bg-white/5 rounded-lg p-4 border border-red-500/20">
-                <div className="text-red-400 text-2xl mb-2">🎯</div>
-                <div className="text-white font-medium text-sm mb-1">AI Matching</div>
-                <div className="text-white/60 text-xs">Find relevant investors instantly</div>
-              </div>
-              <div className="bg-white/5 rounded-lg p-4 border border-red-500/20">
-                <div className="text-red-400 text-2xl mb-2">📊</div>
-                <div className="text-white font-medium text-sm mb-1">Track Progress</div>
-                <div className="text-white/60 text-xs">Monitor your outreach success</div>
-              </div>
-            </div>
+    <section className="py-24 bg-black relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-red-500/10 via-transparent to-red-500/10"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-red-500/20 rounded-full blur-3xl"></div>
+      </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-              <Link to="/auth">
-                <Button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 text-base rounded-lg transition-all duration-200 hover:scale-105 shadow-lg shadow-red-500/25">
-                  Start free trial
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/pricing">
-                <Button variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10 hover:border-red-500 px-8 py-3 text-base rounded-lg transition-all duration-200">
-                  View pricing
-                </Button>
-              </Link>
-            </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* Icon */}
+        <div className="mb-8">
+          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 flex items-center justify-center">
+            <Rocket className="h-10 w-10 text-red-400" />
+          </div>
+        </div>
 
-            {/* Trust indicators */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-white/50 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                <span>7-day free trial</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                <span>Cancel anytime</span>
-              </div>
-            </div>
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          Ready to Launch Your
+          <span className="block bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+            Fundraising Journey?
+          </span>
+        </h2>
+
+        {/* Subtitle */}
+        <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Join thousands of successful founders who have raised funding with our
+          platform. Start connecting with the right investors today.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
+          <Link to="/auth">
+            <Button className="bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 text-white font-semibold px-8 py-4 text-lg rounded-xl transition-all duration-200 hover:scale-105 shadow-xl">
+              Get Started
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+          <Link to="/apply">
+            <Button
+              variant="outline"
+              className="border-red-500/50 text-red-400 hover:bg-red-500/10 hover:border-red-500 px-8 py-4 text-lg rounded-xl transition-all duration-200"
+            >
+              Join as Investor
+            </Button>
+          </Link>
+        </div>
+
+        {/* Trust Indicators */}
+        <div className="flex flex-wrap items-center justify-center gap-8 text-white/60 text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-400"></div>
+            <span>No credit card required</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-400"></div>
+            <span>Cancel anytime</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-400"></div>
+            <span>SOC 2 compliant</span>
           </div>
         </div>
       </div>

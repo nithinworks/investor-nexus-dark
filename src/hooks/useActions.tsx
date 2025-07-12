@@ -1,78 +1,76 @@
-import { useState } from "react";
-import { useAuth } from "./useAuth";
-import { useSubscription } from "./useSubscription";
+import { useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "./use-toast";
+import { useAuth } from "./useAuth";
+import { toast } from "@/hooks/use-toast";
+import { useSubscription } from "./useSubscription";
+
+type ActionType = "contact_reveal" | "ai_tool" | "export";
 
 export const useActions = () => {
   const { user } = useAuth();
-  const { accessUsed, accessLimit, refreshSubscription } = useSubscription();
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
+  const { subscriptionTier, accessUsed, accessLimit, refreshSubscription } =
+    useSubscription();
 
-  const canPerformAction = () => {
-    return accessUsed < accessLimit;
-  };
-
-  const getRemainingActions = () => {
+  const getRemainingActions = useCallback(() => {
+    if (subscriptionTier === "pro" || subscriptionTier === "enterprise")
+      return Infinity;
     return Math.max(0, accessLimit - accessUsed);
-  };
+  }, [subscriptionTier, accessLimit, accessUsed]);
 
-  const consumeAction = async (actionType: 'contact_reveal' | 'ai_tool' | 'export') => {
+  const canPerformAction = useCallback(
+    (_actionType: ActionType, count = 1) => {
+      return getRemainingActions() >= count;
+    },
+    [getRemainingActions]
+  );
+
+  const consumeAction = async (actionType: ActionType, count = 1) => {
     if (!user) {
-      throw new Error("User not authenticated");
+      toast({
+        title: "Authentication Error",
+        description: "You must be logged in to perform actions.",
+        variant: "destructive",
+      });
+      return false;
     }
 
-    if (!canPerformAction()) {
+    if (!canPerformAction(actionType, count)) {
       toast({
         title: "Action Limit Reached",
-        description: `You've used all ${accessLimit} actions for this month. Upgrade your plan for more actions.`,
+        description: `You don't have enough actions. Required: ${count}, Remaining: ${getRemainingActions()}. Please upgrade.`,
         variant: "destructive",
       });
       return false;
     }
 
-    setLoading(true);
     try {
-      // Update access_used in the database
+      const newActionsUsed = accessUsed + count;
+
       const { error } = await supabase
         .from("profiles")
-        .update({ access_used: accessUsed + 1 })
+        .update({ access_used: newActionsUsed })
         .eq("id", user.id);
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
-      // Refresh subscription data to update the UI
-      await refreshSubscription();
-      
+      await refreshSubscription(true);
+
       return true;
-    } catch (error) {
-      console.error("Error consuming action:", error);
+    } catch (error: any) {
       toast({
-        title: "Error",
-        description: "Failed to consume action. Please try again.",
+        title: "Error Consuming Action",
+        description:
+          error.message || "There was an issue updating your action count.",
         variant: "destructive",
       });
+      await refreshSubscription(true);
       return false;
-    } finally {
-      setLoading(false);
     }
-  };
-
-  const getActionUsagePercentage = () => {
-    if (accessLimit === 0) return 0;
-    return Math.min(100, (accessUsed / accessLimit) * 100);
   };
 
   return {
     canPerformAction,
     getRemainingActions,
     consumeAction,
-    getActionUsagePercentage,
-    actionsUsed: accessUsed,
-    actionsLimit: accessLimit,
-    loading,
   };
 };
