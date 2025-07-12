@@ -48,13 +48,13 @@ serve(async (req) => {
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     
     if (customers.data.length === 0) {
-      logStep("No customer found, updating to basic tier");
+      logStep("No customer found, updating to free tier");
       await supabaseClient.from("profiles").upsert({
         id: user.id,
         email: user.email,
         stripe_customer_id: null,
-        subscription_tier: 'basic',
-        access_limit: 20,
+        subscription_tier: 'free',
+        access_limit: 10,
         billing_cycle: 'monthly',
         subscription_price: 0,
         subscription_end: null,
@@ -62,8 +62,8 @@ serve(async (req) => {
       }, { onConflict: 'id' });
       
       return new Response(JSON.stringify({ 
-        subscription_tier: 'basic',
-        access_limit: 20,
+        subscription_tier: 'free',
+        access_limit: 10,
         billing_cycle: 'monthly',
         subscription_end: null
       }), {
@@ -82,8 +82,8 @@ serve(async (req) => {
       limit: 1,
     });
 
-    let subscriptionTier = 'basic';
-    let accessLimit = 20;
+    let subscriptionTier = 'free';
+    let accessLimit = 10;
     let billingCycle = 'monthly';
     let subscriptionPrice = 0;
     let subscriptionEnd = null;
@@ -101,13 +101,11 @@ serve(async (req) => {
       
       // Determine tier based on price
       if (billingCycle === 'monthly') {
-        if (amount === 900) { subscriptionTier = 'basic'; accessLimit = 20; }
-        else if (amount === 2900) { subscriptionTier = 'pro'; accessLimit = 100; }
-        else if (amount === 9900) { subscriptionTier = 'enterprise'; accessLimit = 500; }
+        if (amount === 1900) { subscriptionTier = 'starter'; accessLimit = 100; }
+        else if (amount === 4900) { subscriptionTier = 'premium'; accessLimit = 500; }
       } else { // yearly
-        if (amount === 9000) { subscriptionTier = 'basic'; accessLimit = 20; }
-        else if (amount === 29000) { subscriptionTier = 'pro'; accessLimit = 100; }
-        else if (amount === 99000) { subscriptionTier = 'enterprise'; accessLimit = 500; }
+        if (amount === 19000) { subscriptionTier = 'starter'; accessLimit = 100; }
+        else if (amount === 49000) { subscriptionTier = 'premium'; accessLimit = 500; }
       }
       
       logStep("Active subscription found", { 

@@ -17,8 +17,8 @@ const SubscriptionContext = createContext<SubscriptionContextType | undefined>(u
 
 export const SubscriptionProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
-  const [subscriptionTier, setSubscriptionTier] = useState("basic");
-  const [accessLimit, setAccessLimit] = useState(20);
+  const [subscriptionTier, setSubscriptionTier] = useState("free");
+  const [accessLimit, setAccessLimit] = useState(10);
   const [accessUsed, setAccessUsed] = useState(0);
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
@@ -38,8 +38,8 @@ export const SubscriptionProvider = ({ children }: { children: ReactNode }) => {
         .single();
 
       if (profile) {
-        setSubscriptionTier(profile.subscription_tier || "basic");
-        setAccessLimit(profile.access_limit || 20);
+        setSubscriptionTier(profile.subscription_tier || "free");
+        setAccessLimit(profile.access_limit || 10);
         setAccessUsed(profile.access_used || 0);
         setBillingCycle(profile.billing_cycle || "monthly");
         setSubscriptionEnd(profile.subscription_end);
@@ -51,8 +51,8 @@ export const SubscriptionProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
 
       if (data) {
-        setSubscriptionTier(data.subscription_tier || "basic");
-        setAccessLimit(data.access_limit || 20);
+        setSubscriptionTier(data.subscription_tier || "free");
+        setAccessLimit(data.access_limit || 10);
         setBillingCycle(data.billing_cycle || "monthly");
         setSubscriptionEnd(data.subscription_end);
       }

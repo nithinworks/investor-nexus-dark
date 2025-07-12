@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, Users, Bookmark, Eye } from "lucide-react";
+import { BarChart3, Users, Bookmark, Activity } from "lucide-react";
+import { ActionUsage } from "@/components/dashboard/ActionUsage";
 
 const DashboardMain = () => {
   const { user } = useAuth();
@@ -87,19 +88,10 @@ const DashboardMain = () => {
       borderColor: "border-red-500/20",
     },
     {
-      title: "Contacts Revealed",
-      value: revealedCount.toString(),
-      description: "This month",
-      icon: Eye,
-      color: "text-red-400",
-      bgColor: "bg-red-500/10",
-      borderColor: "border-red-500/20",
-    },
-    {
-      title: "Usage",
+      title: "Actions Used",
       value: `${profile?.access_used || 0}/${profile?.access_limit || 0}`,
-      description: "Monthly limit",
-      icon: BarChart3,
+      description: "This month",
+      icon: Activity,
       color: "text-red-400",
       bgColor: "bg-red-500/10",
       borderColor: "border-red-500/20",
@@ -119,7 +111,7 @@ const DashboardMain = () => {
       </div>
 
       {/* Enhanced Stats Grid - Better Mobile Layout */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
         {stats.map((stat, index) => (
           <Card 
             key={stat.title} 
@@ -148,8 +140,11 @@ const DashboardMain = () => {
         ))}
       </div>
 
-      {/* Enhanced Quick Actions Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Action Usage and Activity Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <ActionUsage />
+        
+        {/* Recent Activity */}
         <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-200">
           <CardHeader className="pb-3">
             <CardTitle className="text-white font-satoshi">Recent Activity</CardTitle>
@@ -157,18 +152,18 @@ const DashboardMain = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {revealedCount > 0 ? (
+              {(profile?.access_used || 0) > 0 ? (
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
                   <div className="w-2 h-2 bg-red-400 rounded-full"></div>
                   <p className="text-sm text-gray-300 font-satoshi">
-                    You've revealed {revealedCount} investor contacts this month
+                    You've used {profile?.access_used || 0} actions this month
                   </p>
                 </div>
               ) : (
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
                   <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
                   <p className="text-sm text-gray-400 font-satoshi">
-                    No recent activity. Start exploring investors!
+                    No actions used yet. Start exploring!
                   </p>
                 </div>
               )}
@@ -190,7 +185,7 @@ const DashboardMain = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center p-3 rounded-lg bg-white/5 border border-white/10">
-                <span className="text-sm text-gray-400 font-satoshi">Usage</span>
+                <span className="text-sm text-gray-400 font-satoshi">Actions</span>
                 <span className="font-medium text-white font-satoshi">
                   {profile?.access_used || 0} / {profile?.access_limit || 0}
                 </span>

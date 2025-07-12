@@ -50,9 +50,8 @@ serve(async (req) => {
 
     // Define pricing structure
     const pricing = {
-      basic: { monthly: 900, yearly: 9000, reveals: 20 }, // $9/month, $90/year
-      pro: { monthly: 2900, yearly: 29000, reveals: 100 }, // $29/month, $290/year  
-      enterprise: { monthly: 9900, yearly: 99000, reveals: 500 } // $99/month, $990/year
+      starter: { monthly: 1900, yearly: 19000, actions: 100 }, // $19/month, $190/year
+      premium: { monthly: 4900, yearly: 49000, actions: 500 } // $49/month, $490/year
     };
 
     const planConfig = pricing[plan as keyof typeof pricing];
@@ -61,7 +60,7 @@ serve(async (req) => {
     const amount = planConfig[billingCycle as keyof typeof planConfig] as number;
     const interval = billingCycle === 'yearly' ? 'year' : 'month';
 
-    logStep("Plan configuration", { plan, amount, interval, reveals: planConfig.reveals });
+    logStep("Plan configuration", { plan, amount, interval, actions: planConfig.actions });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
 
@@ -85,7 +84,7 @@ serve(async (req) => {
             currency: "usd",
             product_data: { 
               name: `${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`,
-              description: `${planConfig.reveals} contact reveals per month`
+              description: `${planConfig.actions} actions per month`
             },
             unit_amount: amount,
             recurring: { interval },
@@ -100,7 +99,7 @@ serve(async (req) => {
         user_id: user.id,
         plan,
         billing_cycle: billingCycle,
-        access_limit: planConfig.reveals.toString()
+        access_limit: planConfig.actions.toString()
       }
     });
 

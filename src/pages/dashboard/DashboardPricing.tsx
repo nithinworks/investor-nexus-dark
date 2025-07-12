@@ -25,11 +25,12 @@ const DashboardPricing = () => {
       description: "Perfect for getting started",
       monthlyPrice: 0,
       yearlyPrice: 0,
-      reveals: 5,
+      actions: 10,
       features: [
-        "5 contact reveals per month",
-        "Basic investor search",
-        "Email support",
+        "10 actions per month",
+        "Contact reveals",
+        "AI tools access",
+        "Export capability",
         "Basic filters"
       ],
       icon: Star,
@@ -39,67 +40,47 @@ const DashboardPricing = () => {
       ctaText: "Current Plan"
     },
     {
-      id: "basic",
-      name: "Basic", 
+      id: "starter",
+      name: "Starter", 
       description: "Great for growing startups",
-      monthlyPrice: 9,
-      yearlyPrice: 90,
-      reveals: 20,
+      monthlyPrice: 19,
+      yearlyPrice: 190,
+      actions: 100,
       features: [
-        "20 contact reveals per month",
-        "Advanced investor search",
-        "Priority email support",
-        "Enhanced filters"
-      ],
-      icon: Star,
-      color: "text-blue-400",
-      borderColor: "border-blue-500/20",
-      bgColor: "bg-blue-500/10",
-      ctaText: "Upgrade to Basic"
-    },
-    {
-      id: "pro",
-      name: "Pro",
-      description: "Best for growing businesses",
-      monthlyPrice: 29,
-      yearlyPrice: 290,
-      reveals: 100,
-      features: [
-        "100 contact reveals per month",
+        "100 actions per month",
+        "All Free features",
         "Advanced search filters",
-        "Export to CSV/Excel",
         "Priority email support",
-        "Advanced analytics",
-        "Custom saved lists"
+        "Enhanced analytics"
       ],
       icon: Zap,
-      color: "text-red-400",
-      borderColor: "border-red-500/20",
-      bgColor: "bg-red-500/10",
-      ctaText: "Upgrade to Pro",
+      color: "text-orange-400",
+      borderColor: "border-orange-500/20",
+      bgColor: "bg-orange-500/10",
+      ctaText: "Upgrade to Starter",
       popular: true
     },
     {
-      id: "enterprise",
-      name: "Enterprise",
-      description: "For teams and large organizations",
-      monthlyPrice: 99,
-      yearlyPrice: 990,
-      reveals: 500,
+      id: "premium",
+      name: "Premium",
+      description: "Best for serious entrepreneurs",
+      monthlyPrice: 49,
+      yearlyPrice: 490,
+      actions: 500,
       features: [
-        "500 contact reveals per month",
-        "All Pro features",
+        "500 actions per month",
+        "All Starter features",
+        "Unlimited exports",
+        "Advanced AI tools",
         "API access",
-        "Dedicated account manager",
-        "Custom integrations",
-        "Advanced reporting",
+        "Custom saved lists",
         "White-label options"
       ],
       icon: Crown,
       color: "text-purple-400",
       borderColor: "border-purple-500/20",
       bgColor: "bg-purple-500/10",
-      ctaText: "Upgrade to Enterprise"
+      ctaText: "Upgrade to Premium"
     }
   ];
 
@@ -145,13 +126,13 @@ const DashboardPricing = () => {
   const isCurrentPlan = (planId: string) => {
     // Map subscription tiers to plan IDs
     const tierMapping: { [key: string]: string } = {
-      'basic': 'free', // basic tier maps to free plan now
-      'pro': 'basic',
-      'enterprise': 'pro'
+      'free': 'free',
+      'starter': 'starter', 
+      'premium': 'premium'
     };
     
-    const currentTier = subscriptionTier?.toLowerCase() || 'basic';
-    const mappedPlan = tierMapping[currentTier] || currentTier;
+    const currentTier = subscriptionTier?.toLowerCase() || 'free';
+    const mappedPlan = tierMapping[currentTier] || 'free';
     
     return mappedPlan === planId;
   };
@@ -167,16 +148,16 @@ const DashboardPricing = () => {
   };
 
   const shouldShowUpgrade = (planId: string) => {
-    const tierOrder = { free: 0, basic: 1, pro: 2, enterprise: 3 };
+    const tierOrder = { free: 0, starter: 1, premium: 2 };
     
     // Map subscription tiers to plan levels
     const tierMapping: { [key: string]: number } = {
-      'basic': 0, // basic subscription tier = free plan level
-      'pro': 1,   // pro subscription tier = basic plan level  
-      'enterprise': 2 // enterprise subscription tier = pro plan level
+      'free': 0,
+      'starter': 1,
+      'premium': 2
     };
     
-    const currentTier = subscriptionTier?.toLowerCase() || 'basic';
+    const currentTier = subscriptionTier?.toLowerCase() || 'free';
     const currentLevel = tierMapping[currentTier] ?? 0;
     const planLevel = tierOrder[planId as keyof typeof tierOrder] ?? 0;
     
@@ -200,10 +181,10 @@ const DashboardPricing = () => {
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2 text-white font-satoshi text-lg">
             <div className="w-2 h-2 rounded-full bg-green-400"></div>
-            You're currently on the {subscriptionTier === 'basic' ? 'Free' : subscriptionTier} plan
+            You're currently on the {subscriptionTier === 'free' ? 'Free' : subscriptionTier} plan
           </CardTitle>
           <CardDescription className="font-satoshi">
-            {subscriptionTier !== "basic" && (
+            {subscriptionTier !== "free" && (
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                 <span className="text-gray-300">Manage your subscription or billing details</span>
                 <Button
@@ -242,7 +223,7 @@ const DashboardPricing = () => {
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {plans.map((plan) => {
           const PlanIcon = plan.icon;
           const price = getPrice(plan);
@@ -303,10 +284,10 @@ const DashboardPricing = () => {
               <CardContent className="space-y-4 md:space-y-6">
                 <div className="text-center">
                   <div className="text-xl md:text-2xl font-bold text-white font-satoshi">
-                    {plan.reveals} contacts
+                    {plan.actions} actions
                   </div>
                   <div className="text-xs text-gray-400 font-satoshi">
-                    reveals per month
+                    per month
                   </div>
                 </div>
 

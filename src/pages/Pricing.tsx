@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Check, Zap, Crown, Star } from "lucide-react";
+import { Check, Zap, Crown, Star, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -24,11 +24,12 @@ const Pricing = () => {
       description: "Perfect for getting started",
       monthlyPrice: 0,
       yearlyPrice: 0,
-      reveals: 5,
+      actions: 10,
       features: [
-        "5 contact reveals per month",
-        "Basic investor search",
-        "Email support",
+        "10 actions per month",
+        "Contact reveals",
+        "AI tools access",
+        "Export capability",
         "Basic filters"
       ],
       icon: Star,
@@ -38,67 +39,47 @@ const Pricing = () => {
       ctaText: "Get Started"
     },
     {
-      id: "basic",
-      name: "Basic",
+      id: "starter",
+      name: "Starter",
       description: "Great for growing startups",
-      monthlyPrice: 9,
-      yearlyPrice: 90,
-      reveals: 20,
+      monthlyPrice: 19,
+      yearlyPrice: 190,
+      actions: 100,
       features: [
-        "20 contact reveals per month",
-        "Advanced investor search",
-        "Priority email support",
-        "Enhanced filters"
-      ],
-      icon: Star,
-      color: "text-blue-500",
-      borderColor: "border-blue-200",
-      bgColor: "bg-blue-50",
-      ctaText: "Upgrade to Basic"
-    },
-    {
-      id: "pro",
-      name: "Pro",
-      description: "Best for growing businesses",
-      monthlyPrice: 29,
-      yearlyPrice: 290,
-      reveals: 100,
-      features: [
-        "100 contact reveals per month",
+        "100 actions per month",
+        "All Free features",
         "Advanced search filters",
-        "Export to CSV/Excel",
         "Priority email support",
-        "Advanced analytics",
-        "Custom saved lists"
+        "Enhanced analytics"
       ],
       icon: Zap,
-      color: "text-red-500",
-      borderColor: "border-red-200",
-      bgColor: "bg-red-50",
-      ctaText: "Upgrade to Pro",
+      color: "text-orange-500",
+      borderColor: "border-orange-200",
+      bgColor: "bg-orange-50",
+      ctaText: "Upgrade to Starter",
       popular: true
     },
     {
-      id: "enterprise",
-      name: "Enterprise",
-      description: "For teams and large organizations",
-      monthlyPrice: 99,
-      yearlyPrice: 990,
-      reveals: 500,
+      id: "premium",
+      name: "Premium",
+      description: "Best for serious entrepreneurs",
+      monthlyPrice: 49,
+      yearlyPrice: 490,
+      actions: 500,
       features: [
-        "500 contact reveals per month",
-        "All Pro features",
+        "500 actions per month",
+        "All Starter features",
+        "Unlimited exports",
+        "Advanced AI tools",
         "API access",
-        "Dedicated account manager",
-        "Custom integrations",
-        "Advanced reporting",
+        "Custom saved lists",
         "White-label options"
       ],
       icon: Crown,
       color: "text-purple-500",
       borderColor: "border-purple-200",
       bgColor: "bg-purple-50",
-      ctaText: "Contact Sales"
+      ctaText: "Upgrade to Premium"
     }
   ];
 
@@ -183,6 +164,31 @@ const Pricing = () => {
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Get access to our comprehensive investor database and unlock the funding opportunities your startup needs.
           </p>
+          
+          {/* Actions Explanation */}
+          <div className="bg-muted/50 rounded-lg p-6 max-w-4xl mx-auto mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <Activity className="h-6 w-6 text-primary" />
+              <h3 className="text-lg font-semibold text-foreground">What are Actions?</h3>
+            </div>
+            <p className="text-muted-foreground mb-4">
+              Actions are credits that let you access our platform's key features. Here's how they're consumed:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary"></div>
+                <span><strong>1 Action</strong> = 1 Contact Reveal</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary"></div>
+                <span><strong>1 Action</strong> = 1 AI Tool Usage</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary"></div>
+                <span><strong>1 Action</strong> = 1 Data Export</span>
+              </div>
+            </div>
+          </div>
 
           {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-4 mb-8">
@@ -206,7 +212,7 @@ const Pricing = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan) => {
             const PlanIcon = plan.icon;
             const price = getPrice(plan);
@@ -257,10 +263,10 @@ const Pricing = () => {
                 <CardContent className="space-y-6">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-card-foreground">
-                      {plan.reveals} contacts
+                      {plan.actions} actions
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      reveals per month
+                      per month
                     </div>
                   </div>
 
