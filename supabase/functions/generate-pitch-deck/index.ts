@@ -53,16 +53,24 @@ serve(async (req) => {
     
     const user = userData.user;
 
-    // Check if user has paid subscription
+    // Get user profile for usage tracking
     const { data: profile } = await supabaseClient
       .from("profiles")
-      .select("subscription_tier")
+      .select("subscription_tier, access_used, access_limit")
       .eq("id", user.id)
       .single();
 
-    if (!profile || (profile.subscription_tier === "free")) {
-      return new Response(JSON.stringify({ error: "This feature is only available for Starter, Pro and Enterprise users" }), {
-        status: 403,
+    if (!profile) {
+      return new Response(JSON.stringify({ error: "User profile not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Check usage limits for free users
+    if (profile.subscription_tier === "free" && profile.access_used >= profile.access_limit) {
+      return new Response(JSON.stringify({ error: "Usage limit reached. Upgrade to continue using AI tools." }), {
+        status: 429,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
@@ -155,6 +163,12 @@ Make it investor-ready, compelling, and professional. Focus on storytelling and 
     if (insertError) {
       console.error("Error saving pitch deck:", insertError);
     }
+
+    // Update usage count
+    await supabaseClient
+      .from("profiles")
+      .update({ access_used: (profile.access_used || 0) + 2 })
+      .eq("id", user.id);
 
     return new Response(JSON.stringify({ generatedContent }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
