@@ -1,69 +1,68 @@
-
 export const FeatureSkeletons = {
   SkeletonOne: () => (
-    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
+    <div className="flex flex-1 w-full h-full min-h-[10rem] md:min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-900 via-neutral-800 to-black border border-red-500/20 overflow-hidden relative group hover:border-red-500/40 transition-all duration-300">
       {/* Red Glow Effect */}
       <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-300"></div>
       <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 to-red-500/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
 
       {/* Top Curated Investors Database */}
-      <div className="absolute inset-0 p-4 z-10">
+      <div className="absolute inset-0 p-3 md:p-4 z-10">
         {/* Header with count */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="bg-red-500/20 backdrop-blur-sm rounded-lg px-3 py-1 border border-red-500/30">
+        <div className="flex items-center justify-between mb-3 md:mb-4">
+          <div className="bg-red-500/20 backdrop-blur-sm rounded-lg px-2 md:px-3 py-1 border border-red-500/30">
             <span className="text-red-400 text-xs font-medium">Database</span>
           </div>
           <span className="text-red-400 text-xs font-mono">10,000+</span>
         </div>
 
         {/* Investor List */}
-        <div className="space-y-2">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/20 hover:border-red-500/40 transition-all">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-500 to-red-400 shadow-lg shadow-red-500/30 flex items-center justify-center">
+        <div className="space-y-1.5 md:space-y-2">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-red-500/20 hover:border-red-500/40 transition-all">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-r from-red-500 to-red-400 shadow-lg shadow-red-500/30 flex items-center justify-center">
                 <span className="text-white text-xs font-bold">AC</span>
               </div>
-              <div className="flex-1">
-                <div className="text-white/80 text-sm font-medium">
+              <div className="flex-1 min-w-0">
+                <div className="text-white/80 text-xs md:text-sm font-medium truncate">
                   Andreessen Horowitz
                 </div>
                 <div className="text-red-400/70 text-xs">
                   Series A-C • $1M-$50M
                 </div>
               </div>
-              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50 flex-shrink-0"></div>
             </div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/20">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-600 to-red-500 shadow-lg shadow-red-500/30 flex items-center justify-center">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-red-500/20">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-r from-red-600 to-red-500 shadow-lg shadow-red-500/30 flex items-center justify-center">
                 <span className="text-white text-xs font-bold">SV</span>
               </div>
-              <div className="flex-1">
-                <div className="text-white/80 text-sm font-medium">
+              <div className="flex-1 min-w-0">
+                <div className="text-white/80 text-xs md:text-sm font-medium truncate">
                   Sequoia Capital
                 </div>
                 <div className="text-red-400/70 text-xs">
                   Seed-Series B • $500K-$25M
                 </div>
               </div>
-              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50 flex-shrink-0"></div>
             </div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-red-500/20">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-red-400 to-red-600 shadow-lg shadow-red-500/30 flex items-center justify-center">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 md:p-3 border border-red-500/20">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-r from-red-400 to-red-600 shadow-lg shadow-red-500/30 flex items-center justify-center">
                 <span className="text-white text-xs font-bold">BV</span>
               </div>
-              <div className="flex-1">
-                <div className="text-white/80 text-sm font-medium">
+              <div className="flex-1 min-w-0">
+                <div className="text-white/80 text-xs md:text-sm font-medium truncate">
                   Bessemer Ventures
                 </div>
                 <div className="text-red-400/70 text-xs">
                   Series A-D • $2M-$100M
                 </div>
               </div>
-              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50"></div>
+              <div className="w-2 h-2 rounded-full bg-red-400 shadow-sm shadow-red-400/50 flex-shrink-0"></div>
             </div>
           </div>
         </div>

@@ -62,18 +62,18 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section id="features" className="py-24 bg-black">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-2xl font-semibold mb-4">
+    <section id="features" className="py-16 md:py-24 bg-black">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">
             Everything you need to raise funding
           </h2>
-          <p className="text-white/60 text-base max-w-2xl mx-auto">
+          <p className="text-white/60 text-sm md:text-base max-w-2xl mx-auto">
             Premium investor database, advanced search tools, and AI-powered
             content generation to accelerate your fundraising process.
           </p>
         </div>
-        <BentoGrid className="max-w-6xl mx-auto md:auto-rows-[20rem] md:grid-cols-3">
+        <BentoGrid className="max-w-6xl mx-auto">
           {items.map((item, i) => (
             <BentoGridItem
               key={i}
