@@ -197,12 +197,21 @@ const InvestorDatabase = () => {
     );
   });
 
-  // Get unique values for filters
+  // Get unique values for filters - handle empty arrays properly
   const countries = [
-    ...new Set(investors.flatMap((i) => i.location || [])),
+    ...new Set(
+      investors
+        .filter(i => i.location && Array.isArray(i.location) && i.location.length > 0)
+        .flatMap((i) => i.location || [])
+    ),
   ].sort();
+  
   const allTags = [
-    ...new Set(investors.flatMap((i) => i.funding_industries || [])),
+    ...new Set(
+      investors
+        .filter(i => i.funding_industries && Array.isArray(i.funding_industries) && i.funding_industries.length > 0)
+        .flatMap((i) => i.funding_industries || [])
+    ),
   ].sort();
 
   return (

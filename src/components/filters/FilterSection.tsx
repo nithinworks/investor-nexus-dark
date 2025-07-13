@@ -47,14 +47,25 @@ const FilterSection = ({
   availableTags,
   countries,
 }: FilterSectionProps) => {
-  const investmentTypes = ["VC", "Angel", "Family Office", "Corporate"];
+  // Get the actual funding types from the database instead of hardcoded values
+  const fundingTypes = [
+    "Venture Fund",
+    "Angel Investor", 
+    "Angel Network",
+    "Corporate VC",
+    "Family Office",
+    "Accelerator"
+  ];
+  
   const investmentStages = [
     "Pre-Seed",
-    "Seed",
+    "Seed", 
     "Series A",
     "Series B",
-    "Series C+",
+    "Series C",
+    "Series D+",
     "Growth",
+    "Late Stage"
   ];
 
   const addTag = (tag: string) => {
@@ -117,7 +128,7 @@ const FilterSection = ({
             </SelectTrigger>
             <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 text-white">
               <SelectItem value=" " className="text-sm">All Types</SelectItem>
-              {investmentTypes.map((type) => (
+              {fundingTypes.map((type) => (
                 <SelectItem
                   key={type}
                   value={type}
