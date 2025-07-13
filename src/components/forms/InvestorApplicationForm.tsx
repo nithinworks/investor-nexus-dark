@@ -66,6 +66,8 @@ const InvestorApplicationForm = () => {
       const { error } = await supabase.from("investor_submissions").insert({
         ...formData,
         funding_industries: industries,
+        location: formData.location ? [formData.location] : [],
+        funding_stage: formData.funding_stage ? [formData.funding_stage] : [],
       });
 
       if (error) throw error;

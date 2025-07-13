@@ -185,7 +185,7 @@ const Dashboard = () => {
     const matchesCountry =
       !selectedCountry ||
       selectedCountry === " " ||
-      investor.location === selectedCountry;
+      investor.location?.includes(selectedCountry);
     const matchesType =
       !selectedType ||
       selectedType === " " ||
@@ -193,7 +193,7 @@ const Dashboard = () => {
     const matchesStage =
       !selectedStage ||
       selectedStage === " " ||
-      investor.funding_stage === selectedStage;
+      investor.funding_stage?.includes(selectedStage);
     const matchesTags =
       selectedTags.length === 0 ||
       selectedTags.some((tag) => investor.funding_industries?.includes(tag));
@@ -213,7 +213,7 @@ const Dashboard = () => {
 
   // Get unique values for filters
   const countries = [
-    ...new Set(investors.map((i) => i.location).filter(Boolean)),
+    ...new Set(investors.flatMap((i) => i.location || [])),
   ].sort();
   const allTags = [
     ...new Set(investors.flatMap((i) => i.funding_industries || [])),
@@ -228,9 +228,9 @@ const Dashboard = () => {
       ...investorData.map(investor => [
         `"${investor.name}"`,
         `"${investor.company || ''}"`,
-        `"${investor.location || ''}"`,
+        `"${investor.location?.join('; ') || ''}"`,
         `"${investor.funding_type || ''}"`,
-        `"${investor.funding_stage || ''}"`,
+        `"${investor.funding_stage?.join('; ') || ''}"`,
         `"${investor.check_sizes || ''}"`,
         `"${investor.funding_industries?.join('; ') || ''}"`,
         `"${investor.funding_description?.replace(/"/g, '""') || ''}"`,

@@ -175,7 +175,7 @@ const InvestorDatabase = () => {
     const matchesCountry =
       !selectedCountry ||
       selectedCountry === " " ||
-      investor.location === selectedCountry;
+      investor.location?.includes(selectedCountry);
     const matchesType =
       !selectedType ||
       selectedType === " " ||
@@ -183,7 +183,7 @@ const InvestorDatabase = () => {
     const matchesStage =
       !selectedStage ||
       selectedStage === " " ||
-      investor.funding_stage === selectedStage;
+      investor.funding_stage?.includes(selectedStage);
     const matchesTags =
       selectedTags.length === 0 ||
       selectedTags.some((tag) => investor.funding_industries?.includes(tag));
@@ -199,7 +199,7 @@ const InvestorDatabase = () => {
 
   // Get unique values for filters
   const countries = [
-    ...new Set(investors.map((i) => i.location).filter(Boolean)),
+    ...new Set(investors.flatMap((i) => i.location || [])),
   ].sort();
   const allTags = [
     ...new Set(investors.flatMap((i) => i.funding_industries || [])),

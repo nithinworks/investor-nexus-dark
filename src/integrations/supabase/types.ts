@@ -123,11 +123,11 @@ export type Database = {
           created_at: string
           funding_description: string | null
           funding_industries: string[] | null
-          funding_stage: string | null
+          funding_stage: string[] | null
           funding_type: string | null
           id: string
           image_url: string | null
-          location: string | null
+          location: string[] | null
           name: string
           reviewed_at: string | null
           reviewed_by: string | null
@@ -145,11 +145,11 @@ export type Database = {
           created_at?: string
           funding_description?: string | null
           funding_industries?: string[] | null
-          funding_stage?: string | null
+          funding_stage?: string[] | null
           funding_type?: string | null
           id?: string
           image_url?: string | null
-          location?: string | null
+          location?: string[] | null
           name: string
           reviewed_at?: string | null
           reviewed_by?: string | null
@@ -167,11 +167,11 @@ export type Database = {
           created_at?: string
           funding_description?: string | null
           funding_industries?: string[] | null
-          funding_stage?: string | null
+          funding_stage?: string[] | null
           funding_type?: string | null
           id?: string
           image_url?: string | null
-          location?: string | null
+          location?: string[] | null
           name?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
@@ -192,11 +192,11 @@ export type Database = {
           created_at: string
           funding_description: string | null
           funding_industries: string[] | null
-          funding_stage: string | null
+          funding_stage: string[] | null
           funding_type: string | null
           id: string
           image_url: string | null
-          location: string | null
+          location: string[] | null
           name: string
           updated_at: string
           verified: boolean | null
@@ -211,11 +211,11 @@ export type Database = {
           created_at?: string
           funding_description?: string | null
           funding_industries?: string[] | null
-          funding_stage?: string | null
+          funding_stage?: string[] | null
           funding_type?: string | null
           id?: string
           image_url?: string | null
-          location?: string | null
+          location?: string[] | null
           name: string
           updated_at?: string
           verified?: boolean | null
@@ -230,11 +230,11 @@ export type Database = {
           created_at?: string
           funding_description?: string | null
           funding_industries?: string[] | null
-          funding_stage?: string | null
+          funding_stage?: string[] | null
           funding_type?: string | null
           id?: string
           image_url?: string | null
-          location?: string | null
+          location?: string[] | null
           name?: string
           updated_at?: string
           verified?: boolean | null

@@ -64,12 +64,6 @@ const InvestorListItem = ({
                     <span className="truncate font-medium">{investor.company}</span>
                   </div>
                 )}
-                {investor.location && (
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3 flex-shrink-0" />
-                    <span className="truncate">{investor.location}</span>
-                  </div>
-                )}
               </div>
 
               {investor.funding_description && (
@@ -82,11 +76,21 @@ const InvestorListItem = ({
             {/* Tags - Hidden on mobile, shown on larger screens */}
             <div className="hidden lg:flex flex-col items-end gap-2 ml-4 flex-shrink-0">
               <div className="flex flex-wrap gap-1 justify-end max-w-48">
-                {investor.funding_stage && (
-                  <Badge className="bg-red-500/20 text-red-300 border border-red-500/30 text-xs px-2 py-1 backdrop-blur-sm hover:bg-red-500/30 hover:border-red-400/40 transition-all duration-200 font-satoshi">
-                    {investor.funding_stage}
+                {/* Location Tags */}
+                {investor.location?.map((loc, index) => (
+                  <Badge key={`location-${index}`} className="bg-green-500/20 text-green-300 border border-green-500/30 text-xs px-2 py-1 backdrop-blur-sm hover:bg-green-500/30 hover:border-green-400/40 transition-all duration-200 font-satoshi">
+                    <MapPin className="h-3 w-3 mr-1" />
+                    {loc}
                   </Badge>
-                )}
+                ))}
+                
+                {/* Funding Stage Tags */}
+                {investor.funding_stage?.map((stage, index) => (
+                  <Badge key={`stage-${index}`} className="bg-red-500/20 text-red-300 border border-red-500/30 text-xs px-2 py-1 backdrop-blur-sm hover:bg-red-500/30 hover:border-red-400/40 transition-all duration-200 font-satoshi">
+                    {stage}
+                  </Badge>
+                ))}
+                
                 {investor.funding_type && (
                   <Badge className="bg-white/10 text-gray-300 border border-white/20 text-xs px-2 py-1 backdrop-blur-sm hover:bg-white/20 hover:border-white/30 transition-all duration-200 font-satoshi">
                     <TrendingUp className="h-3 w-3 mr-1" />
@@ -121,11 +125,31 @@ const InvestorListItem = ({
 
           {/* Mobile Tags */}
           <div className="flex lg:hidden flex-wrap gap-1 mt-2">
-            {investor.funding_stage && (
-              <Badge className="bg-red-500/20 text-red-300 border border-red-500/30 text-xs px-2 py-1 backdrop-blur-sm font-satoshi">
-                {investor.funding_stage}
+            {/* Location Tags */}
+            {investor.location?.slice(0, 1).map((loc, index) => (
+              <Badge key={`mobile-location-${index}`} className="bg-green-500/20 text-green-300 border border-green-500/30 text-xs px-2 py-1 backdrop-blur-sm font-satoshi">
+                <MapPin className="h-3 w-3 mr-1" />
+                {loc}
+              </Badge>
+            ))}
+            {investor.location && investor.location.length > 1 && (
+              <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 text-xs px-2 py-1 backdrop-blur-sm font-satoshi">
+                +{investor.location.length - 1} locations
               </Badge>
             )}
+            
+            {/* Funding Stage Tags */}
+            {investor.funding_stage?.slice(0, 1).map((stage, index) => (
+              <Badge key={`mobile-stage-${index}`} className="bg-red-500/20 text-red-300 border border-red-500/30 text-xs px-2 py-1 backdrop-blur-sm font-satoshi">
+                {stage}
+              </Badge>
+            ))}
+            {investor.funding_stage && investor.funding_stage.length > 1 && (
+              <Badge className="bg-red-500/20 text-red-300 border border-red-500/30 text-xs px-2 py-1 backdrop-blur-sm font-satoshi">
+                +{investor.funding_stage.length - 1} stages
+              </Badge>
+            )}
+            
             {investor.funding_type && (
               <Badge className="bg-white/10 text-gray-300 border border-white/20 text-xs px-2 py-1 backdrop-blur-sm font-satoshi">
                 {investor.funding_type}

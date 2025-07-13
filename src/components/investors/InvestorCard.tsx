@@ -56,12 +56,6 @@ const InvestorCard = ({
         )}
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-400">
-          {investor.location && (
-            <div className="flex items-center space-x-1">
-              <MapPin className="h-3 w-3" />
-              <span>{investor.location}</span>
-            </div>
-          )}
           {investor.funding_type && (
             <div className="flex items-center space-x-1">
               <TrendingUp className="h-3 w-3" />
@@ -84,13 +78,24 @@ const InvestorCard = ({
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {investor.funding_stage && (
-            <Badge variant="outline" className="border-blue-600 text-blue-400">
-              {investor.funding_stage}
+          {/* Location Tags */}
+          {investor.location?.map((loc, index) => (
+            <Badge key={`location-${index}`} variant="outline" className="border-green-600 text-green-400">
+              <MapPin className="h-3 w-3 mr-1" />
+              {loc}
             </Badge>
-          )}
+          ))}
+          
+          {/* Funding Stage Tags */}
+          {investor.funding_stage?.map((stage, index) => (
+            <Badge key={`stage-${index}`} variant="outline" className="border-blue-600 text-blue-400">
+              {stage}
+            </Badge>
+          ))}
+          
+          {/* Industry Tags */}
           {investor.funding_industries?.slice(0, 3).map((industry, index) => (
-            <Badge key={index} variant="secondary" className="bg-gray-700 text-gray-300">
+            <Badge key={`industry-${index}`} variant="secondary" className="bg-gray-700 text-gray-300">
               {industry}
             </Badge>
           ))}
