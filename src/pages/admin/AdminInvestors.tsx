@@ -46,9 +46,9 @@ interface Investor {
   company_url: string | null;
   contact: string;
   contact_type: string | null;
-  location: string | null;
+  location: string[] | null;
   funding_type: string | null;
-  funding_stage: string | null;
+  funding_stage: string[] | null;
   funding_industries: string[] | null;
   funding_description: string | null;
   check_sizes: string | null;
@@ -95,7 +95,7 @@ const AdminInvestors = () => {
       (investor) =>
         investor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         investor.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        investor.location?.toLowerCase().includes(searchTerm.toLowerCase())
+        investor.location?.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredInvestors(filtered);
   }, [investors, searchTerm]);
@@ -145,6 +145,8 @@ const AdminInvestors = () => {
       const { error } = await supabase.from("investors").insert([
         {
           ...formData,
+          location: formData.location ? [formData.location] : [],
+          funding_stage: formData.funding_stage ? [formData.funding_stage] : [],
           funding_industries: formData.funding_industries
             ? formData.funding_industries.split(",").map((s) => s.trim())
             : [],
@@ -179,6 +181,8 @@ const AdminInvestors = () => {
         .from("investors")
         .update({
           ...formData,
+          location: formData.location ? [formData.location] : [],
+          funding_stage: formData.funding_stage ? [formData.funding_stage] : [],
           funding_industries: formData.funding_industries
             ? formData.funding_industries.split(",").map((s) => s.trim())
             : [],
@@ -239,9 +243,9 @@ const AdminInvestors = () => {
       company_url: investor.company_url || "",
       contact: investor.contact,
       contact_type: investor.contact_type || "email",
-      location: investor.location || "",
+      location: investor.location?.join(', ') || "",
       funding_type: investor.funding_type || "",
-      funding_stage: investor.funding_stage || "",
+      funding_stage: investor.funding_stage?.join(', ') || "",
       funding_industries: investor.funding_industries
         ? investor.funding_industries.join(", ")
         : "",
@@ -510,11 +514,11 @@ const AdminInvestors = () => {
                     <TableCell className="text-white/80 hidden sm:table-cell">
                       <div>{investor.company || "-"}</div>
                       <div className="md:hidden text-xs text-white/60 mt-1">
-                        {investor.location || "-"}
+                        {investor.location?.join(', ') || "-"}
                       </div>
                     </TableCell>
                     <TableCell className="text-white/80 hidden md:table-cell">
-                      <div>{investor.location || "-"}</div>
+                      <div>{investor.location?.join(', ') || "-"}</div>
                       <div className="lg:hidden text-xs text-white/60 mt-1">
                         {investor.funding_type || "-"}
                       </div>
@@ -754,7 +758,7 @@ const AdminInvestors = () => {
                 <div>
                   <Label className="text-white/80">Location</Label>
                   <p className="text-white">
-                    {selectedInvestor.location || "-"}
+                    {selectedInvestor.location?.join(', ') || "-"}
                   </p>
                 </div>
                 <div>

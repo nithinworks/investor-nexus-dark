@@ -126,7 +126,7 @@ const InvestorDatabase = () => {
       }
 
       // Check if user can perform action and consume 1 credit for contact reveal
-      if (!canPerformAction()) {
+      if (!canPerformAction('contact_reveal')) {
         throw new Error(
           `You need at least 1 action to reveal contact information. You have ${getRemainingActions()} actions remaining.`
         );

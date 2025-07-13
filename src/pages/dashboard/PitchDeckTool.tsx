@@ -41,10 +41,7 @@ const PitchDeckTool = () => {
       </div>
 
       <div className="space-y-4">
-        <PitchDeckGenerator 
-          formData={pitchDeckForm}
-          setFormData={setPitchDeckForm}
-        />
+        <PitchDeckGenerator />
       </div>
     </div>
   );

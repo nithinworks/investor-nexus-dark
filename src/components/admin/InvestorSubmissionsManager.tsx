@@ -17,14 +17,14 @@ interface InvestorSubmission {
   company_url: string;
   contact: string;
   contact_type: string;
-  location: string;
+  location: string[] | null;
   funding_type: string;
-  funding_stage: string;
+  funding_stage: string[] | null;
   funding_industries: string[];
   funding_description: string;
   check_sizes: string;
   image_url: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: string;
   submitted_at: string;
   reviewed_at: string;
   reviewed_by: string;
@@ -48,7 +48,7 @@ const InvestorSubmissionsManager = () => {
         .order("submitted_at", { ascending: false });
 
       if (error) throw error;
-      setSubmissions((data || []) as InvestorSubmission[]);
+      setSubmissions(data || []);
     } catch (error) {
       console.error("Error fetching submissions:", error);
       toast.error("Failed to load submissions");
@@ -71,18 +71,14 @@ const InvestorSubmissionsManager = () => {
           company_url: submission.company_url,
           contact: submission.contact || '',
           contact_type: submission.contact_type || 'email',
-          location: submission.location,
-          funding_type: submission.funding_type && ['VC', 'Angel', 'Family Office', 'Corporate'].includes(submission.funding_type) 
-            ? submission.funding_type 
-            : 'VC',
-          funding_stage: submission.funding_stage && ['Pre-Seed', 'Seed', 'Series A', 'Series B', 'Series C+', 'Growth'].includes(submission.funding_stage)
-            ? submission.funding_stage 
-            : 'Seed',
-          funding_industries: submission.funding_industries || [],
+          location: submission.location || [],
+          funding_type: submission.funding_type,
+          funding_stage: submission.funding_stage || [],
           funding_description: submission.funding_description,
+          funding_industries: submission.funding_industries || [],
           check_sizes: submission.check_sizes,
           image_url: submission.image_url,
-          verified: true,
+          verified: true
         });
 
       if (insertError) throw insertError;
@@ -189,11 +185,11 @@ const InvestorSubmissionsManager = () => {
                   <CardTitle className="text-lg">{submission.name}</CardTitle>
                   <CardDescription className="flex items-center gap-2 mt-1">
                     {submission.company && <span>{submission.company}</span>}
-                    {submission.location && (
+                    {submission.location && submission.location.length > 0 && (
                       <>
                         <span className="text-white/40">•</span>
                         <MapPin className="h-3 w-3" />
-                        <span>{submission.location}</span>
+                        <span>{submission.location.join(', ')}</span>
                       </>
                     )}
                   </CardDescription>

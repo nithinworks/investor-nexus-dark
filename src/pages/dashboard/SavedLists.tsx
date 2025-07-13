@@ -103,7 +103,7 @@ const SavedLists = () => {
     }
 
     // Check if user can perform action and consume 1 credit for export
-    if (!canPerformAction()) {
+    if (!canPerformAction('export')) {
       toast({
         title: "Action Limit Reached",
         description: `You need at least 1 action to export data. You have ${getRemainingActions()} actions remaining.`,
@@ -137,9 +137,9 @@ const SavedLists = () => {
     const csvData = investorDetails.map(investor => [
       investor.name || "",
       investor.company || "",
-      investor.location || "",
+      investor.location?.join(', ') || "",
       investor.funding_type || "",
-      investor.funding_stage || "",
+      investor.funding_stage?.join(', ') || "",
       (investor.funding_industries || []).join("; "),
       investor.check_sizes || "",
       investor.bio || "",
