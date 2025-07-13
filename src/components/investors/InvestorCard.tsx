@@ -66,7 +66,7 @@ const InvestorCard = ({
               <div className="flex items-center space-x-1">
                 <ExternalLink className="h-3 w-3" />
                 <a 
-                  href={investor.company_url} 
+                  href={investor.company_url.startsWith('http') ? investor.company_url : `https://${investor.company_url}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:text-blue-300 truncate"

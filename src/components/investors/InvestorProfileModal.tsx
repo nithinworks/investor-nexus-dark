@@ -134,11 +134,11 @@ const InvestorProfileModal = ({
                           </span>
                         </div>
                       )}
-                      {investor.location && (
+                      {investor.location && investor.location.length > 0 && (
                         <div className="flex items-center justify-center md:justify-start gap-2 text-gray-400 text-sm">
                           <MapPin className="h-4 w-4" />
                           <span className="font-satoshi">
-                            {investor.location}
+                            {Array.isArray(investor.location) ? investor.location.join(', ') : investor.location}
                           </span>
                         </div>
                       )}
@@ -150,18 +150,26 @@ const InvestorProfileModal = ({
                 <div className="flex items-center justify-center md:justify-start gap-3 order-3 md:order-3">
                   {/* Website Button */}
                   {socialLinks.length > 0 &&
-                    socialLinks.map((link) => (
-                      <a
-                        key={link.type}
-                        href={link.url!}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-all duration-200 backdrop-blur-sm border border-white/10 font-satoshi text-sm"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        <span>Website</span>
-                      </a>
-                    ))}
+                    socialLinks.map((link) => {
+                      // Ensure URL has proper protocol
+                      let url = link.url!;
+                      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = `https://${url}`;
+                      }
+                      
+                      return (
+                        <a
+                          key={link.type}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-all duration-200 backdrop-blur-sm border border-white/10 font-satoshi text-sm"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          <span>Website</span>
+                        </a>
+                      );
+                    })}
 
                   {/* Favourite Button */}
                   {canSave && onToggleSave && (
@@ -234,7 +242,7 @@ const InvestorProfileModal = ({
               </div>
             )}
 
-            {investor.funding_stage && (
+            {investor.funding_stage && investor.funding_stage.length > 0 && (
               <div className="backdrop-blur-xl bg-white/5 rounded-xl p-4 border border-white/10">
                 <div className="flex items-center gap-2 mb-2">
                   <Award className="h-4 w-4 text-red-400" />
@@ -242,9 +250,17 @@ const InvestorProfileModal = ({
                     Preferred Stage
                   </p>
                 </div>
-                <Badge className="bg-red-500/20 text-red-300 border border-red-500/30 backdrop-blur-sm font-satoshi text-xs">
-                  {investor.funding_stage}
-                </Badge>
+                <div className="flex flex-wrap gap-1">
+                  {Array.isArray(investor.funding_stage) ? investor.funding_stage.map((stage, index) => (
+                    <Badge key={index} className="bg-red-500/20 text-red-300 border border-red-500/30 backdrop-blur-sm font-satoshi text-xs">
+                      {stage}
+                    </Badge>
+                  )) : (
+                    <Badge className="bg-red-500/20 text-red-300 border border-red-500/30 backdrop-blur-sm font-satoshi text-xs">
+                      {investor.funding_stage}
+                    </Badge>
+                  )}
+                </div>
               </div>
             )}
           </div>
